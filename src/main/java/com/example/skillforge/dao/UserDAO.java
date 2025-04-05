@@ -1,9 +1,8 @@
 package com.example.skillforge.dao;
 
 import com.example.skillforge.models.User;
+import com.example.skillforge.services.AuthService;
 import com.example.skillforge.utils.DBConnection;
-import com.example.skillforge.utils.HashPasswordUtil;
-import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,10 +11,11 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class UserDAO {
+
     public static int createUser(User user) {
-        String sql = "INSERT INTO users (full_name, email, password_hash, role, is_active) VALUES (?, ?, ?, ?,?)";
-        try(Connection con = DBConnection.getConnection();
-        PreparedStatement ps = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+        String sql = "INSERT INTO users (full_name, email, password_hash, role, is_active) VALUES (?, ?, ?, ?, ?)";
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, user.getFullName());
             ps.setString(2, user.getEmail());
             ps.setString(3, user.getPasswordHash());
@@ -23,27 +23,26 @@ public class UserDAO {
             ps.setBoolean(5, user.isActive());
 
             int rowsAffected = ps.executeUpdate();
-            if(rowsAffected > 0) {
+            if (rowsAffected > 0) {
                 ResultSet rs = ps.getGeneratedKeys();
-                if(rs.next()) {
+                if (rs.next()) {
                     return rs.getInt(1);
                 }
             }
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
         }
-        catch (SQLException e){
-            System.err.println("Error: "+e.getMessage());
-        }
-    return -1;
+        return -1;
     }
 
     public static User validateUser(String email, String password) {
         String sql = "SELECT * FROM users WHERE email = ?";
-        try(Connection con = DBConnection.getConnection();
-        PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
-            while(rs.next()) {
-                if(HashPasswordUtil.checkPassword(password, rs.getString("password_hash"))) {
+            while (rs.next()) {
+                if (AuthService.checkPassword(password, rs.getString("password_hash"))) {
                     User user = new User();
                     user.setFullName(rs.getString("full_name"));
                     user.setEmail(rs.getString("email"));
@@ -53,78 +52,88 @@ public class UserDAO {
                     return user;
                 }
             }
-        }
-        catch (SQLException e){
-            System.err.println("Error: "+e.getMessage());
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
         }
         return null;
     }
-    //Checking the functions
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Please select the option: ");
-        System.out.println("1. Create User");
-        System.out.println("2. Validate User");
-        
-        int choice = scanner.nextInt();
-        scanner.nextLine(); // consume newline
-        
-        switch(choice) {
-            case 1:
-                System.out.println("Enter full name: ");
-                String fullName = scanner.nextLine();
-                System.out.println("Enter email: ");
-                String email = scanner.nextLine();
-                System.out.println("Enter password: ");
-                String password = scanner.nextLine();
-                System.out.println("Select role: ");
-                System.out.println("1. ADMIN");
-                System.out.println("2. INSTRUCTOR");
-                System.out.println("3. STUDENT");
-                
-                int roleChoice = scanner.nextInt();
-                String role = switch (roleChoice) {
-                    case 1 -> "admin";
-                    case 2 -> "instructor";
-                    case 3 -> "student";
-                    default -> {
-                        System.out.println("Invalid role choice. Defaulting to STUDENT");
-                        yield "STUDENT";
+
+        while (true) {
+            System.out.println("\n==============================");
+            System.out.println("Welcome to SkillForge!");
+            System.out.println("==============================");
+            System.out.println("Please select an option: ");
+            System.out.println("1. Create User");
+            System.out.println("2. Validate User");
+            System.out.println("3. Exit");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter full name: ");
+                    String fullName = scanner.nextLine();
+                    System.out.print("Enter email: ");
+                    String email = scanner.nextLine();
+                    System.out.print("Enter password: ");
+                    String password = scanner.nextLine();
+                    System.out.println("Select role: ");
+                    System.out.println("1. ADMIN");
+                    System.out.println("2. INSTRUCTOR");
+                    System.out.println("3. STUDENT");
+
+                    int roleChoice = scanner.nextInt();
+                    String role = switch (roleChoice) {
+                        case 1 -> "ADMIN";
+                        case 2 -> "INSTRUCTOR";
+                        case 3 -> "STUDENT";
+                        default -> {
+                            System.out.println("Invalid role choice. Defaulting to STUDENT");
+                            yield "STUDENT";
+                        }
+                    };
+
+                    User newUser = new User();
+                    newUser.setFullName(fullName);
+                    newUser.setEmail(email);
+                    newUser.setRole(User.Role.valueOf(role));
+                    newUser.setActive(true);
+
+                    int userId = AuthService.registerUser(newUser, password);
+                    if (userId != -1) {
+                        System.out.println("User created successfully with ID: " + userId);
+                    } else {
+                        System.out.println("Failed to create user.");
                     }
-                };
-                password = BCrypt.hashpw(password, BCrypt.gensalt());
-                User newUser = new User();
-                newUser.setFullName(fullName);
-                newUser.setEmail(email);
-                newUser.setPasswordHash(password);
-                newUser.setRole(User.Role.valueOf(role));
-                newUser.setActive(true);
-                
-                int userId = createUser(newUser);
-                if(userId != -1) {
-                    System.out.println("User created successfully with ID: " + userId);
-                } else {
-                    System.out.println("Failed to create user");
-                }
-                break;
-                
-            case 2:
-                System.out.println("Enter email: ");
-                String loginEmail = scanner.nextLine();
-                System.out.println("Enter password: ");
-                String loginPassword = scanner.nextLine();
-                User validatedUser = validateUser(loginEmail, loginPassword);
-                if(validatedUser != null) {
-                    System.out.println("User validated successfully!");
-                    System.out.println("Welcome " + validatedUser.getFullName());
-                } else {
-                    System.out.println("Invalid credentials");
-                }
-                break;
-                
-            default:
-                System.out.println("Invalid option");
+                    break;
+
+                case 2:
+                    System.out.print("Enter email: ");
+                    String loginEmail = scanner.nextLine();
+                    System.out.print("Enter password: ");
+                    String loginPassword = scanner.nextLine();
+
+                    User validatedUser = AuthService.loginUser(loginEmail, loginPassword);
+                    if (validatedUser != null) {
+                        System.out.println("User validated successfully!");
+                        System.out.println("Welcome " + validatedUser.getFullName());
+                    } else {
+                        System.out.println("Invalid credentials.");
+                    }
+                    break;
+
+                case 3:
+                    System.out.println("Exiting... Goodbye!");
+                    scanner.close();
+                    return;
+
+                default:
+                    System.out.println("Invalid option. Please try again.");
+            }
         }
-        
-        scanner.close();
-    }}
+    }
+}
