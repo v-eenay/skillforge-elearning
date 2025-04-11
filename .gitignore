@@ -1,13 +1,13 @@
+### Maven ###
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
 
 ### Application Properties ###
-src/main/resources/application.properties
-src/main/resources/application-*.properties
-src/test/resources/application.properties
-src/test/resources/application-*.properties
+# Only ignore local configuration files
+src/main/resources/application-local.properties
+src/test/resources/application-local.properties
 
 ### IDE ###
 .idea/
@@ -35,6 +35,7 @@ build/
 
 ### OS ###
 .DS_Store
+Thumbs.db
 
 ### Logs ###
 *.log
@@ -48,8 +49,9 @@ yarn-error.log*
 
 ### Compiled files ###
 *.class
-*.jar
+# Allow Maven wrapper jar
 !.mvn/wrapper/maven-wrapper.jar
+# Ignore other compiled artifacts
 *.war
 *.ear
 *.zip
