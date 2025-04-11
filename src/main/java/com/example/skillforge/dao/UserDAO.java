@@ -34,4 +34,28 @@ public class UserDAO {
         }
         return 0;
     }
+    public static UserModel loginUser(UserModel user) {
+        try (Connection connection = DBConnectionUtil.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_SQL)) {
+            preparedStatement.setString(1, user.getUserName());
+            preparedStatement.setString(2, user.getEmail());
+            preparedStatement.setString(3, user.getPassword_hash());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                UserModel userModel = new UserModel();
+                userModel.setUserId(resultSet.getInt("UserId"));
+                userModel.setName(resultSet.getString("Name"));
+                userModel.setUserName(resultSet.getString("UserName"));
+                userModel.setEmail(resultSet.getString("Email"));
+                userModel.setPassword_hash(resultSet.getString("PasswordHash"));
+                userModel.setRole(UserModel.Role.valueOf(resultSet.getString("Role")));
+                userModel.setProfileImage(resultSet.getString("ProfileImage"));
+                userModel.setBio(resultSet.getString("Bio"));
+                return userModel;
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
 }
