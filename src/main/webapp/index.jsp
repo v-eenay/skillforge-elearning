@@ -198,6 +198,7 @@
 </section>
 
 <!-- CTA Section -->
+<c:if test="${empty user}">
 <section class="cta-section">
     <div class="container">
         <h2>Ready to Start Your Learning Journey?</h2>
@@ -205,5 +206,6 @@
         <a href="${pageContext.request.contextPath}/auth/register" class="btn btn-light btn-lg">Join Now</a>
     </div>
 </section>
+</c:if>
 
 <%@ include file="/common/footer.jsp" %>
