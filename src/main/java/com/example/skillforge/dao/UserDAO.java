@@ -10,7 +10,7 @@ import java.sql.SQLException;
 
 public class UserDAO {
     private static final String INSERT_USER_SQL = "INSERT INTO user (Name, UserName, Email, PasswordHash, Role, ProfileImage, Bio) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    private static final String SELECT_USER_SQL = "SELECT * FROM user WHERE UserName = ? OR Email = ? AND PasswordHash = ?";
+    private static final String SELECT_USER_SQL = "SELECT * FROM user WHERE UserName = ? OR Email = ?";
 
     public static int insertUser(UserModel user) {
         try (Connection connection = DBConnectionUtil.getConnection();
@@ -34,12 +34,11 @@ public class UserDAO {
         }
         return 0;
     }
-    public static UserModel loginUser(UserModel user) {
+    public static UserModel getUserbyEmail(UserModel user) {
         try (Connection connection = DBConnectionUtil.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_SQL)) {
             preparedStatement.setString(1, user.getUserName());
             preparedStatement.setString(2, user.getEmail());
-            preparedStatement.setString(3, user.getPassword_hash());
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 UserModel userModel = new UserModel();
