@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/common/header.jsp" %>
 
@@ -198,14 +199,24 @@
 </section>
 
 <!-- CTA Section -->
-<c:if test="${empty user}">
-<section class="cta-section">
-    <div class="container">
-        <h2>Ready to Start Your Learning Journey?</h2>
-        <p class="lead mb-4">Join thousands of students who are already advancing their careers with SkillForge.</p>
-        <a href="${pageContext.request.contextPath}/auth/register" class="btn btn-light btn-lg">Join Now</a>
-    </div>
-</section>
+<c:if test="${empty sessionScope.user}">
+    <section class="cta-section py-5 bg-primary text-white">
+        <div class="container text-center">
+            <h2>Ready to Start Your Learning Journey?</h2>
+            <p class="lead mb-4">Join thousands of students who are already advancing their careers with SkillForge.</p>
+            <a href="${pageContext.request.contextPath}/auth/register" class="btn btn-light btn-lg">Join Now</a>
+        </div>
+    </section>
+</c:if>
+
+<c:if test="${not empty sessionScope.user}">
+    <section class="cta-section py-5 bg-light">
+        <div class="container text-center">
+            <h2>Welcome Back!</h2>
+            <p class="lead mb-4">Continue your learning journey with our latest courses and resources.</p>
+            <a href="${pageContext.request.contextPath}/student/dashboard" class="btn btn-primary btn-lg">Go to Dashboard</a>
+        </div>
+    </section>
 </c:if>
 
 <%@ include file="/common/footer.jsp" %>

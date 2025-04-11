@@ -24,7 +24,14 @@
                     </address>
                     <c:if test="${empty user}">
                         <div class="mt-3">
+                            <p class="text-light mb-2">Start your learning journey today!</p>
                             <a href="${pageContext.request.contextPath}/auth/register" class="btn btn-primary">Join Now</a>
+                        </div>
+                    </c:if>
+                    <c:if test="${not empty user}">
+                        <div class="mt-3">
+                            <p class="text-light mb-2">Access your learning materials</p>
+                            <a href="${pageContext.request.contextPath}/student/dashboard" class="btn btn-outline-light">Dashboard</a>
                         </div>
                     </c:if>
                 </div>
