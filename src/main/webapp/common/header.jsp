@@ -23,8 +23,12 @@
                             <li class="nav-item"><a href="#" class="nav-link text-white">Instructors</a></li>
                             <li class="nav-item"><a href="#" class="nav-link text-white">About</a></li>
                             <li class="nav-item"><a href="#" class="nav-link text-white">Contact</a></li>
-                            <li class="nav-item ms-3"><a href="${pageContext.request.contextPath}/login" class="btn btn-outline-light btn-sm">Login</a></li>
-                            <li class="nav-item ms-2"><a href="${pageContext.request.contextPath}/register" class="btn btn-primary btn-sm">Sign Up</a></li>
+                            <% if (session.getAttribute("user") == null) { %>
+                                <li class="nav-item ms-3"><a href="${pageContext.request.contextPath}/auth/login" class="btn btn-outline-light btn-sm">Login</a></li>
+                                <li class="nav-item ms-2"><a href="${pageContext.request.contextPath}/auth/register" class="btn btn-primary btn-sm">Sign Up</a></li>
+                            <% } else { %>
+                                <li class="nav-item ms-3"><a href="${pageContext.request.contextPath}/auth/logout" class="btn btn-outline-light btn-sm">Logout</a></li>
+                            <% } %>
                         </ul>
                     </nav>
                 </div>

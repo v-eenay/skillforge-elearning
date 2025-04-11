@@ -9,7 +9,7 @@
                 <div class="card-body p-5">
                     <h2 class="text-center mb-4">Login to SkillForge</h2>
                     
-                    <form action="${pageContext.request.contextPath}/login" method="post">
+                    <form action="${pageContext.request.contextPath}/auth/login" method="post">
                         <div class="mb-3">
                             <label for="username" class="form-label">Email or Username</label>
                             <input type="text" class="form-control" id="username" name="username" required>
@@ -29,7 +29,7 @@
                     
                     <div class="text-center mt-4">
                         <p>Forgot your password? <a href="#" class="text-primary">Reset it here</a></p>
-                        <p>Don't have an account? <a href="${pageContext.request.contextPath}/register" class="text-primary">Sign up now</a></p>
+                        <p>Don't have an account? <a href="${pageContext.request.contextPath}/auth/register" class="text-primary">Sign up here</a></p>
                     </div>
                 </div>
             </div>

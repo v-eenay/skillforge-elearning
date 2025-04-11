@@ -22,14 +22,25 @@
                         Email: <a href="mailto:koiralavinay@gmail.com" class="text-white">koiralavinay@gmail.com</a><br>
                         Email: <a href="mailto:binaya.koirala@iic.edu.np" class="text-white">binaya.koirala@iic.edu.np</a>
                     </address>
-                    <div class="mt-3">
-                        <a href="#" class="btn btn-primary">Join Now</a>
-                    </div>
+                    <c:if test="${empty user}">
+                        <div class="mt-3">
+                            <a href="${pageContext.request.contextPath}/auth/register" class="btn btn-primary">Join Now</a>
+                        </div>
+                    </c:if>
                 </div>
             </div>
             <hr>
-            <div class="text-center">
-                <p>&copy; 2023 SkillForge. All rights reserved.</p>
+            <div class="text-center mt-3">
+                <div class="d-flex justify-content-center align-items-center flex-column">
+                    <div class="mb-2">
+                        <span class="fw-bold" style="font-size: 1.2rem; color: #007bff;">Vinay Koirala</span>
+                        <span class="badge bg-primary ms-2">Developer</span>
+                    </div>
+                    <p class="mb-0">
+                        <span class="copyright-year">&copy; <span style="font-weight: 600; letter-spacing: 1px; color: #ffc107;"><%= java.time.Year.now().getValue() %></span></span>
+                        <span class="ms-2">SkillForge &trade; All rights reserved.</span>
+                    </p>
+                </div>
             </div>
         </div>
     </footer>

@@ -71,6 +71,24 @@
     </div>
 </section>
 
+<!-- Top Instructor Section -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Top Instructor</h2>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="instructor-card" style="border: 2px solid #007bff; padding: 20px; border-radius: 10px; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);">
+                    <img src="https://placedog.net/200/200?id=3" alt="Top Instructor" style="width: 180px; height: 180px;">
+                    <h5 style="color: #007bff; font-size: 1.5rem;">Santosh Parajuli</h5>
+                    <p style="font-weight: bold;">Full Stack Development</p>
+                    <p>15+ years experience in software development and teaching</p>
+                    <p><span class="badge bg-primary">Top Rated</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- Instructors Section -->
 <section class="py-5 bg-light">
     <div class="container">
@@ -80,7 +98,7 @@
             <div class="col-md-3">
                 <div class="instructor-card">
                     <img src="https://placedog.net/200/200?id=4" alt="Instructor">
-                    <h5>Dr. Sarah Johnson</h5>
+                    <h5>Sujan Subedi</h5>
                     <p>Web Development</p>
                     <p>10+ years experience at Google and Amazon</p>
                 </div>
@@ -89,7 +107,7 @@
             <div class="col-md-3">
                 <div class="instructor-card">
                     <img src="https://placedog.net/200/200?id=5" alt="Instructor">
-                    <h5>Prof. Michael Chen</h5>
+                    <h5>Delish Khadka</h5>
                     <p>Data Science</p>
                     <p>Former Lead Data Scientist at Netflix</p>
                 </div>
@@ -98,7 +116,7 @@
             <div class="col-md-3">
                 <div class="instructor-card">
                     <img src="https://placedog.net/200/200?id=6" alt="Instructor">
-                    <h5>Emma Rodriguez</h5>
+                    <h5>Sagar Tandan</h5>
                     <p>Digital Marketing</p>
                     <p>Marketing Director with 12 years experience</p>
                 </div>
@@ -107,9 +125,36 @@
             <div class="col-md-3">
                 <div class="instructor-card">
                     <img src="https://placedog.net/200/200?id=7" alt="Instructor">
-                    <h5>James Wilson</h5>
+                    <h5>Romy Khatri</h5>
                     <p>Mobile App Development</p>
                     <p>iOS & Android expert, former Apple engineer</p>
+                </div>
+            </div>
+            <!-- Instructor 5 -->
+            <div class="col-md-3">
+                <div class="instructor-card">
+                    <img src="https://placedog.net/200/200?id=8" alt="Instructor">
+                    <h5>Nikesh Regmi</h5>
+                    <p>UI/UX Design</p>
+                    <p>Design specialist with expertise in user experience</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Top Student Section -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Top Student</h2>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="instructor-card" style="border: 2px solid #007bff; padding: 20px; border-radius: 10px; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);">
+                    <img src="https://placedog.net/200/200?id=11" alt="Top Student" style="width: 180px; height: 180px;">
+                    <h5 style="color: #007bff; font-size: 1.5rem;">Vinay Koirala</h5>
+                    <p style="font-weight: bold;">Full Stack Development</p>
+                    <p>Exceptional student with outstanding project portfolio</p>
+                    <p><span class="badge bg-primary">Top Performer</span></p>
                 </div>
             </div>
         </div>
@@ -126,7 +171,7 @@
                 <div class="testimonial-card">
                     <img src="https://placedog.net/100/100?id=8" alt="Student">
                     <p class="quote">"The Full-Stack Web Development course completely transformed my career. Within 3 months of completion, I landed my dream job as a developer."</p>
-                    <h5>Alex Thompson</h5>
+                    <h5>Karan Pyakurel</h5>
                     <p>Web Developer at TechCorp</p>
                 </div>
             </div>
@@ -135,7 +180,7 @@
                 <div class="testimonial-card">
                     <img src="https://placedog.net/100/100?id=9" alt="Student">
                     <p class="quote">"The instructors are incredibly knowledgeable and supportive. The course content is up-to-date with industry standards and practical examples."</p>
-                    <h5>Priya Sharma</h5>
+                    <h5>Manil Neupane</h5>
                     <p>Data Analyst at FinTech Solutions</p>
                 </div>
             </div>
@@ -144,7 +189,7 @@
                 <div class="testimonial-card">
                     <img src="https://placedog.net/100/100?id=10" alt="Student">
                     <p class="quote">"SkillForge provided me with practical skills that I could immediately apply to my job. The ROI on this education has been incredible."</p>
-                    <h5>Marcus Johnson</h5>
+                    <h5>Bikash Shrestha</h5>
                     <p>Marketing Manager at Global Brands</p>
                 </div>
             </div>
@@ -157,7 +202,7 @@
     <div class="container">
         <h2>Ready to Start Your Learning Journey?</h2>
         <p class="lead mb-4">Join thousands of students who are already advancing their careers with SkillForge.</p>
-        <a href="#" class="btn btn-light btn-lg">Join Now</a>
+        <a href="${pageContext.request.contextPath}/auth/register" class="btn btn-light btn-lg">Join Now</a>
     </div>
 </section>
 
