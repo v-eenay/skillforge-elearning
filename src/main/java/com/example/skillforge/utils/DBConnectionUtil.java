@@ -21,7 +21,8 @@ public class DBConnectionUtil {
             url = prop.getProperty("db.url");
             username = prop.getProperty("db.username");
             password = prop.getProperty("db.password");
-        } catch (IOException e) {
+            Class.forName(driver);
+        } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
