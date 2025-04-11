@@ -8,11 +8,12 @@
             <p class="text-muted">Welcome back, ${user.name}! Manage your courses and track student performance.</p>
         </div>
         <div class="col-md-4 text-end">
-            <button class="btn btn-outline-primary me-2">Student Messages <span class="badge bg-danger">5</span></button>
+            <button class="btn btn-outline-primary me-2">Student Messages <span class="badge bg-danger">5</span>
+            </button>
             <button class="btn btn-primary">Create Course</button>
         </div>
     </div>
-    
+
     <!-- Stats Overview -->
     <div class="row mb-4">
         <div class="col-md-3 mb-3">
@@ -29,7 +30,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Total Students</h5>
                     <h2 class="display-4">247</h2>
-                    <p class="card-text"><small>↑ 12% from last month</small></p>
+                    <p class="card-text"><small><i class="fas fa-arrow-up"></i> 12% from last month</small></p>
                 </div>
             </div>
         </div>
@@ -52,7 +53,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="row">
         <!-- Course Management -->
         <div class="col-md-8 mb-4">
@@ -86,13 +87,13 @@
                             <div class="d-flex justify-content-between align-items-center mt-2">
                                 <div>
                                     <small class="text-muted me-3"><strong>Students:</strong> 87</small>
-                                    <small class="text-muted me-3"><strong>Rating:</strong> 4.9 ★ (42 reviews)</small>
+                                    <small class="text-muted me-3"><strong>Rating:</strong> 4.9 <i class="fa-solid fa-star"></i> (42 reviews)</small>
                                     <small class="text-muted"><strong>Revenue:</strong> $1,740</small>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- Course 2 -->
                     <div class="d-flex mb-3 p-3 border-bottom">
                         <img src="https://placedog.net/100/70?id=9" class="me-3" alt="Course">
@@ -113,13 +114,13 @@
                             <div class="d-flex justify-content-between align-items-center mt-2">
                                 <div>
                                     <small class="text-muted me-3"><strong>Students:</strong> 64</small>
-                                    <small class="text-muted me-3"><strong>Rating:</strong> 4.7 ★ (38 reviews)</small>
+                                    <small class="text-muted me-3"><strong>Rating:</strong> 4.7 <i class="fa-solid fa-star"></i> (38 reviews)</small>
                                     <small class="text-muted"><strong>Revenue:</strong> $1,280</small>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- Course 3 -->
                     <div class="d-flex mb-3 p-3 border-bottom">
                         <img src="https://placedog.net/100/70?id=10" class="me-3" alt="Course">
@@ -140,13 +141,13 @@
                             <div class="d-flex justify-content-between align-items-center mt-2">
                                 <div>
                                     <small class="text-muted me-3"><strong>Students:</strong> 96</small>
-                                    <small class="text-muted me-3"><strong>Rating:</strong> 4.8 ★ (52 reviews)</small>
+                                    <small class="text-muted me-3"><strong>Rating:</strong> 4.8 <i class="fa-solid fa-star"></i> (52 reviews)</small>
                                     <small class="text-muted"><strong>Revenue:</strong> $1,920</small>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- Course 4 (Draft) -->
                     <div class="d-flex p-3">
                         <img src="https://placedog.net/100/70?id=11" class="me-3" alt="Course">
@@ -168,7 +169,8 @@
                                 <div>
                                     <small class="text-muted"><strong>Completion:</strong> 85%</small>
                                     <div class="progress mt-1" style="height: 5px; width: 200px;">
-                                        <div class="progress-bar" role="progressbar" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class="progress-bar" role="progressbar" style="width: 85%"
+                                             aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
                             </div>
@@ -177,7 +179,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Sidebar -->
         <div class="col-md-4">
             <!-- Student Performance -->
@@ -195,7 +197,8 @@
                                 <span>78%</span>
                             </div>
                             <div class="progress mt-1" style="height: 5px;">
-                                <div class="progress-bar" role="progressbar" style="width: 78%" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar" role="progressbar" style="width: 78%" aria-valuenow="78"
+                                     aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                         </li>
                         <li class="list-group-item">
@@ -205,7 +208,8 @@
                                 <span>65%</span>
                             </div>
                             <div class="progress mt-1" style="height: 5px;">
-                                <div class="progress-bar" role="progressbar" style="width: 65%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar" role="progressbar" style="width: 65%" aria-valuenow="65"
+                                     aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                         </li>
                         <li class="list-group-item">
@@ -215,13 +219,14 @@
                                 <span>82%</span>
                             </div>
                             <div class="progress mt-1" style="height: 5px;">
-                                <div class="progress-bar" role="progressbar" style="width: 82%" aria-valuenow="82" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar" role="progressbar" style="width: 82%" aria-valuenow="82"
+                                     aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                         </li>
                     </ul>
                 </div>
             </div>
-            
+
             <!-- Earnings Overview -->
             <div class="card mb-4">
                 <div class="card-header">
@@ -246,7 +251,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Recent Reviews -->
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
@@ -259,34 +264,39 @@
                             <div class="d-flex justify-content-between align-items-center mb-1">
                                 <h6 class="mb-0">Rajesh Sharma</h6>
                                 <div>
-                                    <span class="text-warning">★★★★★</span>
+                                    <span class="text-warning"><i class="fa-solid fa-star"></i><i
+                                            class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                            class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></span>
                                     <small class="text-muted ms-1">5.0</small>
                                 </div>
                             </div>
-                            <p class="mb-1">"Excellent course! The instructor explains complex concepts in a very understandable way."</p>
-                            <small class="text-muted">Web Development Fundamentals • 2 days ago</small>
+                            <p class="mb-1">"Excellent course! The instructor explains complex concepts in a very
+                                understandable way."</p>
+                            <small class="text-muted">Web Development Fundamentals <i class="fa-solid fa-circle-dot"></i> 2 days ago</small>
                         </div>
                         <div class="list-group-item py-3">
                             <div class="d-flex justify-content-between align-items-center mb-1">
                                 <h6 class="mb-0">Sunita Rai</h6>
                                 <div>
-                                    <span class="text-warning">★★★★</span>
+                                    <span class="text-warning"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i></span>
                                     <small class="text-muted ms-1">4.0</small>
                                 </div>
                             </div>
-                            <p class="mb-1">"Great content but would love more practical examples. Overall very helpful."</p>
-                            <small class="text-muted">Advanced JavaScript Techniques • 1 week ago</small>
+                            <p class="mb-1">"Great content but would love more practical examples. Overall very
+                                helpful."</p>
+                            <small class="text-muted">Advanced JavaScript Techniques <i class="fa-solid fa-circle-dot"></i> 1 week ago</small>
                         </div>
                         <div class="list-group-item py-3">
                             <div class="d-flex justify-content-between align-items-center mb-1">
                                 <h6 class="mb-0">Amit Kumar</h6>
                                 <div>
-                                    <span class="text-warning">★★★★★</span>
+                                    <span class="text-warning"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></span>
                                     <small class="text-muted ms-1">5.0</small>
                                 </div>
                             </div>
-                            <p class="mb-1">"This course transformed my understanding of responsive design. Highly recommended!"</p>
-                            <small class="text-muted">Responsive Web Design Masterclass • 2 weeks ago</small>
+                            <p class="mb-1">"This course transformed my understanding of responsive design. Highly
+                                recommended!"</p>
+                            <small class="text-muted">Responsive Web Design Masterclass <i class="fa-solid fa-circle-dot"></i> 2 weeks ago</small>
                         </div>
                     </div>
                 </div>

@@ -20,7 +20,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Total Users</h5>
                     <h2 class="display-4">1,245</h2>
-                    <p class="card-text"><small>↑ 12% from last month</small></p>
+                    <p class="card-text"><small><i class="fas fa-arrow-up"></i> 12% from last month</small></p>
                 </div>
             </div>
         </div>
@@ -29,7 +29,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Active Courses</h5>
                     <h2 class="display-4">87</h2>
-                    <p class="card-text"><small>↑ 5% from last month</small></p>
+                    <p class="card-text"><small><i class="fas fa-arrow-up"></i> 5% from last month</small></p>
                 </div>
             </div>
         </div>
@@ -38,7 +38,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Enrollments</h5>
                     <h2 class="display-4">3,721</h2>
-                    <p class="card-text"><small>↑ 18% from last month</small></p>
+                    <p class="card-text"><small><i class="fas fa-arrow-up"></i> 18% from last month</small></p>
                 </div>
             </div>
         </div>
@@ -47,7 +47,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Revenue</h5>
                     <h2 class="display-4">$42K</h2>
-                    <p class="card-text"><small>↑ 8% from last month</small></p>
+                    <p class="card-text"><small><i class="fas fa-arrow-up"></i> 8% from last month</small></p>
                 </div>
             </div>
         </div>
