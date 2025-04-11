@@ -1,16 +1,20 @@
 /* Modern Theme Styles for SkillForge */
 
 :root {
-    --primary: #2563eb;
-    --primary-dark: #1d4ed8;
+    --primary: #3b82f6;
+    --primary-dark: #2563eb;
     --secondary: #64748b;
-    --success: #22c55e;
+    --success: #10b981;
     --danger: #ef4444;
     --warning: #f59e0b;
-    --background: #f8fafc;
-    --text: #334155;
+    --background: #f9fafb;
+    --text: #1e293b;
     --text-light: #64748b;
+    --text-lighter: #94a3b8;
     --border: #e2e8f0;
+    --footer-bg: #1e293b;
+    --footer-text: #f1f5f9;
+    --footer-link: #cbd5e1;
     --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
     --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
@@ -73,33 +77,47 @@ h1, h2, h3, h4, h5, h6 {
 /* Navigation */
 .navbar {
     backdrop-filter: blur(8px);
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(255, 255, 255, 0.9);
     border-bottom: 1px solid var(--border);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .nav-link {
     font-weight: 500;
     padding: 0.5rem 1rem;
     transition: color 0.2s ease;
+    color: var(--text);
+}
+
+.nav-link:hover {
+    color: var(--primary);
 }
 
 /* Footer Styles */
 footer {
-    background-color: #1e293b;
-    color: #f8fafc;
-    padding: 4rem 0;
+    background-color: var(--footer-bg);
+    color: var(--footer-text);
+    padding: 3rem 0;
+    box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.05);
 }
 
 footer h5 {
     color: white;
     font-size: 1.25rem;
     margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+footer p {
+    color: var(--footer-text);
+    line-height: 1.6;
 }
 
 footer a {
-    color: #e2e8f0;
+    color: var(--footer-link);
     text-decoration: none;
     transition: color 0.2s ease;
+    font-weight: 500;
 }
 
 footer a:hover {
@@ -107,11 +125,16 @@ footer a:hover {
     text-decoration: none;
 }
 
+footer .text-dark {
+    color: var(--footer-text) !important;
+}
+
 /* Hero Section */
 .hero-section {
     padding: 6rem 0;
-    background: linear-gradient(to right, #2563eb, #1d4ed8);
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
     color: white;
+    box-shadow: inset 0 -4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 /* Course Cards */

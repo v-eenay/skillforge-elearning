@@ -190,7 +190,7 @@
 <c:if test="${empty sessionScope.user}">
     <section class="cta-section py-5 bg-dark text-white text-center">
         <div class="container">
-            <h2 class="fw-bold">Ready to Start Your Learning Journey?</h2>
+            <h2 class="fw-bold text-gradient">Ready to Start Your Learning Journey?</h2>
             <p class="lead mb-4">Join thousands of students who are already advancing their careers with SkillForge.</p>
             <a href="${pageContext.request.contextPath}/auth/register" class="btn btn-light btn-lg px-4">Join Now</a>
         </div>

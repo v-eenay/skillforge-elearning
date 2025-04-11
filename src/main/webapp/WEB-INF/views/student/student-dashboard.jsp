@@ -202,7 +202,7 @@
                                     <p class="mb-1 text-muted">Take your web development skills to the next level</p>
                                     <div class="d-flex align-items-center">
                                         <span class="badge bg-success me-2">Bestseller</span>
-                                        <small class="text-muted">4.8 ★ (2,345 ratings)</small>
+                                        <small class="text-muted">4.8 <i class="fa-solid fa-star"></i> (2,345 ratings)</small>
                                     </div>
                                 </div>
                             </div>
@@ -215,7 +215,7 @@
                                     <p class="mb-1 text-muted">Perfect next step after Data Science Essentials</p>
                                     <div class="d-flex align-items-center">
                                         <span class="badge bg-primary me-2">New</span>
-                                        <small class="text-muted">4.9 ★ (1,120 ratings)</small>
+                                        <small class="text-muted">4.9 <i class="fa-solid fa-star"></i> (1,120 ratings)</small>
                                     </div>
                                 </div>
                             </div>
@@ -228,7 +228,7 @@
                                     <p class="mb-1 text-muted">Complement your web development skills</p>
                                     <div class="d-flex align-items-center">
                                         <span class="badge bg-warning text-dark me-2">Popular</span>
-                                        <small class="text-muted">4.7 ★ (3,210 ratings)</small>
+                                        <small class="text-muted">4.7 <i class="fa-solid fa-star"></i> (3,210 ratings)</small>
                                     </div>
                                 </div>
                             </div>
