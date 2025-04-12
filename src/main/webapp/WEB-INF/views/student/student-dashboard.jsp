@@ -1,11 +1,10 @@
-<%@ page language="java" %>
 <%@ include file="/common/header.jsp" %>
 
 <div class="container py-4">
     <div class="row mb-4">
         <div class="col-md-8">
             <h2 class="mb-3">Student Dashboard</h2>
-            <p class="text-muted">Welcome back, ${user.name}! Track your learning progress and discover new courses.</p>
+            <p class="text-muted">Welcome back, ${sessionScope.user.name}! Track your learning progress and discover new courses.</p>
         </div>
         <div class="col-md-4 text-end">
             <button class="btn btn-outline-primary me-2">Messages <span class="badge bg-danger">2</span></button>

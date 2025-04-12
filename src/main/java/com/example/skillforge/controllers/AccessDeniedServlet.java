@@ -10,7 +10,9 @@ import java.io.IOException;
 public class AccessDeniedServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/views/access-denied.jsp").forward(request, response);
+        //Invalidating the session
+        request.getSession().invalidate();
+        request.getRequestDispatcher("/WEB-INF/views/errors/access-denied.jsp").forward(request, response);
     }
 
     @Override

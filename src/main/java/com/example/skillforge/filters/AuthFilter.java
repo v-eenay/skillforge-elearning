@@ -22,12 +22,20 @@ public class AuthFilter implements Filter {
         String requestURI = httpRequest.getRequestURI();
         String contextPath = httpRequest.getContextPath();
         
-        // Public pages that don't require authentication
-        if (requestURI.equals(contextPath + "/") || 
-            requestURI.contains("/login") || 
-            requestURI.contains("/register") || 
-            requestURI.contains("/css/") || 
+        // Check for static resources that might not exist
+        if (requestURI.contains("/css/") || 
             requestURI.contains("/js/") || 
+            requestURI.contains("/images/")) {
+            chain.doFilter(request, response);
+            return;
+        }
+        
+        // Public pages that don't require authentication
+        if (requestURI.equals(contextPath + "/") ||
+            requestURI.contains("/login") ||
+            requestURI.contains("/register") ||
+            requestURI.contains("/css/") ||
+            requestURI.contains("/js/") ||
             requestURI.contains("/images/")) {
             chain.doFilter(request, response);
             return;
@@ -35,7 +43,7 @@ public class AuthFilter implements Filter {
         
         // Check if user is logged in
         if (session == null || session.getAttribute("user") == null) {
-            httpResponse.sendRedirect(contextPath + "/login");
+            httpResponse.sendRedirect(contextPath + "/auth/login");
             return;
         }
         
