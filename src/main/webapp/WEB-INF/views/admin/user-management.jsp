@@ -317,6 +317,19 @@
             }
         });
     });
+
+    // Fix modal flickering issue
+    document.addEventListener('DOMContentLoaded', function() {
+        const modals = document.querySelectorAll('.modal');
+        modals.forEach(modal => {
+            const modalInstance = new bootstrap.Modal(modal);
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    e.stopPropagation();
+                }
+            });
+        });
+    });
 </script>
 
 <%@ include file="/common/footer.jsp" %>

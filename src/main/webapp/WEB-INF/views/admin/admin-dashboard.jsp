@@ -9,7 +9,7 @@
         </div>
         <div class="col-md-4 text-end">
             <button class="btn btn-outline-primary me-2">Notifications <span class="badge bg-danger">3</span></button>
-            <button class="btn btn-primary">Settings</button>
+            <a href="${pageContext.request.contextPath}/admin/users" class="btn btn-primary">Manage Users</a>
         </div>
     </div>
 

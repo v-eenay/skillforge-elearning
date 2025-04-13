@@ -48,7 +48,7 @@
                     </div>
                 </div>
             </div>
-
+            
             <div class="card border-0 shadow-sm mt-4">
                 <div class="card-body p-4">
                     <h5 class="fw-bold mb-3">Quick Links</h5>
@@ -74,72 +74,20 @@
                             </a>
                         </li>
                         <li class="list-group-item px-0 py-2 border-0">
-                            <a href="#" class="text-decoration-none d-flex align-items-center">
-                                <i class="fas fa-cog me-2"></i> Account Settings
+                            <a href="${pageContext.request.contextPath}/instructor/profile/edit" class="text-decoration-none d-flex align-items-center">
+                                <i class="fas fa-edit me-2"></i> Edit Profile
                             </a>
                         </li>
                     </ul>
                 </div>
             </div>
         </div>
-
+        
         <!-- Profile Content -->
         <div class="col-lg-8">
             <!-- Alerts -->
             <%@ include file="/common/alert-messages.jsp" %>
-
-            <!-- Edit Profile -->
-            <div class="card border-0 shadow-sm mb-4">
-                <div class="card-header bg-white p-4 border-0 d-flex justify-content-between align-items-center">
-                    <h4 class="fw-bold mb-0">Edit Profile</h4>
-                    <a href="${pageContext.request.contextPath}/instructor/profile" class="btn btn-outline-primary">View Profile</a>
-                </div>
-                <div class="card-body p-4">
-                    <form action="${pageContext.request.contextPath}/instructor/profile" method="post" enctype="multipart/form-data">
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <label for="name" class="form-label">Full Name</label>
-                                <input type="text" class="form-control" id="name" name="name" value="${userProfile.name}" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="userName" class="form-label">Username</label>
-                                <input type="text" class="form-control" id="userName" name="userName" value="${userProfile.userName}" required>
-                            </div>
-                            <div class="col-md-12">
-                                <label for="email" class="form-label">Email Address</label>
-                                <input type="email" class="form-control" id="email" name="email" value="${userProfile.email}" required>
-                            </div>
-                            <div class="col-md-12 mb-3">
-                                <label for="profileImage" class="form-label">Profile Image</label>
-                                <div class="d-flex align-items-center mb-2">
-                                    <c:choose>
-                                        <c:when test="${not empty userProfile.profileImage}">
-                                            <img src="${pageContext.request.contextPath}${userProfile.profileImage}" alt="Current profile image" class="rounded-circle me-3" style="width: 64px; height: 64px; object-fit: cover;">
-                                        </c:when>
-                                        <c:otherwise>
-                                            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 64px; height: 64px; font-size: 1.5rem;">
-                                                ${fn:substring(userProfile.name, 0, 1)}
-                                            </div>
-                                        </c:otherwise>
-                                    </c:choose>
-                                    <span>Current profile image</span>
-                                </div>
-                                <input type="file" class="form-control" id="profileImage" name="profileImage" accept="image/*">
-                                <small class="text-muted">Upload a new profile image (JPG, PNG, or GIF). Maximum size: 10MB</small>
-                            </div>
-                            <div class="col-md-12">
-                                <label for="bio" class="form-label">Bio</label>
-                                <textarea class="form-control" id="bio" name="bio" rows="4">${userProfile.bio}</textarea>
-                                <small class="text-muted">Tell students about yourself, your expertise, and teaching style</small>
-                            </div>
-                            <div class="col-12">
-                                <button type="submit" class="btn btn-primary">Save Changes</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
+            
             <!-- Course Statistics -->
             <div class="card border-0 shadow-sm mb-4">
                 <div class="card-header bg-white p-4 border-0 d-flex justify-content-between align-items-center">
@@ -187,7 +135,7 @@
                     </div>
                 </div>
             </div>
-
+            
             <!-- Student Reviews -->
             <div class="card border-0 shadow-sm">
                 <div class="card-header bg-white p-4 border-0 d-flex justify-content-between align-items-center">
@@ -212,7 +160,7 @@
                         </div>
                         <p class="mb-0">Excellent course! The instructor explains complex concepts in a very simple and understandable way. I've learned so much in just a few weeks.</p>
                     </div>
-
+                    
                     <div class="mb-4 pb-4 border-bottom">
                         <div class="d-flex mb-3">
                             <img src="https://placedog.net/50/50?id=2" alt="Student" class="rounded-circle me-3">
@@ -230,7 +178,7 @@
                         </div>
                         <p class="mb-0">This course took my JavaScript skills to the next level. The projects were challenging but very rewarding. Highly recommended!</p>
                     </div>
-
+                    
                     <div>
                         <div class="d-flex mb-3">
                             <img src="https://placedog.net/50/50?id=3" alt="Student" class="rounded-circle me-3">

@@ -9,7 +9,7 @@ import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
 
-@WebServlet(name = "StudentProfileServlet", value = "/student/profile")
+@WebServlet(name = "StudentProfileServlet", urlPatterns = {"/student/profile", "/student/profile/edit"})
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, // 1 MB
         maxFileSize = 1024 * 1024 * 10,      // 10 MB
         maxRequestSize = 1024 * 1024 * 50)   // 50 MB
@@ -18,6 +18,7 @@ public class StudentProfileServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         UserModel user = (UserModel) session.getAttribute("user");
+        String requestURI = request.getRequestURI();
 
         if (user != null) {
             // Get the latest user data from the database
@@ -29,7 +30,12 @@ public class StudentProfileServlet extends HttpServlet {
             }
         }
 
-        request.getRequestDispatcher("/WEB-INF/views/student/student-profile.jsp").forward(request, response);
+        // Determine which page to show based on the URL
+        if (requestURI.contains("/profile/edit")) {
+            request.getRequestDispatcher("/WEB-INF/views/student/student-profile.jsp").forward(request, response);
+        } else {
+            request.getRequestDispatcher("/WEB-INF/views/student/student-profile-view.jsp").forward(request, response);
+        }
     }
 
     @Override
@@ -84,6 +90,7 @@ public class StudentProfileServlet extends HttpServlet {
             request.setAttribute("error", "You must be logged in to update your profile.");
         }
 
-        request.getRequestDispatcher("/WEB-INF/views/student/student-profile.jsp").forward(request, response);
+        // After successful update, redirect to the view profile page
+        response.sendRedirect(request.getContextPath() + "/student/profile");
     }
 }
