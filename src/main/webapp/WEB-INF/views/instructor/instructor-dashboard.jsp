@@ -8,9 +8,11 @@
             <p class="text-muted">Welcome back, ${user.name}! Manage your courses and track student performance.</p>
         </div>
         <div class="col-md-4 text-end">
-            <button class="btn btn-outline-primary me-2">Student Messages <span class="badge bg-danger">5</span></button>
-            <a href="${pageContext.request.contextPath}/instructor/profile" class="btn btn-outline-info me-2">My Profile</a>
-            <button class="btn btn-primary">Create Course</button>
+            <div class="d-flex justify-content-end gap-2">
+                <button class="btn btn-outline-primary">Student Messages <span class="badge bg-danger">5</span></button>
+                <a href="${pageContext.request.contextPath}/instructor/profile" class="btn btn-outline-info">My Profile</a>
+                <button class="btn btn-primary">Create Course</button>
+            </div>
         </div>
     </div>
 

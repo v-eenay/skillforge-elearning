@@ -10,6 +10,15 @@
     <link href="${pageContext.request.contextPath}/assets/css/modern.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/assets/css/styles.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/assets/css/auth.css" rel="stylesheet">
+    <style>
+        .dropdown-menu {
+            z-index: 1030;
+            position: absolute;
+        }
+        .nav-item.dropdown {
+            position: relative;
+        }
+    </style>
 </head>
 <body>
     <header class="navbar py-3 shadow-sm">
