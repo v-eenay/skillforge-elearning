@@ -42,7 +42,7 @@
         <div class="col-md-4 mb-4">
             <div class="card border-0 shadow-sm h-100 text-center">
                 <div class="card-body p-4">
-                    <img src="https://placedog.net/150/150?id=1" alt="Team Member" class="rounded-circle mb-3" width="150" height="150">
+                    <img src="https://placebeard.it/150/150?image=33" alt="Team Member" class="rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
                     <h5 class="fw-bold">Binaya Koirala</h5>
                     <p class="text-muted">Founder & CEO</p>
                     <p>Passionate about education technology and making quality learning accessible to everyone.</p>
@@ -53,7 +53,7 @@
         <div class="col-md-4 mb-4">
             <div class="card border-0 shadow-sm h-100 text-center">
                 <div class="card-body p-4">
-                    <img src="https://placedog.net/150/150?id=2" alt="Team Member" class="rounded-circle mb-3" width="150" height="150">
+                    <img src="https://placebeard.it/150/150?image=34" alt="Team Member" class="rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
                     <h5 class="fw-bold">Vinay Koirala</h5>
                     <p class="text-muted">Head of Content</p>
                     <p>Curriculum expert with over 10 years of experience in educational content development.</p>
@@ -64,7 +64,7 @@
         <div class="col-md-4 mb-4">
             <div class="card border-0 shadow-sm h-100 text-center">
                 <div class="card-body p-4">
-                    <img src="https://placedog.net/150/150?id=3" alt="Team Member" class="rounded-circle mb-3" width="150" height="150">
+                    <img src="https://placebeard.it/150/150?image=35" alt="Team Member" class="rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
                     <h5 class="fw-bold">Binay Koirala</h5>
                     <p class="text-muted">Lead Developer</p>
                     <p>Tech enthusiast dedicated to creating seamless learning experiences through innovative solutions.</p>

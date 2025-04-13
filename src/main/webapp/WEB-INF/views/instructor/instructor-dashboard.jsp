@@ -69,7 +69,7 @@
                 <div class="card-body">
                     <!-- Course 1 -->
                     <div class="d-flex mb-3 p-3 border-bottom">
-                        <img src="https://placedog.net/100/70?id=8" class="me-3" alt="Course">
+                        <img src="https://placebeard.it/100/70?image=46" class="me-3" alt="Course" style="object-fit: cover;">
                         <div class="flex-grow-1">
                             <div class="d-flex justify-content-between align-items-start">
                                 <div>
@@ -96,7 +96,7 @@
 
                     <!-- Course 2 -->
                     <div class="d-flex mb-3 p-3 border-bottom">
-                        <img src="https://placedog.net/100/70?id=9" class="me-3" alt="Course">
+                        <img src="https://placebeard.it/100/70?image=47" class="me-3" alt="Course" style="object-fit: cover;">
                         <div class="flex-grow-1">
                             <div class="d-flex justify-content-between align-items-start">
                                 <div>
@@ -123,7 +123,7 @@
 
                     <!-- Course 3 -->
                     <div class="d-flex mb-3 p-3 border-bottom">
-                        <img src="https://placedog.net/100/70?id=10" class="me-3" alt="Course">
+                        <img src="https://placebeard.it/100/70?image=45" class="me-3" alt="Course" style="object-fit: cover;">
                         <div class="flex-grow-1">
                             <div class="d-flex justify-content-between align-items-start">
                                 <div>
@@ -150,7 +150,7 @@
 
                     <!-- Course 4 (Draft) -->
                     <div class="d-flex p-3">
-                        <img src="https://placedog.net/100/70?id=11" class="me-3" alt="Course">
+                        <img src="https://placebeard.it/100/70?image=48" class="me-3" alt="Course" style="object-fit: cover;">
                         <div class="flex-grow-1">
                             <div class="d-flex justify-content-between align-items-start">
                                 <div>

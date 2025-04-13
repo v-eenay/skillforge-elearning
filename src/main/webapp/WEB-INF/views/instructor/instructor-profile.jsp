@@ -197,7 +197,7 @@
                 <div class="card-body p-4">
                     <div class="mb-4 pb-4 border-bottom">
                         <div class="d-flex mb-3">
-                            <img src="https://placedog.net/50/50?id=1" alt="Student" class="rounded-circle me-3">
+                            <img src="https://placebeard.it/50/50?image=39" alt="Student" class="rounded-circle me-3" style="object-fit: cover;">
                             <div>
                                 <h6 class="mb-1">Rajesh Sharma</h6>
                                 <div class="text-warning mb-2">
@@ -215,7 +215,7 @@
 
                     <div class="mb-4 pb-4 border-bottom">
                         <div class="d-flex mb-3">
-                            <img src="https://placedog.net/50/50?id=2" alt="Student" class="rounded-circle me-3">
+                            <img src="https://placebeard.it/50/50?image=40" alt="Student" class="rounded-circle me-3" style="object-fit: cover;">
                             <div>
                                 <h6 class="mb-1">Priya Patel</h6>
                                 <div class="text-warning mb-2">
@@ -233,7 +233,7 @@
 
                     <div>
                         <div class="d-flex mb-3">
-                            <img src="https://placedog.net/50/50?id=3" alt="Student" class="rounded-circle me-3">
+                            <img src="https://placebeard.it/50/50?image=41" alt="Student" class="rounded-circle me-3" style="object-fit: cover;">
                             <div>
                                 <h6 class="mb-1">Amit Kumar</h6>
                                 <div class="text-warning mb-2">
