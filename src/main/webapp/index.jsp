@@ -11,7 +11,7 @@
                 <a href="${pageContext.request.contextPath}/courses" class="btn btn-dark btn-lg mt-3 px-4">Explore Courses</a>
             </div>
             <div class="col-md-6 text-center">
-                <img src="https://avatar-placeholder.iran.liara.run/bg_3b82f6/SkillForge/600x400" alt="Learning Platform" class="img-fluid rounded-4 shadow">
+                <img src="https://placebeard.it/600/400" alt="Learning Platform" class="img-fluid rounded-4 shadow">
             </div>
         </div>
     </div>
@@ -23,7 +23,7 @@
         <div class="row g-4">
             <div class="col-md-4">
                 <div class="card border-0 shadow-sm h-100">
-                    <img src="https://avatar-placeholder.iran.liara.run/bg_4f46e5/Web%20Dev/500x300" class="card-img-top rounded-top" alt="Web Development Course">
+                    <img src="https://placebeard.it/500/300" class="card-img-top rounded-top" alt="Web Development Course">
                     <div class="card-body">
                         <h5 class="fw-bold">Full-Stack Web Development</h5>
                         <p class="text-muted">Master HTML, CSS, JavaScript, React, Node.js and more to become a complete web developer.</p>
@@ -36,7 +36,7 @@
             </div>
             <div class="col-md-4">
                 <div class="card border-0 shadow-sm h-100">
-                    <img src="https://avatar-placeholder.iran.liara.run/bg_10b981/Data%20Science/500x300" class="card-img-top rounded-top" alt="Data Science Course">
+                    <img src="https://placebeard.it/500/300?image=2" class="card-img-top rounded-top" alt="Data Science Course">
                     <div class="card-body">
                         <h5 class="fw-bold">Data Science & Analytics</h5>
                         <p class="text-muted">Learn Python, R, SQL, and statistical analysis to extract insights from complex datasets.</p>
@@ -49,7 +49,7 @@
             </div>
             <div class="col-md-4">
                 <div class="card border-0 shadow-sm h-100">
-                    <img src="https://avatar-placeholder.iran.liara.run/bg_f59e0b/Marketing/500x300" class="card-img-top rounded-top" alt="Digital Marketing Course">
+                    <img src="https://placebeard.it/500/300?image=3" class="card-img-top rounded-top" alt="Digital Marketing Course">
                     <div class="card-body">
                         <h5 class="fw-bold">Digital Marketing Mastery</h5>
                         <p class="text-muted">Develop skills in SEO, social media marketing, content strategy, and PPC advertising.</p>
@@ -73,7 +73,7 @@
         <div class="row justify-content-center">
             <div class="col-md-6 text-center">
                 <div class="p-4 border border-dark rounded-4 shadow-sm">
-                    <img src="https://avatar-placeholder.iran.liara.run/boy?username=Santosh" alt="Top Instructor" class="rounded-circle mb-3" style="width: 150px; height: 150px;">
+                    <img src="https://placebeard.it/150/150" alt="Top Instructor" class="rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
                     <h5 class="fw-bold text-dark">Santosh Parajuli</h5>
                     <p class="text-muted mb-1">Full Stack Development</p>
                     <p class="text-muted">15+ years experience in software development and teaching</p>
@@ -91,7 +91,7 @@
             <c:forEach var="i" begin="4" end="8">
                 <div class="col-md-3">
                     <div class="card text-center border-0 shadow-sm h-100">
-                        <img src="https://avatar-placeholder.iran.liara.run/boy?username=Instructor${i}" class="card-img-top rounded-circle mx-auto mt-3" style="width: 120px; height: 120px;" alt="Instructor">
+                        <img src="https://placebeard.it/120/120?image=${i}" class="card-img-top rounded-circle mx-auto mt-3" style="width: 120px; height: 120px; object-fit: cover;" alt="Instructor">
                         <div class="card-body">
                             <h6 class="fw-bold mb-0">
                                 <c:choose>
@@ -137,7 +137,7 @@
         <div class="row justify-content-center">
             <div class="col-md-6 text-center">
                 <div class="p-4 border border-dark rounded-4 shadow-sm">
-                    <img src="https://avatar-placeholder.iran.liara.run/boy?username=Vinay" alt="Top Student" class="rounded-circle mb-3" style="width: 150px; height: 150px;">
+                    <img src="https://placebeard.it/150/150?image=4" alt="Top Student" class="rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
                     <h5 class="fw-bold text-dark">Vinay Koirala</h5>
                     <p class="text-muted mb-1">Full Stack Development</p>
                     <p class="text-muted">Exceptional student with outstanding project portfolio</p>
@@ -155,7 +155,7 @@
             <c:forEach var="t" begin="8" end="10">
                 <div class="col-md-4">
                     <div class="card border-0 shadow-sm h-100 p-4 text-center">
-                        <img src="https://avatar-placeholder.iran.liara.run/boy?username=Student${t}" class="rounded-circle mx-auto mb-3" style="width: 100px; height: 100px;" alt="Student">
+                        <img src="https://placebeard.it/100/100?image=${t+10}" class="rounded-circle mx-auto mb-3" style="width: 100px; height: 100px; object-fit: cover;" alt="Student">
                         <p class="fst-italic text-muted">
                             <c:choose>
                                 <c:when test="${t == 8}">"The Full-Stack Web Development course completely transformed my career. Within 3 months of completion, I landed my dream job as a developer."</c:when>

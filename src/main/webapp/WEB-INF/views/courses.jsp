@@ -17,7 +17,7 @@
                 </div>
             </div>
             <div class="col-lg-6 text-center">
-                <img src="https://avatar-placeholder.iran.liara.run/bg_4f46e5/Courses/600x400" alt="Courses" class="img-fluid rounded-4 shadow">
+                <img src="https://placebeard.it/600/400?image=8" alt="Courses" class="img-fluid rounded-4 shadow">
             </div>
         </div>
     </div>
@@ -121,7 +121,7 @@
             <div class="col-md-6 col-lg-4">
                 <div class="card border-0 shadow-sm h-100">
                     <div class="position-relative">
-                        <img src="https://avatar-placeholder.iran.liara.run/bg_4f46e5/Web%20Dev/500x300" class="card-img-top" alt="Web Development Course">
+                        <img src="https://placebeard.it/500/300?image=9" class="card-img-top" alt="Web Development Course">
                         <span class="badge bg-primary position-absolute top-0 end-0 m-3">Bestseller</span>
                     </div>
                     <div class="card-body p-4">
@@ -135,7 +135,7 @@
                         <h5 class="fw-bold mb-3">Full-Stack Web Development Bootcamp</h5>
                         <p class="text-muted">Master HTML, CSS, JavaScript, React, Node.js and more to become a complete web developer.</p>
                         <div class="d-flex align-items-center mb-3">
-                            <img src="https://avatar-placeholder.iran.liara.run/boy?username=Santosh" class="rounded-circle me-2" style="width: 40px; height: 40px;" alt="Instructor">
+                            <img src="https://placebeard.it/40/40?image=15" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;" alt="Instructor">
                             <span>Santosh Parajuli</span>
                         </div>
                         <div class="d-flex justify-content-between align-items-center">
@@ -153,7 +153,7 @@
             <div class="col-md-6 col-lg-4">
                 <div class="card border-0 shadow-sm h-100">
                     <div class="position-relative">
-                        <img src="https://avatar-placeholder.iran.liara.run/bg_10b981/Data%20Science/500x300" class="card-img-top" alt="Data Science Course">
+                        <img src="https://placebeard.it/500/300?image=10" class="card-img-top" alt="Data Science Course">
                         <span class="badge bg-success position-absolute top-0 end-0 m-3">New</span>
                     </div>
                     <div class="card-body p-4">
@@ -167,7 +167,7 @@
                         <h5 class="fw-bold mb-3">Data Science & Analytics Masterclass</h5>
                         <p class="text-muted">Learn Python, R, SQL, and statistical analysis to extract insights from complex datasets.</p>
                         <div class="d-flex align-items-center mb-3">
-                            <img src="https://avatar-placeholder.iran.liara.run/boy?username=Sujan" class="rounded-circle me-2" style="width: 40px; height: 40px;" alt="Instructor">
+                            <img src="https://placebeard.it/40/40?image=16" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;" alt="Instructor">
                             <span>Sujan Subedi</span>
                         </div>
                         <div class="d-flex justify-content-between align-items-center">
@@ -185,7 +185,7 @@
             <div class="col-md-6 col-lg-4">
                 <div class="card border-0 shadow-sm h-100">
                     <div class="position-relative">
-                        <img src="https://avatar-placeholder.iran.liara.run/bg_f59e0b/UI%20UX/500x300" class="card-img-top" alt="UI/UX Design Course">
+                        <img src="https://placebeard.it/500/300?image=11" class="card-img-top" alt="UI/UX Design Course">
                     </div>
                     <div class="card-body p-4">
                         <div class="d-flex justify-content-between align-items-center mb-2">
@@ -198,7 +198,7 @@
                         <h5 class="fw-bold mb-3">UI/UX Design: From Beginner to Professional</h5>
                         <p class="text-muted">Learn to create beautiful, user-friendly interfaces that engage and delight users.</p>
                         <div class="d-flex align-items-center mb-3">
-                            <img src="https://avatar-placeholder.iran.liara.run/boy?username=Delish" class="rounded-circle me-2" style="width: 40px; height: 40px;" alt="Instructor">
+                            <img src="https://placebeard.it/40/40?image=17" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;" alt="Instructor">
                             <span>Delish Khadka</span>
                         </div>
                         <div class="d-flex justify-content-between align-items-center">
@@ -216,7 +216,7 @@
             <div class="col-md-6 col-lg-4">
                 <div class="card border-0 shadow-sm h-100">
                     <div class="position-relative">
-                        <img src="https://avatar-placeholder.iran.liara.run/bg_6366f1/Mobile%20Dev/500x300" class="card-img-top" alt="Mobile Development Course">
+                        <img src="https://placebeard.it/500/300?image=12" class="card-img-top" alt="Mobile Development Course">
                     </div>
                     <div class="card-body p-4">
                         <div class="d-flex justify-content-between align-items-center mb-2">
@@ -229,7 +229,7 @@
                         <h5 class="fw-bold mb-3">Flutter & Dart: Build iOS and Android Apps</h5>
                         <p class="text-muted">Create beautiful, natively compiled applications for mobile from a single codebase.</p>
                         <div class="d-flex align-items-center mb-3">
-                            <img src="https://avatar-placeholder.iran.liara.run/boy?username=Sagar" class="rounded-circle me-2" style="width: 40px; height: 40px;" alt="Instructor">
+                            <img src="https://placebeard.it/40/40?image=18" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;" alt="Instructor">
                             <span>Sagar Tandan</span>
                         </div>
                         <div class="d-flex justify-content-between align-items-center">
@@ -247,7 +247,7 @@
             <div class="col-md-6 col-lg-4">
                 <div class="card border-0 shadow-sm h-100">
                     <div class="position-relative">
-                        <img src="https://avatar-placeholder.iran.liara.run/bg_ef4444/Security/500x300" class="card-img-top" alt="Cybersecurity Course">
+                        <img src="https://placebeard.it/500/300?image=13" class="card-img-top" alt="Cybersecurity Course">
                         <span class="badge bg-danger position-absolute top-0 end-0 m-3">Hot</span>
                     </div>
                     <div class="card-body p-4">
@@ -261,7 +261,7 @@
                         <h5 class="fw-bold mb-3">Ethical Hacking & Cybersecurity Fundamentals</h5>
                         <p class="text-muted">Learn to protect systems and networks from cyber threats and vulnerabilities.</p>
                         <div class="d-flex align-items-center mb-3">
-                            <img src="https://avatar-placeholder.iran.liara.run/boy?username=Romy" class="rounded-circle me-2" style="width: 40px; height: 40px;" alt="Instructor">
+                            <img src="https://placebeard.it/40/40?image=19" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;" alt="Instructor">
                             <span>Romy Khatri</span>
                         </div>
                         <div class="d-flex justify-content-between align-items-center">
@@ -279,7 +279,7 @@
             <div class="col-md-6 col-lg-4">
                 <div class="card border-0 shadow-sm h-100">
                     <div class="position-relative">
-                        <img src="https://avatar-placeholder.iran.liara.run/bg_64748b/AI%20ML/500x300" class="card-img-top" alt="AI Course">
+                        <img src="https://placebeard.it/500/300?image=14" class="card-img-top" alt="AI Course">
                     </div>
                     <div class="card-body p-4">
                         <div class="d-flex justify-content-between align-items-center mb-2">
@@ -292,7 +292,7 @@
                         <h5 class="fw-bold mb-3">Machine Learning & AI: Python & TensorFlow</h5>
                         <p class="text-muted">Build intelligent systems and models using Python, TensorFlow, and other ML frameworks.</p>
                         <div class="d-flex align-items-center mb-3">
-                            <img src="https://avatar-placeholder.iran.liara.run/boy?username=Nikesh" class="rounded-circle me-2" style="width: 40px; height: 40px;" alt="Instructor">
+                            <img src="https://placebeard.it/40/40?image=20" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;" alt="Instructor">
                             <span>Nikesh Regmi</span>
                         </div>
                         <div class="d-flex justify-content-between align-items-center">
@@ -338,7 +338,7 @@
             <div class="col-md-4">
                 <div class="card border-0 shadow-sm h-100 p-4">
                     <div class="d-flex mb-3">
-                        <img src="https://avatar-placeholder.iran.liara.run/boy?username=Rajesh" class="rounded-circle me-3" style="width: 60px; height: 60px;" alt="Student">
+                        <img src="https://placebeard.it/60/60?image=21" class="rounded-circle me-3" style="width: 60px; height: 60px; object-fit: cover;" alt="Student">
                         <div>
                             <h5 class="fw-bold mb-1">Rajesh Sharma</h5>
                             <p class="text-muted mb-0">Web Developer</p>
@@ -357,7 +357,7 @@
             <div class="col-md-4">
                 <div class="card border-0 shadow-sm h-100 p-4">
                     <div class="d-flex mb-3">
-                        <img src="https://avatar-placeholder.iran.liara.run/girl?username=Priya" class="rounded-circle me-3" style="width: 60px; height: 60px;" alt="Student">
+                        <img src="https://placebeard.it/60/60?image=22" class="rounded-circle me-3" style="width: 60px; height: 60px; object-fit: cover;" alt="Student">
                         <div>
                             <h5 class="fw-bold mb-1">Priya Patel</h5>
                             <p class="text-muted mb-0">Data Analyst</p>
@@ -376,7 +376,7 @@
             <div class="col-md-4">
                 <div class="card border-0 shadow-sm h-100 p-4">
                     <div class="d-flex mb-3">
-                        <img src="https://avatar-placeholder.iran.liara.run/boy?username=Amit" class="rounded-circle me-3" style="width: 60px; height: 60px;" alt="Student">
+                        <img src="https://placebeard.it/60/60?image=23" class="rounded-circle me-3" style="width: 60px; height: 60px; object-fit: cover;" alt="Student">
                         <div>
                             <h5 class="fw-bold mb-1">Amit Kumar</h5>
                             <p class="text-muted mb-0">UI/UX Designer</p>

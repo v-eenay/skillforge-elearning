@@ -98,7 +98,7 @@
                 <h4 class="fw-bold mb-3">Our Location</h4>
                 <p class="mb-0">This is where a Google Map would typically be embedded. For privacy and API key reasons, we're showing this placeholder instead.</p>
                 <p class="mb-0">Enjoy this cute dog picture instead</p>
-                <img src="https://avatar-placeholder.iran.liara.run/bg_3b82f6/SkillForge%20HQ/300x200" alt="SkillForge HQ" class="img-fluid mt-3">
+                <img src="https://placebeard.it/300/200?image=7" alt="SkillForge HQ" class="img-fluid mt-3">
             </div>
         </div>
     </div>

@@ -17,7 +17,7 @@
                 </div>
             </div>
             <div class="col-lg-6 text-center">
-                <img src="https://avatar-placeholder.iran.liara.run/bg_3b82f6/Instructors/600x400" alt="Instructors" class="img-fluid rounded-4 shadow">
+                <img src="https://placebeard.it/600/400?image=24" alt="Instructors" class="img-fluid rounded-4 shadow">
             </div>
         </div>
     </div>
@@ -32,7 +32,7 @@
                 <div class="card border-0 shadow-sm">
                     <div class="row g-0">
                         <div class="col-md-4 text-center py-4">
-                            <img src="https://avatar-placeholder.iran.liara.run/boy?username=Santosh" alt="Santosh Parajuli" class="rounded-circle img-fluid mb-3" style="width: 150px; height: 150px; object-fit: cover;">
+                            <img src="https://placebeard.it/150/150?image=25" alt="Santosh Parajuli" class="rounded-circle img-fluid mb-3" style="width: 150px; height: 150px; object-fit: cover;">
                             <div class="d-flex justify-content-center gap-2 mb-3">
                                 <a href="#" class="text-dark"><i class="fab fa-linkedin fa-lg"></i></a>
                                 <a href="#" class="text-dark"><i class="fab fa-twitter fa-lg"></i></a>
@@ -176,7 +176,7 @@
             <div class="col-md-6 col-lg-4">
                 <div class="card border-0 shadow-sm h-100">
                     <div class="card-body p-4 text-center">
-                        <img src="https://avatar-placeholder.iran.liara.run/boy?username=Sujan" alt="Sujan Subedi" class="rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover;">
+                        <img src="https://placebeard.it/120/120?image=26" alt="Sujan Subedi" class="rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover;">
                         <h4 class="fw-bold mb-1">Sujan Subedi</h4>
                         <p class="text-muted mb-3">Data Science Expert</p>
                         <div class="d-flex justify-content-center mb-3">
@@ -214,7 +214,7 @@
             <div class="col-md-6 col-lg-4">
                 <div class="card border-0 shadow-sm h-100">
                     <div class="card-body p-4 text-center">
-                        <img src="https://avatar-placeholder.iran.liara.run/boy?username=Delish" alt="Delish Khadka" class="rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover;">
+                        <img src="https://placebeard.it/120/120?image=27" alt="Delish Khadka" class="rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover;">
                         <h4 class="fw-bold mb-1">Delish Khadka</h4>
                         <p class="text-muted mb-3">UI/UX Design Specialist</p>
                         <div class="d-flex justify-content-center mb-3">
@@ -252,7 +252,7 @@
             <div class="col-md-6 col-lg-4">
                 <div class="card border-0 shadow-sm h-100">
                     <div class="card-body p-4 text-center">
-                        <img src="https://avatar-placeholder.iran.liara.run/boy?username=Sagar" alt="Sagar Tandan" class="rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover;">
+                        <img src="https://placebeard.it/120/120?image=28" alt="Sagar Tandan" class="rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover;">
                         <h4 class="fw-bold mb-1">Sagar Tandan</h4>
                         <p class="text-muted mb-3">Mobile Development Expert</p>
                         <div class="d-flex justify-content-center mb-3">
@@ -290,7 +290,7 @@
             <div class="col-md-6 col-lg-4">
                 <div class="card border-0 shadow-sm h-100">
                     <div class="card-body p-4 text-center">
-                        <img src="https://avatar-placeholder.iran.liara.run/boy?username=Romy" alt="Romy Khatri" class="rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover;">
+                        <img src="https://placebeard.it/120/120?image=29" alt="Romy Khatri" class="rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover;">
                         <h4 class="fw-bold mb-1">Romy Khatri</h4>
                         <p class="text-muted mb-3">Cybersecurity Specialist</p>
                         <div class="d-flex justify-content-center mb-3">
@@ -328,7 +328,7 @@
             <div class="col-md-6 col-lg-4">
                 <div class="card border-0 shadow-sm h-100">
                     <div class="card-body p-4 text-center">
-                        <img src="https://avatar-placeholder.iran.liara.run/boy?username=Nikesh" alt="Nikesh Regmi" class="rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover;">
+                        <img src="https://placebeard.it/120/120?image=30" alt="Nikesh Regmi" class="rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover;">
                         <h4 class="fw-bold mb-1">Nikesh Regmi</h4>
                         <p class="text-muted mb-3">AI & Machine Learning Expert</p>
                         <div class="d-flex justify-content-center mb-3">
@@ -366,7 +366,7 @@
             <div class="col-md-6 col-lg-4">
                 <div class="card border-0 shadow-sm h-100">
                     <div class="card-body p-4 text-center">
-                        <img src="https://avatar-placeholder.iran.liara.run/girl?username=Anita" alt="Anita Sharma" class="rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover;">
+                        <img src="https://placebeard.it/120/120?image=31" alt="Anita Sharma" class="rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover;">
                         <h4 class="fw-bold mb-1">Anita Sharma</h4>
                         <p class="text-muted mb-3">Frontend Development Specialist</p>
                         <div class="d-flex justify-content-center mb-3">
@@ -440,7 +440,7 @@
                 <a href="#" class="btn btn-light btn-lg px-4">Apply to Teach</a>
             </div>
             <div class="col-lg-5 text-center">
-                <img src="https://avatar-placeholder.iran.liara.run/bg_3b82f6/Teach%20With%20Us/500x400" alt="Become an Instructor" class="img-fluid rounded-4 shadow">
+                <img src="https://placebeard.it/500/400?image=32" alt="Become an Instructor" class="img-fluid rounded-4 shadow">
             </div>
         </div>
     </div>
