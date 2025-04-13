@@ -22,8 +22,8 @@
                     <nav class="d-flex justify-content-end">
                         <ul class="nav">
                             <li class="nav-item"><a href="${pageContext.request.contextPath}/" class="nav-link">Home</a></li>
-                            <li class="nav-item"><a href="#" class="nav-link">Courses</a></li>
-                            <li class="nav-item"><a href="#" class="nav-link">Instructors</a></li>
+                            <li class="nav-item"><a href="${pageContext.request.contextPath}/courses" class="nav-link">Courses</a></li>
+                            <li class="nav-item"><a href="${pageContext.request.contextPath}/instructors" class="nav-link">Instructors</a></li>
                             <li class="nav-item"><a href="${pageContext.request.contextPath}/about" class="nav-link">About</a></li>
                             <li class="nav-item"><a href="${pageContext.request.contextPath}/contact" class="nav-link">Contact</a></li>
                             <% if (session.getAttribute("user") == null) { %>

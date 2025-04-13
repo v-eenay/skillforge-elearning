@@ -8,7 +8,7 @@
             <div class="col-md-6 mb-4 mb-md-0">
                 <h1 class="display-5 fw-bold">Unlock Your Potential with SkillForge</h1>
                 <p class="lead">SkillForge is your gateway to mastering modern skills, accelerating your career, and achieving your goals. Learn from expert instructors with cutting-edge content.</p>
-                <a href="#" class="btn btn-dark btn-lg mt-3 px-4">Explore Courses</a>
+                <a href="${pageContext.request.contextPath}/courses" class="btn btn-dark btn-lg mt-3 px-4">Explore Courses</a>
             </div>
             <div class="col-md-6 text-center">
                 <img src="https://placedog.net/600/400" alt="Learning Platform" class="img-fluid rounded-4 shadow">
@@ -29,7 +29,7 @@
                         <p class="text-muted">Master HTML, CSS, JavaScript, React, Node.js and more to become a complete web developer.</p>
                         <div class="d-flex justify-content-between align-items-center mt-3">
                             <span class="fw-bold text-dark">$89.99</span>
-                            <a href="#" class="btn btn-outline-dark btn-sm">Learn More</a>
+                            <a href="${pageContext.request.contextPath}/courses" class="btn btn-outline-dark btn-sm">Learn More</a>
                         </div>
                     </div>
                 </div>
