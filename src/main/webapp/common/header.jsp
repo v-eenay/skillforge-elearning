@@ -14,9 +14,25 @@
         .dropdown-menu {
             z-index: 1030;
             position: absolute;
+            background-color: #fff;
+            border: 1px solid rgba(0,0,0,.15);
+            border-radius: 0.25rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            width: max-content;
+            min-width: 10rem;
         }
         .nav-item.dropdown {
             position: relative;
+        }
+        .dropdown-item {
+            display: block;
+            width: 100%;
+            padding: 0.5rem 1rem;
+            clear: both;
+            text-align: inherit;
+            white-space: nowrap;
+            background-color: transparent;
         }
     </style>
 </head>
@@ -56,21 +72,23 @@
                                         <% } %>
                                         <span><%= userName %></span>
                                     </a>
-                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                                        <% String userRole = (String) session.getAttribute("userRole"); %>
-                                        <% if ("admin".equals(userRole)) { %>
-                                            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/dashboard"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a></li>
-                                            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/users"><i class="fas fa-users me-2"></i>Manage Users</a></li>
-                                        <% } else if ("instructor".equals(userRole)) { %>
-                                            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/instructor/dashboard"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a></li>
-                                            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/instructor/profile"><i class="fas fa-user me-2"></i>My Profile</a></li>
-                                        <% } else { %>
-                                            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/student/dashboard"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a></li>
-                                            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/student/profile"><i class="fas fa-user me-2"></i>My Profile</a></li>
-                                        <% } %>
-                                        <li><hr class="dropdown-divider"></li>
-                                        <li><a class="dropdown-item text-danger" href="${pageContext.request.contextPath}/auth/logout"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
-                                    </ul>
+                                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown" style="position: absolute; top: 100%; right: 0;">
+                                        <div class="py-2">
+                                            <% String userRole = (String) session.getAttribute("userRole"); %>
+                                            <% if ("admin".equals(userRole)) { %>
+                                                <a class="dropdown-item" href="${pageContext.request.contextPath}/admin/dashboard"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
+                                                <a class="dropdown-item" href="${pageContext.request.contextPath}/admin/users"><i class="fas fa-users me-2"></i>Manage Users</a>
+                                            <% } else if ("instructor".equals(userRole)) { %>
+                                                <a class="dropdown-item" href="${pageContext.request.contextPath}/instructor/dashboard"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
+                                                <a class="dropdown-item" href="${pageContext.request.contextPath}/instructor/profile"><i class="fas fa-user me-2"></i>My Profile</a>
+                                            <% } else { %>
+                                                <a class="dropdown-item" href="${pageContext.request.contextPath}/student/dashboard"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
+                                                <a class="dropdown-item" href="${pageContext.request.contextPath}/student/profile"><i class="fas fa-user me-2"></i>My Profile</a>
+                                            <% } %>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item text-danger" href="${pageContext.request.contextPath}/auth/logout"><i class="fas fa-sign-out-alt me-2"></i>Logout</a>
+                                        </div>
+                                    </div>
                                 </li>
                             <% } %>
                         </ul>
@@ -79,4 +97,35 @@
             </div>
         </div>
     </header>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fix dropdown menu behavior
+            const profileDropdown = document.getElementById('profileDropdown');
+            if (profileDropdown) {
+                const dropdownMenu = profileDropdown.nextElementSibling;
+
+                // Ensure dropdown is properly hidden initially
+                dropdownMenu.style.display = 'none';
+
+                // Toggle dropdown on click
+                profileDropdown.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    if (dropdownMenu.style.display === 'none') {
+                        dropdownMenu.style.display = 'block';
+                    } else {
+                        dropdownMenu.style.display = 'none';
+                    }
+                });
+
+                // Close dropdown when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!profileDropdown.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                        dropdownMenu.style.display = 'none';
+                    }
+                });
+            }
+        });
+    </script>
     <main>
