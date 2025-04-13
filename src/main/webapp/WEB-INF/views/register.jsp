@@ -9,13 +9,9 @@
             <div class="card shadow">
                 <div class="card-body p-5">
                     <h2 class="text-center mb-4">Create Your SkillForge Account</h2>
-                    
-                    <c:if test="${not empty error}">
-                        <div class="alert alert-danger mb-4" role="alert">
-                            ${error}
-                        </div>
-                    </c:if>
-                    
+
+                    <%@ include file="/common/alert-messages.jsp" %>
+
                     <form action="${pageContext.request.contextPath}/auth/register" method="post">
                         <div class="mb-3">
                             <label for="name" class="form-label">Full Name</label>
@@ -69,7 +65,7 @@
                             <button type="submit" class="btn btn-primary btn-lg">Create Account</button>
                         </div>
                     </form>
-                    
+
                     <div class="text-center mt-4">
                         <p>Already have an account? <a href="${pageContext.request.contextPath}/auth/login" class="text-primary">Login here</a></p>
                     </div>

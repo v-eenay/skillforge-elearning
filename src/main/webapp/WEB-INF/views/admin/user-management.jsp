@@ -14,18 +14,7 @@
     </div>
 
     <!-- Alerts -->
-    <c:if test="${not empty success}">
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            ${success}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    </c:if>
-    <c:if test="${not empty error}">
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            ${error}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    </c:if>
+    <%@ include file="/common/alert-messages.jsp" %>
 
     <!-- User Management Card -->
     <div class="card border-0 shadow-sm">
@@ -75,7 +64,7 @@
                                     <div class="d-flex align-items-center">
                                         <c:choose>
                                             <c:when test="${not empty user.profileImage}">
-                                                <img src="${user.profileImage}" alt="${user.name}" class="rounded-circle me-2" width="40" height="40" style="object-fit: cover;">
+                                                <img src="${pageContext.request.contextPath}${user.profileImage}" alt="${user.name}" class="rounded-circle me-2" width="40" height="40" style="object-fit: cover;">
                                             </c:when>
                                             <c:otherwise>
                                                 <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 40px; height: 40px;">
@@ -120,9 +109,9 @@
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="actionDropdown${user.userId}">
                                             <li>
-                                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#viewUserModal${user.userId}">
+                                                <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#viewUserModal${user.userId}">
                                                     <i class="fas fa-eye me-2"></i> View Details
-                                                </a>
+                                                </button>
                                             </li>
                                             <c:if test="${user.role != 'admin'}">
                                                 <c:choose>
@@ -176,7 +165,7 @@
                                                         <div class="col-md-4 text-center mb-4 mb-md-0">
                                                             <c:choose>
                                                                 <c:when test="${not empty user.profileImage}">
-                                                                    <img src="${user.profileImage}" alt="${user.name}" class="rounded-circle img-fluid mb-3" style="width: 150px; height: 150px; object-fit: cover;">
+                                                                    <img src="${pageContext.request.contextPath}${user.profileImage}" alt="${user.name}" class="rounded-circle img-fluid mb-3" style="width: 150px; height: 150px; object-fit: cover;">
                                                                 </c:when>
                                                                 <c:otherwise>
                                                                     <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 150px; height: 150px; font-size: 4rem;">

@@ -12,7 +12,7 @@
                     <div class="mb-4">
                         <c:choose>
                             <c:when test="${not empty userProfile.profileImage}">
-                                <img src="${userProfile.profileImage}" alt="${userProfile.name}" class="rounded-circle img-fluid" style="width: 150px; height: 150px; object-fit: cover;">
+                                <img src="${pageContext.request.contextPath}${userProfile.profileImage}" alt="${userProfile.name}" class="rounded-circle img-fluid" style="width: 150px; height: 150px; object-fit: cover;">
                             </c:when>
                             <c:otherwise>
                                 <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center mx-auto" style="width: 150px; height: 150px; font-size: 4rem;">
@@ -77,18 +77,7 @@
         <!-- Profile Content -->
         <div class="col-lg-8">
             <!-- Alerts -->
-            <c:if test="${not empty success}">
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    ${success}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            </c:if>
-            <c:if test="${not empty error}">
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    ${error}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            </c:if>
+            <%@ include file="/common/alert-messages.jsp" %>
 
             <!-- Edit Profile -->
             <div class="card border-0 shadow-sm mb-4">
@@ -96,7 +85,7 @@
                     <h4 class="fw-bold mb-0">Edit Profile</h4>
                 </div>
                 <div class="card-body p-4">
-                    <form action="${pageContext.request.contextPath}/student/profile" method="post">
+                    <form action="${pageContext.request.contextPath}/student/profile" method="post" enctype="multipart/form-data">
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label for="name" class="form-label">Full Name</label>
@@ -110,10 +99,23 @@
                                 <label for="email" class="form-label">Email Address</label>
                                 <input type="email" class="form-control" id="email" name="email" value="${userProfile.email}" required>
                             </div>
-                            <div class="col-md-12">
-                                <label for="profileImage" class="form-label">Profile Image URL</label>
-                                <input type="url" class="form-control" id="profileImage" name="profileImage" value="${userProfile.profileImage}" placeholder="https://example.com/image.jpg">
-                                <small class="text-muted">Enter a URL to your profile image</small>
+                            <div class="col-md-12 mb-3">
+                                <label for="profileImage" class="form-label">Profile Image</label>
+                                <div class="d-flex align-items-center mb-2">
+                                    <c:choose>
+                                        <c:when test="${not empty userProfile.profileImage}">
+                                            <img src="${pageContext.request.contextPath}${userProfile.profileImage}" alt="Current profile image" class="rounded-circle me-3" style="width: 64px; height: 64px; object-fit: cover;">
+                                        </c:when>
+                                        <c:otherwise>
+                                            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 64px; height: 64px; font-size: 1.5rem;">
+                                                ${fn:substring(userProfile.name, 0, 1)}
+                                            </div>
+                                        </c:otherwise>
+                                    </c:choose>
+                                    <span>Current profile image</span>
+                                </div>
+                                <input type="file" class="form-control" id="profileImage" name="profileImage" accept="image/*">
+                                <small class="text-muted">Upload a new profile image (JPG, PNG, or GIF). Maximum size: 10MB</small>
                             </div>
                             <div class="col-md-12">
                                 <label for="bio" class="form-label">Bio</label>
