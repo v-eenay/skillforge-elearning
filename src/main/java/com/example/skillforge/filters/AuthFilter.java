@@ -21,35 +21,37 @@ public class AuthFilter implements Filter {
         HttpSession session = httpRequest.getSession(false);
         String requestURI = httpRequest.getRequestURI();
         String contextPath = httpRequest.getContextPath();
-        
+
         // Check for static resources that might not exist
-        if (requestURI.contains("/css/") || 
-            requestURI.contains("/js/") || 
+        if (requestURI.contains("/css/") ||
+            requestURI.contains("/js/") ||
             requestURI.contains("/images/")) {
             chain.doFilter(request, response);
             return;
         }
-        
+
         // Public pages that don't require authentication
         if (requestURI.equals(contextPath + "/") ||
             requestURI.contains("/login") ||
             requestURI.contains("/register") ||
+            requestURI.contains("/about") ||
+            requestURI.contains("/contact") ||
             requestURI.contains("/css/") ||
             requestURI.contains("/js/") ||
             requestURI.contains("/images/")) {
             chain.doFilter(request, response);
             return;
         }
-        
+
         // Check if user is logged in
         if (session == null || session.getAttribute("user") == null) {
             httpResponse.sendRedirect(contextPath + "/auth/login");
             return;
         }
-        
+
         // Get user role from session
         String userRole = (String) session.getAttribute("userRole");
-        
+
         // Role-based access control
         if (requestURI.contains("/admin/") && !"admin".equals(userRole)) {
             httpResponse.sendRedirect(contextPath + "/access-denied");
@@ -61,7 +63,7 @@ public class AuthFilter implements Filter {
             httpResponse.sendRedirect(contextPath + "/access-denied");
             return;
         }
-        
+
         chain.doFilter(request, response);
     }
 }

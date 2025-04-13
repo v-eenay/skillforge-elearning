@@ -24,8 +24,8 @@
                             <li class="nav-item"><a href="${pageContext.request.contextPath}/" class="nav-link">Home</a></li>
                             <li class="nav-item"><a href="#" class="nav-link">Courses</a></li>
                             <li class="nav-item"><a href="#" class="nav-link">Instructors</a></li>
-                            <li class="nav-item"><a href="#" class="nav-link">About</a></li>
-                            <li class="nav-item"><a href="#" class="nav-link">Contact</a></li>
+                            <li class="nav-item"><a href="${pageContext.request.contextPath}/about" class="nav-link">About</a></li>
+                            <li class="nav-item"><a href="${pageContext.request.contextPath}/contact" class="nav-link">Contact</a></li>
                             <% if (session.getAttribute("user") == null) { %>
                                 <li class="nav-item ms-3"><a href="${pageContext.request.contextPath}/auth/login" class="btn btn-outline-primary btn-sm rounded-pill">Login</a></li>
                                 <li class="nav-item ms-2"><a href="${pageContext.request.contextPath}/auth/register" class="btn btn-primary btn-sm rounded-pill">Sign Up</a></li>
@@ -38,4 +38,4 @@
             </div>
         </div>
     </header>
-    <main class="py-5">
+    <main>
