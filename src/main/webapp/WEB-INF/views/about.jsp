@@ -18,7 +18,7 @@
             <p>We are committed to helping individuals acquire the skills they need to advance their careers, pursue their passions, and adapt to technological changes in their fields.</p>
         </div>
         <div class="col-md-6 text-center">
-            <img src="https://placedog.net/500/300?id=10" alt="Our Mission" class="img-fluid rounded-4 shadow">
+            <img src="https://avatar-placeholder.iran.liara.run/bg_3b82f6/Our%20Mission/500x300" alt="Our Mission" class="img-fluid rounded-4 shadow">
         </div>
     </div>
 
@@ -29,7 +29,7 @@
             <p>Today, SkillForge serves thousands of learners worldwide, helping them achieve their personal and professional goals through quality education.</p>
         </div>
         <div class="col-md-6 text-center">
-            <img src="https://placedog.net/500/300?id=11" alt="Our Story" class="img-fluid rounded-4 shadow">
+            <img src="https://avatar-placeholder.iran.liara.run/bg_10b981/Our%20Story/500x300" alt="Our Story" class="img-fluid rounded-4 shadow">
         </div>
     </div>
 
