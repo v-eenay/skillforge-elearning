@@ -195,7 +195,7 @@
                     <div class="list-group list-group-flush">
                         <a href="#" class="list-group-item list-group-item-action py-3">
                             <div class="d-flex">
-                                <img src="https://placedog.net/70/70?id=5" class="me-3" alt="Course">
+                                <img src="https://placebeard.it/70/70?image=42" class="me-3" alt="Course" style="object-fit: cover;">
                                 <div>
                                     <h6 class="mb-1">Advanced JavaScript</h6>
                                     <p class="mb-1 text-muted">Take your web development skills to the next level</p>
@@ -208,7 +208,7 @@
                         </a>
                         <a href="#" class="list-group-item list-group-item-action py-3">
                             <div class="d-flex">
-                                <img src="https://placedog.net/70/70?id=6" class="me-3" alt="Course">
+                                <img src="https://placebeard.it/70/70?image=43" class="me-3" alt="Course" style="object-fit: cover;">
                                 <div>
                                     <h6 class="mb-1">Machine Learning Fundamentals</h6>
                                     <p class="mb-1 text-muted">Perfect next step after Data Science Essentials</p>
@@ -221,7 +221,7 @@
                         </a>
                         <a href="#" class="list-group-item list-group-item-action py-3">
                             <div class="d-flex">
-                                <img src="https://placedog.net/70/70?id=7" class="me-3" alt="Course">
+                                <img src="https://placebeard.it/70/70?image=44" class="me-3" alt="Course" style="object-fit: cover;">
                                 <div>
                                     <h6 class="mb-1">UI/UX Design Principles</h6>
                                     <p class="mb-1 text-muted">Complement your web development skills</p>

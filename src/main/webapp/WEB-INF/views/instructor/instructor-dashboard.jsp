@@ -8,9 +8,11 @@
             <p class="text-muted">Welcome back, ${user.name}! Manage your courses and track student performance.</p>
         </div>
         <div class="col-md-4 text-end">
-            <button class="btn btn-outline-primary me-2">Student Messages <span class="badge bg-danger">5</span></button>
-            <a href="${pageContext.request.contextPath}/instructor/profile" class="btn btn-outline-info me-2">My Profile</a>
-            <button class="btn btn-primary">Create Course</button>
+            <div class="d-flex justify-content-end gap-2">
+                <button class="btn btn-outline-primary">Student Messages <span class="badge bg-danger">5</span></button>
+                <a href="${pageContext.request.contextPath}/instructor/profile" class="btn btn-outline-info">My Profile</a>
+                <button class="btn btn-primary">Create Course</button>
+            </div>
         </div>
     </div>
 
@@ -69,7 +71,7 @@
                 <div class="card-body">
                     <!-- Course 1 -->
                     <div class="d-flex mb-3 p-3 border-bottom">
-                        <img src="https://placedog.net/100/70?id=8" class="me-3" alt="Course">
+                        <img src="https://placebeard.it/100/70?image=46" class="me-3" alt="Course" style="object-fit: cover;">
                         <div class="flex-grow-1">
                             <div class="d-flex justify-content-between align-items-start">
                                 <div>
@@ -96,7 +98,7 @@
 
                     <!-- Course 2 -->
                     <div class="d-flex mb-3 p-3 border-bottom">
-                        <img src="https://placedog.net/100/70?id=9" class="me-3" alt="Course">
+                        <img src="https://placebeard.it/100/70?image=47" class="me-3" alt="Course" style="object-fit: cover;">
                         <div class="flex-grow-1">
                             <div class="d-flex justify-content-between align-items-start">
                                 <div>
@@ -123,7 +125,7 @@
 
                     <!-- Course 3 -->
                     <div class="d-flex mb-3 p-3 border-bottom">
-                        <img src="https://placedog.net/100/70?id=10" class="me-3" alt="Course">
+                        <img src="https://placebeard.it/100/70?image=45" class="me-3" alt="Course" style="object-fit: cover;">
                         <div class="flex-grow-1">
                             <div class="d-flex justify-content-between align-items-start">
                                 <div>
@@ -150,7 +152,7 @@
 
                     <!-- Course 4 (Draft) -->
                     <div class="d-flex p-3">
-                        <img src="https://placedog.net/100/70?id=11" class="me-3" alt="Course">
+                        <img src="https://placebeard.it/100/70?image=48" class="me-3" alt="Course" style="object-fit: cover;">
                         <div class="flex-grow-1">
                             <div class="d-flex justify-content-between align-items-start">
                                 <div>

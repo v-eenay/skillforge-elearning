@@ -18,7 +18,7 @@
             <p>We are committed to helping individuals acquire the skills they need to advance their careers, pursue their passions, and adapt to technological changes in their fields.</p>
         </div>
         <div class="col-md-6 text-center">
-            <img src="https://placedog.net/500/300?id=10" alt="Our Mission" class="img-fluid rounded-4 shadow">
+            <img src="https://placebeard.it/500/300?image=5" alt="Our Mission" class="img-fluid rounded-4 shadow">
         </div>
     </div>
 
@@ -29,7 +29,7 @@
             <p>Today, SkillForge serves thousands of learners worldwide, helping them achieve their personal and professional goals through quality education.</p>
         </div>
         <div class="col-md-6 text-center">
-            <img src="https://placedog.net/500/300?id=11" alt="Our Story" class="img-fluid rounded-4 shadow">
+            <img src="https://placebeard.it/500/300?image=6" alt="Our Story" class="img-fluid rounded-4 shadow">
         </div>
     </div>
 
@@ -42,7 +42,7 @@
         <div class="col-md-4 mb-4">
             <div class="card border-0 shadow-sm h-100 text-center">
                 <div class="card-body p-4">
-                    <img src="https://placedog.net/150/150?id=1" alt="Team Member" class="rounded-circle mb-3" width="150" height="150">
+                    <img src="https://placebeard.it/150/150?image=33" alt="Team Member" class="rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
                     <h5 class="fw-bold">Binaya Koirala</h5>
                     <p class="text-muted">Founder & CEO</p>
                     <p>Passionate about education technology and making quality learning accessible to everyone.</p>
@@ -53,7 +53,7 @@
         <div class="col-md-4 mb-4">
             <div class="card border-0 shadow-sm h-100 text-center">
                 <div class="card-body p-4">
-                    <img src="https://placedog.net/150/150?id=2" alt="Team Member" class="rounded-circle mb-3" width="150" height="150">
+                    <img src="https://placebeard.it/150/150?image=34" alt="Team Member" class="rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
                     <h5 class="fw-bold">Vinay Koirala</h5>
                     <p class="text-muted">Head of Content</p>
                     <p>Curriculum expert with over 10 years of experience in educational content development.</p>
@@ -64,7 +64,7 @@
         <div class="col-md-4 mb-4">
             <div class="card border-0 shadow-sm h-100 text-center">
                 <div class="card-body p-4">
-                    <img src="https://placedog.net/150/150?id=3" alt="Team Member" class="rounded-circle mb-3" width="150" height="150">
+                    <img src="https://placebeard.it/150/150?image=35" alt="Team Member" class="rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
                     <h5 class="fw-bold">Binay Koirala</h5>
                     <p class="text-muted">Lead Developer</p>
                     <p>Tech enthusiast dedicated to creating seamless learning experiences through innovative solutions.</p>

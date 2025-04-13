@@ -10,12 +10,12 @@
             <hr class="my-4 w-25 mx-auto">
         </div>
     </div>
-    
+
     <div class="row">
         <div class="col-lg-5 mb-5 mb-lg-0">
             <h2 class="fw-bold mb-4">Get In Touch</h2>
             <p class="mb-4">Have questions about our courses, platform, or need technical support? Our team is here to help you with anything you need.</p>
-            
+
             <div class="d-flex align-items-start mb-3">
                 <div class="bg-light p-3 rounded-circle me-3">
                     <i class="fas fa-envelope"></i>
@@ -26,7 +26,7 @@
                     <p class="mb-0"><a href="mailto:binaya.koirala@iic.edu.np" class="text-decoration-none">binaya.koirala@iic.edu.np</a></p>
                 </div>
             </div>
-            
+
             <div class="d-flex align-items-start mb-3">
                 <div class="bg-light p-3 rounded-circle me-3">
                     <i class="fas fa-map-marker-alt"></i>
@@ -37,7 +37,7 @@
                     <p class="mb-0">Itahari - 08, Nepal</p>
                 </div>
             </div>
-            
+
             <div class="d-flex align-items-start mb-4">
                 <div class="bg-light p-3 rounded-circle me-3">
                     <i class="fas fa-phone"></i>
@@ -47,7 +47,7 @@
                     <p class="mb-0">+977 9800000000</p>
                 </div>
             </div>
-            
+
             <h4 class="fw-bold mb-3">Connect With Us</h4>
             <div class="d-flex">
                 <a href="#" class="btn btn-outline-dark btn-sm rounded-circle me-2"><i class="fab fa-facebook-f"></i></a>
@@ -56,7 +56,7 @@
                 <a href="#" class="btn btn-outline-dark btn-sm rounded-circle"><i class="fab fa-linkedin-in"></i></a>
             </div>
         </div>
-        
+
         <div class="col-lg-7">
             <div class="card border-0 shadow-sm">
                 <div class="card-body p-4">
@@ -98,7 +98,7 @@
                 <h4 class="fw-bold mb-3">Our Location</h4>
                 <p class="mb-0">This is where a Google Map would typically be embedded. For privacy and API key reasons, we're showing this placeholder instead.</p>
                 <p class="mb-0">Enjoy this cute dog picture instead</p>
-                <img src="https://placedog.net/150/150?id=8" alt="Cute Dog" class="img-fluid mt-3">
+                <img src="https://placebeard.it/300/200?image=7" alt="SkillForge HQ" class="img-fluid mt-3">
             </div>
         </div>
     </div>

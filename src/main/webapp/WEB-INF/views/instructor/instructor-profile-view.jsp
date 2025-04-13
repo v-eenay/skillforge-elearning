@@ -48,7 +48,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="card border-0 shadow-sm mt-4">
                 <div class="card-body p-4">
                     <h5 class="fw-bold mb-3">Quick Links</h5>
@@ -82,12 +82,12 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Profile Content -->
         <div class="col-lg-8">
             <!-- Alerts -->
             <%@ include file="/common/alert-messages.jsp" %>
-            
+
             <!-- Course Statistics -->
             <div class="card border-0 shadow-sm mb-4">
                 <div class="card-header bg-white p-4 border-0 d-flex justify-content-between align-items-center">
@@ -135,7 +135,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Student Reviews -->
             <div class="card border-0 shadow-sm">
                 <div class="card-header bg-white p-4 border-0 d-flex justify-content-between align-items-center">
@@ -145,7 +145,7 @@
                 <div class="card-body p-4">
                     <div class="mb-4 pb-4 border-bottom">
                         <div class="d-flex mb-3">
-                            <img src="https://placedog.net/50/50?id=1" alt="Student" class="rounded-circle me-3">
+                            <img src="https://placebeard.it/50/50?image=36" alt="Student" class="rounded-circle me-3" style="object-fit: cover;">
                             <div>
                                 <h6 class="mb-1">Rajesh Sharma</h6>
                                 <div class="text-warning mb-2">
@@ -160,10 +160,10 @@
                         </div>
                         <p class="mb-0">Excellent course! The instructor explains complex concepts in a very simple and understandable way. I've learned so much in just a few weeks.</p>
                     </div>
-                    
+
                     <div class="mb-4 pb-4 border-bottom">
                         <div class="d-flex mb-3">
-                            <img src="https://placedog.net/50/50?id=2" alt="Student" class="rounded-circle me-3">
+                            <img src="https://placebeard.it/50/50?image=37" alt="Student" class="rounded-circle me-3" style="object-fit: cover;">
                             <div>
                                 <h6 class="mb-1">Priya Patel</h6>
                                 <div class="text-warning mb-2">
@@ -178,10 +178,10 @@
                         </div>
                         <p class="mb-0">This course took my JavaScript skills to the next level. The projects were challenging but very rewarding. Highly recommended!</p>
                     </div>
-                    
+
                     <div>
                         <div class="d-flex mb-3">
-                            <img src="https://placedog.net/50/50?id=3" alt="Student" class="rounded-circle me-3">
+                            <img src="https://placebeard.it/50/50?image=38" alt="Student" class="rounded-circle me-3" style="object-fit: cover;">
                             <div>
                                 <h6 class="mb-1">Amit Kumar</h6>
                                 <div class="text-warning mb-2">
