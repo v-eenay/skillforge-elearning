@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class UserModel implements Serializable {
     public enum Role{admin, instructor, student}
+    public enum Status{active, suspended}
     private int userId;
     private String name;
     private String userName;
@@ -12,6 +13,7 @@ public class UserModel implements Serializable {
     private Role role;
     private String ProfileImage;
     private String bio;
+    private Status status = Status.active;
 
     public UserModel() {
     }
@@ -78,5 +80,13 @@ public class UserModel implements Serializable {
 
     public void setBio(String bio) {
         this.bio = bio;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 }

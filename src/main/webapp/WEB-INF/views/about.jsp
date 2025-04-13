@@ -10,7 +10,7 @@
             <hr class="my-4 w-25 mx-auto">
         </div>
     </div>
-    
+
     <div class="row align-items-center mb-5">
         <div class="col-md-6 mb-4 mb-md-0">
             <h2 class="fw-bold mb-3">Our Mission</h2>
@@ -21,7 +21,7 @@
             <img src="https://placedog.net/500/300?id=10" alt="Our Mission" class="img-fluid rounded-4 shadow">
         </div>
     </div>
-    
+
     <div class="row align-items-center mb-5 flex-md-row-reverse">
         <div class="col-md-6 mb-4 mb-md-0">
             <h2 class="fw-bold mb-3">Our Story</h2>
@@ -32,13 +32,13 @@
             <img src="https://placedog.net/500/300?id=11" alt="Our Story" class="img-fluid rounded-4 shadow">
         </div>
     </div>
-    
+
     <div class="row mb-5">
         <div class="col-12 text-center mb-4">
             <h2 class="fw-bold">Our Team</h2>
             <p class="lead">Meet the passionate individuals behind SkillForge</p>
         </div>
-        
+
         <div class="col-md-4 mb-4">
             <div class="card border-0 shadow-sm h-100 text-center">
                 <div class="card-body p-4">
@@ -49,7 +49,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="col-md-4 mb-4">
             <div class="card border-0 shadow-sm h-100 text-center">
                 <div class="card-body p-4">
@@ -60,7 +60,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="col-md-4 mb-4">
             <div class="card border-0 shadow-sm h-100 text-center">
                 <div class="card-body p-4">
@@ -72,7 +72,8 @@
             </div>
         </div>
     </div>
-    
+
+    <c:if test="${empty sessionScope.user}">
     <div class="row">
         <div class="col-lg-8 mx-auto text-center">
             <h2 class="fw-bold mb-4">Join Our Community</h2>
@@ -80,6 +81,7 @@
             <a href="${pageContext.request.contextPath}/auth/register" class="btn btn-primary btn-lg px-4">Sign Up Today</a>
         </div>
     </div>
+    </c:if>
 </section>
 
 <%@ include file="/common/footer.jsp" %>

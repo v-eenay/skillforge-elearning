@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<footer class="py-4 mt-auto">
+<footer class="py-4">
     <div class="container">
         <div class="row g-4">
             <!-- SkillForge Section -->

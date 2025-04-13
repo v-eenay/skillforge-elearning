@@ -202,7 +202,17 @@
         <div class="container">
             <h2 class="fw-bold">Welcome Back!</h2>
             <p class="lead mb-4">Continue your learning journey with our latest courses and resources.</p>
-            <a href="${pageContext.request.contextPath}/student/dashboard" class="btn btn-dark btn-lg px-4">Go to Dashboard</a>
+            <c:choose>
+                <c:when test="${sessionScope.userRole eq 'admin'}">
+                    <a href="${pageContext.request.contextPath}/admin/dashboard" class="btn btn-dark btn-lg px-4">Go to Dashboard</a>
+                </c:when>
+                <c:when test="${sessionScope.userRole eq 'instructor'}">
+                    <a href="${pageContext.request.contextPath}/instructor/dashboard" class="btn btn-dark btn-lg px-4">Go to Dashboard</a>
+                </c:when>
+                <c:otherwise>
+                    <a href="${pageContext.request.contextPath}/student/dashboard" class="btn btn-dark btn-lg px-4">Go to Dashboard</a>
+                </c:otherwise>
+            </c:choose>
         </div>
     </section>
 </c:if>

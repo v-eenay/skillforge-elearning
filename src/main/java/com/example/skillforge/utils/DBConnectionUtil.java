@@ -29,4 +29,8 @@ public class DBConnectionUtil {
     public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(url, username, password);
     }
+
+    public static void main(String[] args) {
+        System.out.println(driver+" " + url + " " + username + " " + password);
+    }
 }

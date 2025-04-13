@@ -8,10 +8,10 @@
         </div>
         <div class="col-md-4 text-end">
             <button class="btn btn-outline-primary me-2">Messages <span class="badge bg-danger">2</span></button>
-            <button class="btn btn-primary">My Profile</button>
+            <a href="${pageContext.request.contextPath}/student/profile" class="btn btn-primary">My Profile</a>
         </div>
     </div>
-    
+
     <!-- Progress Overview -->
     <div class="row mb-4">
         <div class="col-md-3 mb-3">
@@ -51,7 +51,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="row">
         <!-- Current Courses -->
         <div class="col-md-8 mb-4">
@@ -85,7 +85,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- Course 2 -->
                     <div class="d-flex mb-3 p-3 border-bottom">
                         <img src="https://placedog.net/100/70?id=2" class="me-3" alt="Course">
@@ -106,7 +106,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- Course 3 -->
                     <div class="d-flex mb-3 p-3 border-bottom">
                         <img src="https://placedog.net/100/70?id=3" class="me-3" alt="Course">
@@ -127,7 +127,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- Course 4 -->
                     <div class="d-flex p-3">
                         <img src="https://placedog.net/100/70?id=4" class="me-3" alt="Course">
@@ -151,7 +151,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Sidebar -->
         <div class="col-md-4">
             <!-- Upcoming Deadlines -->
@@ -185,7 +185,7 @@
                     </ul>
                 </div>
             </div>
-            
+
             <!-- Recommended Courses -->
             <div class="card">
                 <div class="card-header">

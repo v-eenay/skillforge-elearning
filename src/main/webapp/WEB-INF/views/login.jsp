@@ -8,7 +8,9 @@
             <div class="card shadow">
                 <div class="card-body p-5">
                     <h2 class="text-center mb-4">Login to SkillForge</h2>
-                    
+
+                    <%@ include file="/common/alert-messages.jsp" %>
+
                     <form action="${pageContext.request.contextPath}/auth/login" method="post">
                         <div class="mb-3">
                             <label for="username" class="form-label">Email or Username</label>
@@ -26,7 +28,7 @@
                             <button type="submit" class="btn btn-primary btn-lg">Login</button>
                         </div>
                     </form>
-                    
+
                     <div class="text-center mt-4">
                         <p>Forgot your password? <a href="#" class="text-primary">Reset it here</a></p>
                         <p>Don't have an account? <a href="${pageContext.request.contextPath}/auth/register" class="text-primary">Sign up here</a></p>

@@ -9,10 +9,10 @@
         </div>
         <div class="col-md-4 text-end">
             <button class="btn btn-outline-primary me-2">Notifications <span class="badge bg-danger">3</span></button>
-            <button class="btn btn-primary">Settings</button>
+            <a href="${pageContext.request.contextPath}/admin/users" class="btn btn-primary">Manage Users</a>
         </div>
     </div>
-    
+
     <!-- Stats Overview -->
     <div class="row mb-4">
         <div class="col-md-3 mb-3">
@@ -52,14 +52,14 @@
             </div>
         </div>
     </div>
-    
+
     <div class="row">
         <!-- User Management -->
         <div class="col-md-8 mb-4">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">Recent Users</h5>
-                    <button class="btn btn-sm btn-primary">View All Users</button>
+                    <a href="${pageContext.request.contextPath}/admin/users" class="btn btn-sm btn-primary">View All Users</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -140,7 +140,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- System Settings -->
         <div class="col-md-4 mb-4">
             <div class="card mb-4">
@@ -172,7 +172,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Notifications -->
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
