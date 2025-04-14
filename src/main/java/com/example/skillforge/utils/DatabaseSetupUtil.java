@@ -205,7 +205,7 @@ public class DatabaseSetupUtil {
      */
     private static String readSchemaFile() throws IOException {
         StringBuilder schema = new StringBuilder();
-        try (InputStream in = DatabaseSetupUtil.class.getClassLoader().getResourceAsStream("schema.sql");
+        try (InputStream in = DatabaseSetupUtil.class.getClassLoader().getResourceAsStream("sql/schema.sql");
              BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
 
             String line;

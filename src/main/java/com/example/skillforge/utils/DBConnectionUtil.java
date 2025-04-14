@@ -22,7 +22,7 @@ public class DBConnectionUtil {
     private static boolean initialized = false;
 
     static {
-        try(InputStream in = DBConnectionUtil.class.getClassLoader().getResourceAsStream("application.properties")) {
+        try(InputStream in = DBConnectionUtil.class.getClassLoader().getResourceAsStream("config/application.properties")) {
             Properties prop = new Properties();
             prop.load(in);
             driver = prop.getProperty("db.driver");
