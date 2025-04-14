@@ -24,9 +24,26 @@ SkillForge is a modern e-learning platform designed to provide high-quality educ
    ```bash
    git clone https://github.com/v-eenay/skillforge-elearning.git
    ```
-2. Configure your database settings in `src/main/resources/config/application.properties`
-3. Configure email settings (see Email Configuration section below)
+2. Create your configuration file:
+   ```bash
+   cd skillforge-elearning
+   cp src/main/resources/config/application.properties.template src/main/resources/config/application.properties
+   ```
+3. Configure your database and email settings in the newly created `application.properties` file
 4. Build and deploy using Maven
+
+## Configuration
+
+The application uses a properties file for configuration. For security reasons, this file is not included in version control.
+
+### Setting Up Configuration
+
+1. Copy the template file:
+   ```bash
+   cp src/main/resources/config/application.properties.template src/main/resources/config/application.properties
+   ```
+2. Edit the `application.properties` file with your actual credentials
+3. **IMPORTANT**: Never commit the `application.properties` file to version control
 
 ## Email Configuration
 
