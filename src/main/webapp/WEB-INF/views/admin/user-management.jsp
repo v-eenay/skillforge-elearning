@@ -109,9 +109,9 @@
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="actionDropdown${user.userId}">
                                             <li>
-                                                <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#viewUserModal${user.userId}">
-                                                    <i class="fas fa-eye me-2"></i> View Details
-                                                </button>
+                                                <a href="${pageContext.request.contextPath}/admin/users?action=view&userId=${user.userId}" class="dropdown-item">
+                                                    <i class="fas fa-eye me-2"></i> View Profile
+                                                </a>
                                             </li>
                                             <c:if test="${user.role != 'admin'}">
                                                 <c:choose>

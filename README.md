@@ -1,7 +1,7 @@
 # SkillForge E-Learning Platform
 
 <div align="center">
-  <img src="src/main/webapp/assets/img/logo.png" alt="SkillForge Logo" width="200">
+  <img src="src/main/webapp/assets/images/logo.png" alt="SkillForge Logo" width="200">
   <p><em>Learn from Industry Experts</em></p>
 
   [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)

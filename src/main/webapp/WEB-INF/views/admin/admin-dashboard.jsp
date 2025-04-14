@@ -136,7 +136,9 @@
                                                 </td>
                                                 <td>Recently joined</td>
                                                 <td>
-                                                    <a href="${pageContext.request.contextPath}/admin/users?action=view&userId=${user.userId}" class="btn btn-sm btn-outline-primary me-1">View</a>
+                                                    <a href="${pageContext.request.contextPath}/admin/users?action=view&userId=${user.userId}" class="btn btn-sm btn-outline-primary me-1">
+                                                        <i class="fas fa-eye me-1"></i> View
+                                                    </a>
                                                     <c:if test="${user.role != 'admin'}">
                                                         <c:choose>
                                                             <c:when test="${user.status == 'active'}">
