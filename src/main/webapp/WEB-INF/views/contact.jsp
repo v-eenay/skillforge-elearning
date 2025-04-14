@@ -33,8 +33,9 @@
                 </div>
                 <div>
                     <h5 class="fw-bold">Visit Us</h5>
-                    <p class="mb-0">Subidhanagar</p>
-                    <p class="mb-0">Itahari - 08, Nepal</p>
+                    <p class="mb-0">Itahari International College</p>
+                    <p class="mb-0">M842+5Q8 Sundar, Dulari Sadak</p>
+                    <p class="mb-0">Koshi Haraicha 56705, Nepal</p>
                 </div>
             </div>
 
@@ -94,14 +95,34 @@
 <section class="container-fluid px-0 mb-5">
     <div class="row">
         <div class="col-12">
-            <div class="bg-light p-4 text-center">
-                <h4 class="fw-bold mb-3">Our Location</h4>
-                <p class="mb-0">This is where a Google Map would typically be embedded. For privacy and API key reasons, we're showing this placeholder instead.</p>
-                <p class="mb-0">Enjoy this cute dog picture instead</p>
-                <img src="https://placebeard.it/300/200?image=7" alt="SkillForge HQ" class="img-fluid mt-3">
+            <div class="p-0">
+                <h4 class="fw-bold mb-3 text-center">Our Location</h4>
+                <p class="mb-0 text-center">Itahari International College, M842+5Q8 Sundar, Dulari Sadak, Koshi Haraicha 56705</p>
+                <p class="mb-0 text-center mb-3">इटहरी अन्तर्राष्ट्रिय कलेज</p>
+                <div class="map-responsive">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3571.5600766694!2d87.2833387!3d26.4649999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39ef744e6b3e9c8d%3A0x5c0f179e6d14d2e8!2sItahari%20International%20College!5e0!3m2!1sen!2sus!4v1718193000000!5m2!1sen!2sus"
+                            width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
             </div>
         </div>
     </div>
 </section>
+
+<style>
+    .map-responsive {
+        overflow: hidden;
+        padding-bottom: 400px;
+        position: relative;
+        height: 0;
+    }
+    .map-responsive iframe {
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        position: absolute;
+    }
+</style>
 
 <%@ include file="/common/footer.jsp" %>
