@@ -22,9 +22,25 @@ public class DBConnectionUtil {
     private static boolean initialized = false;
 
     static {
-        try(InputStream in = DBConnectionUtil.class.getClassLoader().getResourceAsStream("config/application.properties")) {
+        try {
+            InputStream in = DBConnectionUtil.class.getClassLoader().getResourceAsStream("config/application.properties");
+
+            // If application.properties is not found in config directory, try the root resources directory
+            if (in == null) {
+                in = DBConnectionUtil.class.getClassLoader().getResourceAsStream("application.properties");
+                if (in == null) {
+                    throw new IOException("Could not find application.properties in either config/ or root resources directory");
+                } else {
+                    LOGGER.info("Using application.properties from root resources directory");
+                }
+            } else {
+                LOGGER.info("Using application.properties from config directory");
+            }
+
             Properties prop = new Properties();
             prop.load(in);
+            in.close();
+
             driver = prop.getProperty("db.driver");
             url = prop.getProperty("db.url");
             username = prop.getProperty("db.username");

@@ -1,3 +1,6 @@
+-- SkillForge Database Schema
+-- This file contains all database tables used in the SkillForge application
+
 -- Create and use the database
 CREATE DATABASE IF NOT EXISTS skillforge;
 USE skillforge;
@@ -14,6 +17,10 @@ CREATE TABLE IF NOT EXISTS User (
     Bio TEXT,
     Status ENUM('active', 'suspended') DEFAULT 'active'
 );
+
+-- Add Status field to User table if it doesn't exist
+-- This is safe to run even if the column already exists
+ALTER TABLE User ADD COLUMN IF NOT EXISTS Status ENUM('active', 'suspended') DEFAULT 'active';
 
 -- Contact table - for storing contact form submissions
 CREATE TABLE IF NOT EXISTS Contact (

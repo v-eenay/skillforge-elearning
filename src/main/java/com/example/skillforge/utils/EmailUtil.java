@@ -2,9 +2,9 @@ package com.example.skillforge.utils;
 
 import com.example.skillforge.models.ContactModel;
 
-import jakarta.mail.*;
-import jakarta.mail.internet.InternetAddress;
-import jakarta.mail.internet.MimeMessage;
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -26,9 +26,26 @@ public class EmailUtil {
     private static boolean emailEnabled;
 
     static {
-        try (InputStream in = EmailUtil.class.getClassLoader().getResourceAsStream("config/application.properties")) {
+        try {
+            InputStream in = EmailUtil.class.getClassLoader().getResourceAsStream("config/application.properties");
+
+            // If application.properties is not found in config directory, try the root resources directory
+            if (in == null) {
+                in = EmailUtil.class.getClassLoader().getResourceAsStream("application.properties");
+                if (in == null) {
+                    LOGGER.warning("Could not find application.properties in either config/ or root resources directory");
+                    emailEnabled = false;
+                    return;
+                } else {
+                    LOGGER.info("Using application.properties from root resources directory for email configuration");
+                }
+            } else {
+                LOGGER.info("Using application.properties from config directory for email configuration");
+            }
+
             Properties prop = new Properties();
             prop.load(in);
+            in.close();
 
             // Load email configuration
             smtpHost = prop.getProperty("email.smtp.host");
@@ -41,6 +58,12 @@ public class EmailUtil {
             // Check if email is enabled
             String enabled = prop.getProperty("email.enabled");
             emailEnabled = enabled != null && enabled.equalsIgnoreCase("true");
+
+            if (emailEnabled) {
+                LOGGER.info("Email functionality is enabled");
+            } else {
+                LOGGER.info("Email functionality is disabled");
+            }
 
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Error loading email properties", e);

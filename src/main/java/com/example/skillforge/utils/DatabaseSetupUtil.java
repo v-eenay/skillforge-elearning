@@ -205,8 +205,21 @@ public class DatabaseSetupUtil {
      */
     private static String readSchemaFile() throws IOException {
         StringBuilder schema = new StringBuilder();
-        try (InputStream in = DatabaseSetupUtil.class.getClassLoader().getResourceAsStream("sql/schema.sql");
-             BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
+        InputStream in = DatabaseSetupUtil.class.getClassLoader().getResourceAsStream("sql/schema.sql");
+
+        // If schema.sql is not found in sql directory, try the root resources directory
+        if (in == null) {
+            in = DatabaseSetupUtil.class.getClassLoader().getResourceAsStream("schema.sql");
+            if (in == null) {
+                throw new IOException("Could not find schema.sql in either sql/ or root resources directory");
+            } else {
+                LOGGER.info("Using schema.sql from root resources directory");
+            }
+        } else {
+            LOGGER.info("Using schema.sql from sql directory");
+        }
+
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
 
             String line;
             boolean inCommentBlock = false;
