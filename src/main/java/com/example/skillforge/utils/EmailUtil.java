@@ -113,6 +113,9 @@ public class EmailUtil {
             return false;
         }
 
+        LOGGER.info("Attempting to send contact notification email to " + adminEmail);
+        LOGGER.info("Using SMTP settings - Host: " + smtpHost + ", Port: " + smtpPort + ", Username: " + smtpUsername);
+
         try {
             // Set up mail server properties
             Properties properties = new Properties();
@@ -120,14 +123,17 @@ public class EmailUtil {
             properties.put("mail.smtp.port", smtpPort);
             properties.put("mail.smtp.auth", "true");
             properties.put("mail.smtp.starttls.enable", "true");
+            properties.put("mail.debug", "true"); // Enable debug mode
+            properties.put("mail.smtp.ssl.trust", smtpHost); // Trust the host
 
-            // Create a mail session with authentication
+            // Create a mail session with authentication and debug enabled
             Session session = Session.getInstance(properties, new Authenticator() {
                 @Override
                 protected PasswordAuthentication getPasswordAuthentication() {
                     return new PasswordAuthentication(smtpUsername, smtpPassword);
                 }
             });
+            session.setDebug(true); // Enable session debugging
 
             // Create the email message
             Message message = new MimeMessage(session);
@@ -152,13 +158,18 @@ public class EmailUtil {
 
             message.setText(body.toString());
 
+            LOGGER.info("Email message prepared, attempting to send...");
+
             // Send the message
             Transport.send(message);
             LOGGER.info("Contact notification email sent successfully to " + adminEmail);
             return true;
 
         } catch (MessagingException e) {
-            LOGGER.log(Level.SEVERE, "Error sending contact notification email", e);
+            LOGGER.log(Level.SEVERE, "Error sending contact notification email: " + e.getMessage(), e);
+            if (e.getCause() != null) {
+                LOGGER.log(Level.SEVERE, "Cause: " + e.getCause().getMessage());
+            }
             return false;
         }
     }
@@ -174,6 +185,8 @@ public class EmailUtil {
             return false;
         }
 
+        LOGGER.info("Attempting to send contact confirmation email to " + contact.getEmail());
+
         try {
             // Set up mail server properties
             Properties properties = new Properties();
@@ -181,14 +194,17 @@ public class EmailUtil {
             properties.put("mail.smtp.port", smtpPort);
             properties.put("mail.smtp.auth", "true");
             properties.put("mail.smtp.starttls.enable", "true");
+            properties.put("mail.debug", "true"); // Enable debug mode
+            properties.put("mail.smtp.ssl.trust", smtpHost); // Trust the host
 
-            // Create a mail session with authentication
+            // Create a mail session with authentication and debug enabled
             Session session = Session.getInstance(properties, new Authenticator() {
                 @Override
                 protected PasswordAuthentication getPasswordAuthentication() {
                     return new PasswordAuthentication(smtpUsername, smtpPassword);
                 }
             });
+            session.setDebug(true); // Enable session debugging
 
             // Create the email message
             Message message = new MimeMessage(session);
@@ -208,13 +224,18 @@ public class EmailUtil {
 
             message.setText(body.toString());
 
+            LOGGER.info("Confirmation email message prepared, attempting to send...");
+
             // Send the message
             Transport.send(message);
             LOGGER.info("Contact confirmation email sent successfully to " + contact.getEmail());
             return true;
 
         } catch (MessagingException e) {
-            LOGGER.log(Level.SEVERE, "Error sending contact confirmation email", e);
+            LOGGER.log(Level.SEVERE, "Error sending contact confirmation email: " + e.getMessage(), e);
+            if (e.getCause() != null) {
+                LOGGER.log(Level.SEVERE, "Cause: " + e.getCause().getMessage());
+            }
             return false;
         }
     }

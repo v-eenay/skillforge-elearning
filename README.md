@@ -24,8 +24,59 @@ SkillForge is a modern e-learning platform designed to provide high-quality educ
    ```bash
    git clone https://github.com/v-eenay/skillforge-elearning.git
    ```
-2. Configure your database settings
-3. Build and deploy using Maven
+2. Configure your database settings in `src/main/resources/config/application.properties`
+3. Configure email settings (see Email Configuration section below)
+4. Build and deploy using Maven
+
+## Email Configuration
+
+To enable email functionality for contact form submissions, follow these steps:
+
+1. Open the `src/main/resources/config/application.properties` file
+2. Set `email.enabled=true`
+3. Configure the SMTP settings:
+   - `email.smtp.host`: Your SMTP server (e.g., smtp.gmail.com)
+   - `email.smtp.port`: SMTP port (usually 587 for TLS)
+   - `email.username`: Your email address
+   - `email.password`: Your email password or app password
+   - `email.from`: The "From" email address
+   - `email.admin`: The admin email address to receive notifications
+
+### Using Gmail
+
+If you're using Gmail, you'll need to:
+
+1. Enable 2-Step Verification on your Google account
+2. Generate an App Password:
+   - Go to your Google Account > Security
+   - Under "Signing in to Google," select "App passwords"
+   - Generate a new app password for "Mail" and "Other (Custom name)"
+   - Use this app password in the `email.password` field
+
+Example configuration:
+```properties
+# Email configuration
+email.enabled=true
+email.smtp.host=smtp.gmail.com
+email.smtp.port=587
+email.username=your.email@gmail.com
+email.password=your-app-password
+email.from=your.email@gmail.com
+email.admin=koiralavinay@gmail.com
+```
+
+## Database Configuration
+
+The application will automatically create the database and tables if they don't exist. The default database configuration is:
+
+```properties
+db.driver=com.mysql.cj.jdbc.Driver
+db.url=jdbc:mysql://localhost:3306/skillforge
+db.username=root
+db.password=
+```
+
+Update these values in `src/main/resources/config/application.properties` if needed.
 
 ## Author
 
