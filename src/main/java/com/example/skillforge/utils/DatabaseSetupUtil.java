@@ -29,34 +29,82 @@ public class DatabaseSetupUtil {
     private static String dbName = "skillforge";
 
     static {
-        try (InputStream in = DatabaseSetupUtil.class.getClassLoader().getResourceAsStream("application.properties")) {
-            Properties prop = new Properties();
-            prop.load(in);
-            driver = prop.getProperty("db.driver");
+        try {
+            // Try to load properties from different locations
+            InputStream in = findPropertiesFile();
 
-            // Extract base URL without database name
-            String fullUrl = prop.getProperty("db.url");
-            int dbNameIndex = fullUrl.lastIndexOf("/");
-            if (dbNameIndex > 0 && dbNameIndex < fullUrl.length() - 1) {
-                url = fullUrl.substring(0, dbNameIndex);
-                dbName = fullUrl.substring(dbNameIndex + 1);
+            if (in != null) {
+                Properties prop = new Properties();
+                prop.load(in);
+                in.close();
 
-                // Remove any parameters from dbName
-                int paramIndex = dbName.indexOf("?");
-                if (paramIndex > 0) {
-                    dbName = dbName.substring(0, paramIndex);
+                driver = prop.getProperty("db.driver", "com.mysql.cj.jdbc.Driver");
+
+                // Extract base URL without database name
+                String fullUrl = prop.getProperty("db.url", "jdbc:mysql://localhost:3306/skillforge");
+                int dbNameIndex = fullUrl.lastIndexOf("/");
+                if (dbNameIndex > 0 && dbNameIndex < fullUrl.length() - 1) {
+                    url = fullUrl.substring(0, dbNameIndex);
+                    dbName = fullUrl.substring(dbNameIndex + 1);
+
+                    // Remove any parameters from dbName
+                    int paramIndex = dbName.indexOf("?");
+                    if (paramIndex > 0) {
+                        dbName = dbName.substring(0, paramIndex);
+                    }
+                } else {
+                    url = "jdbc:mysql://localhost:3306";
                 }
+
+                username = prop.getProperty("db.username", "root");
+                password = prop.getProperty("db.password", "");
             } else {
-                url = fullUrl;
+                // Use default values if properties file not found
+                LOGGER.warning("No properties file found. Using default database settings.");
+                driver = "com.mysql.cj.jdbc.Driver";
+                url = "jdbc:mysql://localhost:3306";
+                dbName = "skillforge";
+                username = "root";
+                password = "";
             }
 
-            username = prop.getProperty("db.username");
-            password = prop.getProperty("db.password");
             Class.forName(driver);
         } catch (IOException | ClassNotFoundException e) {
             LOGGER.log(Level.SEVERE, "Error loading database properties", e);
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * Find the properties file in different locations
+     * @return InputStream for the properties file, or null if not found
+     */
+    private static InputStream findPropertiesFile() {
+        InputStream in = null;
+
+        // Try config directory first
+        in = DatabaseSetupUtil.class.getClassLoader().getResourceAsStream("config/application.properties");
+        if (in != null) {
+            LOGGER.info("Using application.properties from config directory");
+            return in;
+        }
+
+        // Try root resources directory
+        in = DatabaseSetupUtil.class.getClassLoader().getResourceAsStream("application.properties");
+        if (in != null) {
+            LOGGER.info("Using application.properties from root resources directory");
+            return in;
+        }
+
+        // Try template file
+        in = DatabaseSetupUtil.class.getClassLoader().getResourceAsStream("config/application.properties.template");
+        if (in != null) {
+            LOGGER.info("Using application.properties.template from config directory");
+            return in;
+        }
+
+        LOGGER.warning("Could not find application.properties in any location");
+        return null;
     }
 
     /**

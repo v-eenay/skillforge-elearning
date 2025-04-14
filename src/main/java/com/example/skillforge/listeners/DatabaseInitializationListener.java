@@ -19,15 +19,21 @@ public class DatabaseInitializationListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
         LOGGER.info("Server starting up - checking database and tables...");
         try {
+            // Initialize static fields in DatabaseSetupUtil
+            Class.forName("com.example.skillforge.utils.DatabaseSetupUtil");
+
+            // Initialize database
             boolean success = DatabaseSetupUtil.initializeDatabase();
             if (success) {
                 LOGGER.info("Database and tables initialized successfully");
             } else {
-                LOGGER.severe("Failed to initialize database and tables");
+                LOGGER.warning("Failed to initialize database and tables, but continuing startup");
             }
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Error initializing database and tables", e);
+            LOGGER.log(Level.SEVERE, "Error initializing database and tables, but continuing startup", e);
+            // Don't rethrow the exception - we want the application to start even if database initialization fails
         }
+        LOGGER.info("Database initialization process completed");
     }
 
     @Override

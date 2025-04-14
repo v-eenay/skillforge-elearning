@@ -27,37 +27,36 @@ public class EmailUtil {
 
     static {
         try {
-            InputStream in = EmailUtil.class.getClassLoader().getResourceAsStream("config/application.properties");
+            // Try to load properties from different locations
+            InputStream in = findPropertiesFile();
 
-            // If application.properties is not found in config directory, try the root resources directory
-            if (in == null) {
-                in = EmailUtil.class.getClassLoader().getResourceAsStream("application.properties");
-                if (in == null) {
-                    LOGGER.warning("Could not find application.properties in either config/ or root resources directory");
-                    emailEnabled = false;
-                    return;
-                } else {
-                    LOGGER.info("Using application.properties from root resources directory for email configuration");
-                }
+            if (in != null) {
+                Properties prop = new Properties();
+                prop.load(in);
+                in.close();
+
+                // Load email configuration
+                smtpHost = prop.getProperty("email.smtp.host", "smtp.gmail.com");
+                smtpPort = prop.getProperty("email.smtp.port", "587");
+                smtpUsername = prop.getProperty("email.username", "");
+                smtpPassword = prop.getProperty("email.password", "");
+                fromEmail = prop.getProperty("email.from", "noreply@skillforge.com");
+                adminEmail = prop.getProperty("email.admin", "koiralavinay@gmail.com");
+
+                // Check if email is enabled
+                String enabled = prop.getProperty("email.enabled", "false");
+                emailEnabled = enabled != null && enabled.equalsIgnoreCase("true");
             } else {
-                LOGGER.info("Using application.properties from config directory for email configuration");
+                // Use default values if properties file not found
+                LOGGER.warning("No properties file found. Email functionality will be disabled.");
+                smtpHost = "smtp.gmail.com";
+                smtpPort = "587";
+                smtpUsername = "";
+                smtpPassword = "";
+                fromEmail = "noreply@skillforge.com";
+                adminEmail = "koiralavinay@gmail.com";
+                emailEnabled = false;
             }
-
-            Properties prop = new Properties();
-            prop.load(in);
-            in.close();
-
-            // Load email configuration
-            smtpHost = prop.getProperty("email.smtp.host");
-            smtpPort = prop.getProperty("email.smtp.port");
-            smtpUsername = prop.getProperty("email.username");
-            smtpPassword = prop.getProperty("email.password");
-            fromEmail = prop.getProperty("email.from");
-            adminEmail = prop.getProperty("email.admin");
-
-            // Check if email is enabled
-            String enabled = prop.getProperty("email.enabled");
-            emailEnabled = enabled != null && enabled.equalsIgnoreCase("true");
 
             if (emailEnabled) {
                 LOGGER.info("Email functionality is enabled");
@@ -69,6 +68,38 @@ public class EmailUtil {
             LOGGER.log(Level.SEVERE, "Error loading email properties", e);
             emailEnabled = false;
         }
+    }
+
+    /**
+     * Find the properties file in different locations
+     * @return InputStream for the properties file, or null if not found
+     */
+    private static InputStream findPropertiesFile() {
+        InputStream in = null;
+
+        // Try config directory first
+        in = EmailUtil.class.getClassLoader().getResourceAsStream("config/application.properties");
+        if (in != null) {
+            LOGGER.info("Using application.properties from config directory for email configuration");
+            return in;
+        }
+
+        // Try root resources directory
+        in = EmailUtil.class.getClassLoader().getResourceAsStream("application.properties");
+        if (in != null) {
+            LOGGER.info("Using application.properties from root resources directory for email configuration");
+            return in;
+        }
+
+        // Try template file
+        in = EmailUtil.class.getClassLoader().getResourceAsStream("config/application.properties.template");
+        if (in != null) {
+            LOGGER.info("Using application.properties.template from config directory for email configuration");
+            return in;
+        }
+
+        LOGGER.warning("Could not find application.properties in any location for email configuration");
+        return null;
     }
 
     /**
