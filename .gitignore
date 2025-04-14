@@ -5,10 +5,19 @@ target/
 !**/src/test/**/target/
 
 ### Application Properties ###
-# Only ignore local configuration files
+# Ignore all configuration files with sensitive information
 src/main/resources/application.properties
 src/main/resources/application-local.properties
+src/main/resources/config/application.properties
+src/main/resources/config/application-local.properties
+src/test/resources/application.properties
 src/test/resources/application-local.properties
+
+# Ignore any properties files with credentials
+*.properties.local
+*.credentials
+*.password
+*.secret
 
 ### IDE ###
 .idea/
@@ -41,6 +50,24 @@ Thumbs.db
 ### Logs ###
 *.log
 logs/
+
+### Database ###
+*.db
+*.sqlite
+*.sqlite3
+*.mdb
+*.pdb
+*.sql
+*.sql.gz
+
+### Sensitive Data ###
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+private/
+secrets/
 
 ### Node ###
 node_modules/

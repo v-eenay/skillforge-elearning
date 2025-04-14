@@ -55,4 +55,13 @@ public class AuthService {
     public static boolean updateUserProfile(UserModel user) {
         return UserDAO.updateUserProfile(user);
     }
+
+    /**
+     * Get a list of the most recently registered users
+     * @param limit The maximum number of users to return
+     * @return A list of the most recent users
+     */
+    public static List<UserModel> getRecentUsers(int limit) {
+        return UserDAO.getRecentUsers(limit);
+    }
 }

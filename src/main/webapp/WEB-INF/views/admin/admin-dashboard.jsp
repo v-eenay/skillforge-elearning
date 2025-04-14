@@ -1,4 +1,6 @@
 <%@ page language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ include file="/common/header.jsp" %>
 
 <div class="container py-4">
@@ -9,7 +11,18 @@
         </div>
         <div class="col-md-4 text-end">
             <button class="btn btn-outline-primary me-2">Notifications <span class="badge bg-danger">3</span></button>
-            <a href="${pageContext.request.contextPath}/admin/users" class="btn btn-primary">Manage Users</a>
+            <div class="btn-group">
+                <a href="${pageContext.request.contextPath}/admin/users" class="btn btn-primary">Manage Users</a>
+                <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span class="visually-hidden">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/users">User Management</a></li>
+                    <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/contacts">Contact Messages</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/setup-database">Database Setup</a></li>
+                </ul>
+            </div>
         </div>
     </div>
 
@@ -19,8 +32,8 @@
             <div class="card bg-primary text-white">
                 <div class="card-body">
                     <h5 class="card-title">Total Users</h5>
-                    <h2 class="display-4">1,245</h2>
-                    <p class="card-text"><small><i class="fas fa-arrow-up"></i> 12% from last month</small></p>
+                    <h2 class="display-4">${totalUsers}</h2>
+                    <p class="card-text"><small><i class="fas fa-users"></i> Registered users</small></p>
                 </div>
             </div>
         </div>
@@ -74,66 +87,73 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <img src="https://placedog.net/40/40?id=1" class="rounded-circle me-2" alt="User">
-                                            <div>Rajesh Sharma</div>
-                                        </div>
-                                    </td>
-                                    <td>Student</td>
-                                    <td><span class="badge bg-success">Active</span></td>
-                                    <td>Apr 10, 2023</td>
-                                    <td>
-                                        <button class="btn btn-sm btn-outline-primary me-1">Edit</button>
-                                        <button class="btn btn-sm btn-outline-danger">Suspend</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <img src="https://placedog.net/40/40?id=2" class="rounded-circle me-2" alt="User">
-                                            <div>Priya Patel</div>
-                                        </div>
-                                    </td>
-                                    <td>Instructor</td>
-                                    <td><span class="badge bg-success">Active</span></td>
-                                    <td>Mar 22, 2023</td>
-                                    <td>
-                                        <button class="btn btn-sm btn-outline-primary me-1">Edit</button>
-                                        <button class="btn btn-sm btn-outline-danger">Suspend</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <img src="https://placedog.net/40/40?id=3" class="rounded-circle me-2" alt="User">
-                                            <div>Amit Kumar</div>
-                                        </div>
-                                    </td>
-                                    <td>Student</td>
-                                    <td><span class="badge bg-warning text-dark">Pending</span></td>
-                                    <td>Apr 15, 2023</td>
-                                    <td>
-                                        <button class="btn btn-sm btn-outline-primary me-1">Edit</button>
-                                        <button class="btn btn-sm btn-outline-danger">Suspend</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <img src="https://placedog.net/40/40?id=4" class="rounded-circle me-2" alt="User">
-                                            <div>Sunita Rai</div>
-                                        </div>
-                                    </td>
-                                    <td>Instructor</td>
-                                    <td><span class="badge bg-danger">Inactive</span></td>
-                                    <td>Feb 28, 2023</td>
-                                    <td>
-                                        <button class="btn btn-sm btn-outline-primary me-1">Edit</button>
-                                        <button class="btn btn-sm btn-outline-success">Activate</button>
-                                    </td>
-                                </tr>
+                                <c:choose>
+                                    <c:when test="${empty recentUsers}">
+                                        <tr>
+                                            <td colspan="5" class="text-center py-4">No users found.</td>
+                                        </tr>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:forEach var="user" items="${recentUsers}">
+                                            <tr>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <c:choose>
+                                                            <c:when test="${not empty user.profileImage}">
+                                                                <img src="${pageContext.request.contextPath}${user.profileImage}" alt="${user.name}" class="rounded-circle me-2" width="40" height="40" style="object-fit: cover;">
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 40px; height: 40px;">
+                                                                    ${fn:substring(user.name, 0, 1)}
+                                                                </div>
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                        <div>${user.name}</div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <c:choose>
+                                                        <c:when test="${user.role == 'admin'}">
+                                                            <span class="badge bg-danger">Admin</span>
+                                                        </c:when>
+                                                        <c:when test="${user.role == 'instructor'}">
+                                                            <span class="badge bg-primary">Instructor</span>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <span class="badge bg-info">Student</span>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </td>
+                                                <td>
+                                                    <c:choose>
+                                                        <c:when test="${user.status == 'active'}">
+                                                            <span class="badge bg-success">Active</span>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <span class="badge bg-warning text-dark">Suspended</span>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </td>
+                                                <td>Recently joined</td>
+                                                <td>
+                                                    <a href="${pageContext.request.contextPath}/admin/users?action=view&userId=${user.userId}" class="btn btn-sm btn-outline-primary me-1">
+                                                        <i class="fas fa-eye me-1"></i> View
+                                                    </a>
+                                                    <c:if test="${user.role != 'admin'}">
+                                                        <c:choose>
+                                                            <c:when test="${user.status == 'active'}">
+                                                                <a href="${pageContext.request.contextPath}/admin/users?action=suspend&userId=${user.userId}" class="btn btn-sm btn-outline-danger">Suspend</a>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <a href="${pageContext.request.contextPath}/admin/users?action=activate&userId=${user.userId}" class="btn btn-sm btn-outline-success">Activate</a>
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </c:if>
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
+                                    </c:otherwise>
+                                </c:choose>
                             </tbody>
                         </table>
                     </div>
@@ -168,6 +188,10 @@
                         <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                             Backup & Restore
                             <span class="badge bg-primary rounded-pill"><i class="bi bi-cloud-arrow-up"></i></span>
+                        </a>
+                        <a href="${pageContext.request.contextPath}/admin/setup-database" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            Database Setup
+                            <span class="badge bg-primary rounded-pill"><i class="fas fa-database"></i></span>
                         </a>
                     </div>
                 </div>

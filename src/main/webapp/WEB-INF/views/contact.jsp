@@ -62,23 +62,52 @@
             <div class="card border-0 shadow-sm">
                 <div class="card-body p-4">
                     <h2 class="fw-bold mb-4">Send Us a Message</h2>
-                    <form>
+
+                    <c:if test="${not empty success}">
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            ${success}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    </c:if>
+
+                    <c:if test="${not empty error}">
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            ${error}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    </c:if>
+
+                    <form method="post" action="${pageContext.request.contextPath}/contact">
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label for="name" class="form-label">Your Name</label>
-                                <input type="text" class="form-control" id="name" placeholder="Enter your name" required>
+                                <c:choose>
+                                    <c:when test="${not empty sessionScope.user}">
+                                        <input type="text" class="form-control" id="name" name="name" value="${sessionScope.user.name}" readonly>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required>
+                                    </c:otherwise>
+                                </c:choose>
                             </div>
                             <div class="col-md-6">
                                 <label for="email" class="form-label">Email Address</label>
-                                <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+                                <c:choose>
+                                    <c:when test="${not empty sessionScope.user}">
+                                        <input type="email" class="form-control" id="email" name="email" value="${sessionScope.user.email}" readonly>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+                                    </c:otherwise>
+                                </c:choose>
                             </div>
                             <div class="col-12">
                                 <label for="subject" class="form-label">Subject</label>
-                                <input type="text" class="form-control" id="subject" placeholder="Enter subject">
+                                <input type="text" class="form-control" id="subject" name="subject" placeholder="Enter subject">
                             </div>
                             <div class="col-12">
                                 <label for="message" class="form-label">Message</label>
-                                <textarea class="form-control" id="message" rows="5" placeholder="Enter your message" required></textarea>
+                                <textarea class="form-control" id="message" name="message" rows="5" placeholder="Enter your message" required></textarea>
                             </div>
                             <div class="col-12">
                                 <button type="submit" class="btn btn-primary btn-lg">Send Message</button>

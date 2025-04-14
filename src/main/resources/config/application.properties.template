@@ -1,0 +1,18 @@
+# Database connection properties
+db.driver=com.mysql.cj.jdbc.Driver
+db.url=jdbc:mysql://localhost:3306/skillforge
+db.username=your_username
+db.password=your_password
+
+# Email configuration
+email.enabled=false
+email.smtp.host=smtp.gmail.com
+email.smtp.port=587
+email.username=your_email@gmail.com
+email.password=your_app_password
+email.from=your_email@gmail.com
+email.admin=koiralavinay@gmail.com
+
+# Copy this file to application.properties and update with your database and email credentials
+# The database and tables will be created automatically if they don't exist
+# For email to work, set email.enabled=true and provide valid SMTP credentials

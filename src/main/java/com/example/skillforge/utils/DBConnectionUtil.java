@@ -22,17 +22,33 @@ public class DBConnectionUtil {
     private static boolean initialized = false;
 
     static {
-        try(InputStream in = DBConnectionUtil.class.getClassLoader().getResourceAsStream("application.properties")) {
+        try {
+            InputStream in = DBConnectionUtil.class.getClassLoader().getResourceAsStream("config/application.properties");
+
+            // If application.properties is not found in config directory, try the root resources directory
+            if (in == null) {
+                in = DBConnectionUtil.class.getClassLoader().getResourceAsStream("application.properties");
+                if (in == null) {
+                    throw new IOException("Could not find application.properties in either config/ or root resources directory");
+                } else {
+                    LOGGER.info("Using application.properties from root resources directory");
+                }
+            } else {
+                LOGGER.info("Using application.properties from config directory");
+            }
+
             Properties prop = new Properties();
             prop.load(in);
+            in.close();
+
             driver = prop.getProperty("db.driver");
             url = prop.getProperty("db.url");
             username = prop.getProperty("db.username");
             password = prop.getProperty("db.password");
             Class.forName(driver);
 
-            // Initialize database on first load
-            initializeDatabase();
+            // Database initialization is now handled by DatabaseInitializationListener
+            initialized = true;
         } catch (IOException | ClassNotFoundException e) {
             LOGGER.log(Level.SEVERE, "Error loading database properties", e);
             throw new RuntimeException(e);
@@ -45,32 +61,11 @@ public class DBConnectionUtil {
      * @throws SQLException if there is an error getting the connection
      */
     public static Connection getConnection() throws SQLException {
-        // Ensure database is initialized before returning connection
-        if (!initialized) {
-            initializeDatabase();
-        }
+        // Database initialization is now handled by DatabaseInitializationListener
         return DriverManager.getConnection(url, username, password);
     }
 
-    /**
-     * Initialize the database and tables
-     */
-    private static void initializeDatabase() {
-        if (!initialized) {
-            try {
-                // Initialize database using DatabaseSetupUtil
-                boolean success = DatabaseSetupUtil.initializeDatabase();
-                if (success) {
-                    LOGGER.info("Database initialized successfully");
-                    initialized = true;
-                } else {
-                    LOGGER.warning("Database initialization failed");
-                }
-            } catch (Exception e) {
-                LOGGER.log(Level.SEVERE, "Error initializing database", e);
-            }
-        }
-    }
+    // Database initialization is now handled by DatabaseInitializationListener
 
     /**
      * Main method for testing
