@@ -12,7 +12,7 @@ import java.util.logging.Logger;
  */
 public class ContactService {
     private static final Logger LOGGER = Logger.getLogger(ContactService.class.getName());
-    
+
     /**
      * Submit a contact form
      * @param name The name of the person submitting the form
@@ -29,28 +29,42 @@ public class ContactService {
         contact.setSubject(subject);
         contact.setMessage(message);
         contact.setUserId(userId);
-        
+
         // Insert the contact form submission into the database
         int contactId = ContactDAO.insertContact(contact);
-        
+
         if (contactId > 0) {
             // Set the contact ID
             contact.setContactId(contactId);
-            
+
             // Send notification email to admin
-            EmailUtil.sendContactNotification(contact);
-            
+            try {
+                boolean notificationSent = EmailUtil.sendContactNotification(contact);
+                if (!notificationSent) {
+                    LOGGER.warning("Failed to send notification email to admin, but contact was saved in database.");
+                }
+            } catch (Exception e) {
+                LOGGER.severe("Error sending notification email: " + e.getMessage());
+            }
+
             // Send confirmation email to user
-            EmailUtil.sendContactConfirmation(contact);
-            
+            try {
+                boolean confirmationSent = EmailUtil.sendContactConfirmation(contact);
+                if (!confirmationSent) {
+                    LOGGER.warning("Failed to send confirmation email to user, but contact was saved in database.");
+                }
+            } catch (Exception e) {
+                LOGGER.severe("Error sending confirmation email: " + e.getMessage());
+            }
+
             LOGGER.info("Contact form submitted successfully. ContactID: " + contactId);
         } else {
             LOGGER.warning("Failed to submit contact form");
         }
-        
+
         return contactId;
     }
-    
+
     /**
      * Get all contact form submissions
      * @return A list of all contact form submissions
@@ -58,7 +72,7 @@ public class ContactService {
     public static List<ContactModel> getAllContacts() {
         return ContactDAO.getAllContacts();
     }
-    
+
     /**
      * Get a contact form submission by ID
      * @param contactId The ID of the contact form submission
@@ -67,7 +81,7 @@ public class ContactService {
     public static ContactModel getContactById(int contactId) {
         return ContactDAO.getContactById(contactId);
     }
-    
+
     /**
      * Update the status of a contact form submission
      * @param contactId The ID of the contact form submission
@@ -77,7 +91,7 @@ public class ContactService {
     public static boolean updateContactStatus(int contactId, ContactModel.Status status) {
         return ContactDAO.updateContactStatus(contactId, status);
     }
-    
+
     /**
      * Get contact form submissions by status
      * @param status The status to filter by
@@ -86,7 +100,7 @@ public class ContactService {
     public static List<ContactModel> getContactsByStatus(ContactModel.Status status) {
         return ContactDAO.getContactsByStatus(status);
     }
-    
+
     /**
      * Get contact form submissions by user ID
      * @param userId The user ID to filter by

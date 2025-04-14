@@ -123,8 +123,9 @@ public class EmailUtil {
             properties.put("mail.smtp.port", smtpPort);
             properties.put("mail.smtp.auth", "true");
             properties.put("mail.smtp.starttls.enable", "true");
+            properties.put("mail.smtp.ssl.protocols", "TLSv1.2");
+            properties.put("mail.smtp.ssl.trust", "*");
             properties.put("mail.debug", "true"); // Enable debug mode
-            properties.put("mail.smtp.ssl.trust", smtpHost); // Trust the host
 
             // Create a mail session with authentication and debug enabled
             Session session = Session.getInstance(properties, new Authenticator() {
@@ -194,8 +195,12 @@ public class EmailUtil {
             properties.put("mail.smtp.port", smtpPort);
             properties.put("mail.smtp.auth", "true");
             properties.put("mail.smtp.starttls.enable", "true");
+            properties.put("mail.smtp.ssl.protocols", "TLSv1.2");
+            properties.put("mail.smtp.ssl.trust", "*");
             properties.put("mail.debug", "true"); // Enable debug mode
-            properties.put("mail.smtp.ssl.trust", smtpHost); // Trust the host
+
+            // Log SMTP settings for debugging
+            LOGGER.info("SMTP Settings - Host: " + smtpHost + ", Port: " + smtpPort + ", Username: " + smtpUsername);
 
             // Create a mail session with authentication and debug enabled
             Session session = Session.getInstance(properties, new Authenticator() {
