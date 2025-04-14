@@ -14,6 +14,7 @@ public class UserDAO {
     private static final String INSERT_USER_SQL = "INSERT INTO user (Name, UserName, Email, PasswordHash, Role, ProfileImage, Bio, Status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String SELECT_USER_SQL = "SELECT * FROM user WHERE UserName = ? OR Email = ?";
     private static final String SELECT_ALL_USERS_SQL = "SELECT * FROM user";
+    private static final String SELECT_RECENT_USERS_SQL = "SELECT * FROM user ORDER BY UserID DESC LIMIT ?";
     private static final String SELECT_USER_BY_ID_SQL = "SELECT * FROM user WHERE UserID = ?";
     private static final String UPDATE_USER_STATUS_SQL = "UPDATE user SET Status = ? WHERE UserID = ?";
     private static final String DELETE_USER_SQL = "DELETE FROM user WHERE UserID = ?";
@@ -165,5 +166,25 @@ public class UserDAO {
             System.err.println(e.getMessage());
             return false;
         }
+    }
+
+    /**
+     * Get a list of the most recently registered users
+     * @param limit The maximum number of users to return
+     * @return A list of the most recent users
+     */
+    public static List<UserModel> getRecentUsers(int limit) {
+        List<UserModel> users = new ArrayList<>();
+        try (Connection connection = DBConnectionUtil.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_RECENT_USERS_SQL)) {
+            preparedStatement.setInt(1, limit);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                users.add(mapResultSetToUserModel(resultSet));
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        return users;
     }
 }
