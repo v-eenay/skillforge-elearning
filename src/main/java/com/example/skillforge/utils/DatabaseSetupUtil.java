@@ -28,6 +28,30 @@ public class DatabaseSetupUtil {
     private static String password;
     private static String dbName = "skillforge";
 
+    /**
+     * Get the database name
+     * @return the database name
+     */
+    public static String getDbName() {
+        return dbName;
+    }
+
+    /**
+     * Get the database URL
+     * @return the database URL
+     */
+    public static String getUrl() {
+        return url;
+    }
+
+    /**
+     * Get the database username
+     * @return the database username
+     */
+    public static String getUsername() {
+        return username;
+    }
+
     static {
         try {
             // Try to load properties from different locations

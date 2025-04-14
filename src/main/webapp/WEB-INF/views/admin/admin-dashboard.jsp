@@ -187,6 +187,10 @@
                             Backup & Restore
                             <span class="badge bg-primary rounded-pill"><i class="bi bi-cloud-arrow-up"></i></span>
                         </a>
+                        <a href="${pageContext.request.contextPath}/admin/setup-database" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            Database Setup
+                            <span class="badge bg-primary rounded-pill"><i class="fas fa-database"></i></span>
+                        </a>
                     </div>
                 </div>
             </div>

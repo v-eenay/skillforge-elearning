@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.logging.Logger;
 
 /**
  * Servlet for initializing the database
@@ -16,44 +16,51 @@ import java.io.PrintWriter;
  */
 @WebServlet(name = "DatabaseSetupServlet", value = "/admin/setup-database")
 public class DatabaseSetupServlet extends HttpServlet {
-    
+    private static final Logger LOGGER = Logger.getLogger(DatabaseSetupServlet.class.getName());
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html");
-        PrintWriter out = response.getWriter();
-        
-        // Check if user is admin (in a real application, you would check session)
-        // For simplicity, we're not implementing authentication here
-        
-        out.println("<html><body>");
-        out.println("<h1>Database Setup</h1>");
-        out.println("<p>Click the button below to initialize the database and tables.</p>");
-        out.println("<form method='post'>");
-        out.println("<button type='submit'>Initialize Database</button>");
-        out.println("</form>");
-        out.println("</body></html>");
+        // Add database information to the request
+        request.setAttribute("dbName", DatabaseSetupUtil.getDbName());
+        request.setAttribute("dbUrl", DatabaseSetupUtil.getUrl());
+        request.setAttribute("dbUsername", DatabaseSetupUtil.getUsername());
+
+        // Check if there's a message from a previous operation
+        String message = (String) request.getSession().getAttribute("dbSetupMessage");
+        Boolean success = (Boolean) request.getSession().getAttribute("dbSetupSuccess");
+
+        if (message != null) {
+            request.setAttribute("message", message);
+            request.setAttribute("success", success);
+            // Clear the session attributes
+            request.getSession().removeAttribute("dbSetupMessage");
+            request.getSession().removeAttribute("dbSetupSuccess");
+        }
+
+        // Forward to the JSP page
+        request.getRequestDispatcher("/WEB-INF/views/admin/database-setup.jsp").forward(request, response);
     }
-    
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html");
-        PrintWriter out = response.getWriter();
-        
-        // Check if user is admin (in a real application, you would check session)
-        // For simplicity, we're not implementing authentication here
-        
-        out.println("<html><body>");
-        out.println("<h1>Database Setup Result</h1>");
-        
+        LOGGER.info("Starting database initialization process");
+
         boolean success = DatabaseSetupUtil.initializeDatabase();
-        
+        String message;
+
         if (success) {
-            out.println("<p style='color: green;'>Database initialization successful!</p>");
+            message = "Database and tables have been successfully initialized. The system is ready to use.";
+            LOGGER.info(message);
         } else {
-            out.println("<p style='color: red;'>Database initialization failed. Check server logs for details.</p>");
+            message = "Database initialization failed. Please check the server logs for more details.";
+            LOGGER.warning(message);
         }
-        
-        out.println("<a href='" + request.getContextPath() + "/admin/dashboard'>Return to Dashboard</a>");
-        out.println("</body></html>");
+
+        // Set attributes for the result page
+        request.setAttribute("success", success);
+        request.setAttribute("message", message);
+
+        // Forward to the result JSP page
+        request.getRequestDispatcher("/WEB-INF/views/admin/database-setup-result.jsp").forward(request, response);
     }
 }
