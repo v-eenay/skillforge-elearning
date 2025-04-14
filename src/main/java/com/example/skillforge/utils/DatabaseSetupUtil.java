@@ -115,16 +115,29 @@ public class DatabaseSetupUtil {
      */
     public static boolean initializeDatabase() {
         try {
+            LOGGER.info("Starting database initialization");
+
             // First check if database exists, create if it doesn't
             if (!databaseExists()) {
                 createDatabase();
             }
 
-            // Then check if tables exist, create if they don't
-            if (!tablesExist()) {
+            // Always check tables and create missing ones
+            boolean tablesExist = tablesExist();
+            if (!tablesExist) {
+                LOGGER.info("Some tables are missing, creating tables");
                 createTables();
+            } else {
+                LOGGER.info("All required tables already exist");
             }
 
+            // Verify tables again after creation attempt
+            if (!tablesExist()) {
+                LOGGER.severe("Failed to create all required tables");
+                return false;
+            }
+
+            LOGGER.info("Database initialization completed successfully");
             return true;
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Error initializing database", e);
@@ -235,11 +248,38 @@ public class DatabaseSetupUtil {
             for (String sql : statements) {
                 sql = sql.trim();
                 if (!sql.isEmpty()) {
-                    statement.executeUpdate(sql);
+                    try {
+                        // Skip USE statement as we're already connected to the database
+                        if (!sql.toLowerCase().startsWith("use ")) {
+                            LOGGER.info("Executing SQL: " + sql);
+                            statement.executeUpdate(sql);
+                        }
+                    } catch (SQLException e) {
+                        // Log the error but continue with other statements
+                        LOGGER.log(Level.WARNING, "Error executing SQL statement: " + sql, e);
+                    }
                 }
             }
 
-            LOGGER.info("All tables created successfully");
+            // Verify tables were created
+            List<String> requiredTables = getRequiredTables();
+            List<String> existingTables = getExistingTables();
+
+            boolean allTablesCreated = true;
+            for (String table : requiredTables) {
+                if (!existingTables.contains(table.toLowerCase())) {
+                    LOGGER.severe("Failed to create table '" + table + "'");
+                    allTablesCreated = false;
+                } else {
+                    LOGGER.info("Table '" + table + "' exists");
+                }
+            }
+
+            if (allTablesCreated) {
+                LOGGER.info("All tables created successfully");
+            } else {
+                LOGGER.severe("Some tables were not created");
+            }
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Error reading schema file", e);
             throw new SQLException("Error reading schema file", e);
