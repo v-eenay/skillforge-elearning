@@ -146,7 +146,8 @@ public class DatabaseSetupUtil {
      */
     private static List<String> getRequiredTables() {
         List<String> tables = new ArrayList<>();
-        tables.add("user"); // Currently only the User table is being used
+        tables.add("user"); // Core user entity
+        tables.add("contact"); // Contact form submissions
         return tables;
     }
 

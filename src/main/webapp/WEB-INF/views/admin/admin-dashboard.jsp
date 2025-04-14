@@ -9,7 +9,18 @@
         </div>
         <div class="col-md-4 text-end">
             <button class="btn btn-outline-primary me-2">Notifications <span class="badge bg-danger">3</span></button>
-            <a href="${pageContext.request.contextPath}/admin/users" class="btn btn-primary">Manage Users</a>
+            <div class="btn-group">
+                <a href="${pageContext.request.contextPath}/admin/users" class="btn btn-primary">Manage Users</a>
+                <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span class="visually-hidden">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/users">User Management</a></li>
+                    <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/contacts">Contact Messages</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/setup-database">Database Setup</a></li>
+                </ul>
+            </div>
         </div>
     </div>
 
