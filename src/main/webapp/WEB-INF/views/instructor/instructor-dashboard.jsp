@@ -11,7 +11,7 @@
             <div class="d-flex justify-content-end gap-2">
                 <button class="btn btn-outline-primary">Student Messages <span class="badge bg-danger">5</span></button>
                 <a href="${pageContext.request.contextPath}/instructor/profile" class="btn btn-outline-info">My Profile</a>
-                <button class="btn btn-primary">Create Course</button>
+                <a href="${pageContext.request.contextPath}/instructor/courses/create" class="btn btn-primary">Create Course</a>
             </div>
         </div>
     </div>

@@ -19,7 +19,7 @@
             margin-bottom: 30px;
             border-bottom: 1px solid #e9ecef;
         }
-        
+
         .course-card {
             border-radius: 10px;
             overflow: hidden;
@@ -30,29 +30,29 @@
             display: flex;
             flex-direction: column;
         }
-        
+
         .course-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
         }
-        
+
         .course-thumbnail {
             height: 180px;
             overflow: hidden;
             position: relative;
         }
-        
+
         .course-thumbnail img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             transition: transform 0.5s ease;
         }
-        
+
         .course-card:hover .course-thumbnail img {
             transform: scale(1.05);
         }
-        
+
         .course-status {
             position: absolute;
             top: 10px;
@@ -63,42 +63,42 @@
             font-weight: 600;
             text-transform: uppercase;
         }
-        
+
         .status-draft {
             background-color: #f8f9fa;
             color: #6c757d;
         }
-        
+
         .status-active {
             background-color: #d4edda;
             color: #155724;
         }
-        
+
         .status-inactive {
             background-color: #f8d7da;
             color: #721c24;
         }
-        
+
         .course-content {
             padding: 20px;
             flex-grow: 1;
             display: flex;
             flex-direction: column;
         }
-        
+
         .course-title {
             font-size: 1.2rem;
             font-weight: 600;
             margin-bottom: 10px;
             color: #343a40;
         }
-        
+
         .course-category {
             color: #6c757d;
             font-size: 0.9rem;
             margin-bottom: 10px;
         }
-        
+
         .course-stats {
             display: flex;
             justify-content: space-between;
@@ -106,32 +106,32 @@
             font-size: 0.9rem;
             color: #6c757d;
         }
-        
+
         .course-actions {
             margin-top: auto;
             display: flex;
             justify-content: space-between;
         }
-        
+
         .course-actions .btn {
             padding: 6px 12px;
             font-size: 0.9rem;
         }
-        
+
         .course-actions .dropdown-menu {
             min-width: 200px;
         }
-        
+
         .course-actions .dropdown-item {
             padding: 8px 15px;
         }
-        
+
         .course-actions .dropdown-item i {
             width: 20px;
             text-align: center;
             margin-right: 5px;
         }
-        
+
         .create-course-card {
             border: 2px dashed #dee2e6;
             border-radius: 10px;
@@ -144,36 +144,36 @@
             text-align: center;
             transition: all 0.3s ease;
         }
-        
+
         .create-course-card:hover {
             border-color: #4e73df;
             background-color: #f8f9fa;
         }
-        
+
         .create-course-card i {
             font-size: 3rem;
             color: #4e73df;
             margin-bottom: 15px;
         }
-        
+
         .create-course-card h4 {
             color: #343a40;
             margin-bottom: 10px;
         }
-        
+
         .create-course-card p {
             color: #6c757d;
             margin-bottom: 20px;
         }
-        
+
         .filters {
             margin-bottom: 30px;
         }
-        
+
         .alert-message {
             margin-bottom: 30px;
         }
-        
+
         .no-courses {
             text-align: center;
             padding: 50px 0;
@@ -181,18 +181,18 @@
             border-radius: 10px;
             margin-bottom: 30px;
         }
-        
+
         .no-courses i {
             font-size: 3rem;
             color: #6c757d;
             margin-bottom: 20px;
         }
-        
+
         .no-courses h3 {
             color: #343a40;
             margin-bottom: 10px;
         }
-        
+
         .no-courses p {
             color: #6c757d;
             margin-bottom: 20px;
@@ -201,8 +201,8 @@
 </head>
 <body>
     <!-- Include Header -->
-    <jsp:include page="../common/header.jsp" />
-    
+    <jsp:include page="/common/header.jsp" />
+
     <!-- Courses Header -->
     <div class="courses-header">
         <div class="container">
@@ -219,7 +219,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="container mb-5">
         <!-- Success Message -->
         <c:if test="${not empty message}">
@@ -229,7 +229,7 @@
             </div>
             <c:remove var="message" scope="session" />
         </c:if>
-        
+
         <!-- Filters -->
         <div class="filters">
             <div class="row">
@@ -262,7 +262,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Courses Grid -->
         <div class="row">
             <!-- Create Course Card -->
@@ -276,7 +276,7 @@
                     </div>
                 </a>
             </div>
-            
+
             <!-- Sample Course Cards (These would be dynamically generated) -->
             <div class="col-md-4 mb-4">
                 <div class="course-card">
@@ -314,7 +314,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-md-4 mb-4">
                 <div class="course-card">
                     <div class="course-thumbnail">
@@ -349,7 +349,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- If no courses are available, show this instead of the grid -->
             <c:if test="${empty courses}">
                 <div class="no-courses" style="display: none;">
@@ -363,10 +363,10 @@
             </c:if>
         </div>
     </div>
-    
+
     <!-- Include Footer -->
-    <jsp:include page="../common/footer.jsp" />
-    
+    <jsp:include page="/common/footer.jsp" />
+
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
