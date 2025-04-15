@@ -71,6 +71,27 @@ public class EmailUtil {
     }
 
     /**
+     * Validate if a string is a valid email address
+     * @param email The email address to validate
+     * @return true if the email is valid, false otherwise
+     */
+    private static boolean isValidEmailAddress(String email) {
+        if (email == null || email.trim().isEmpty()) {
+            return false;
+        }
+
+        // Basic email validation using regex
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+
+        if (!email.matches(emailRegex)) {
+            LOGGER.warning("Email address does not match valid pattern: " + email);
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Find the properties file in different locations
      * @return InputStream for the properties file, or null if not found
      */
@@ -136,6 +157,17 @@ public class EmailUtil {
             });
             session.setDebug(true); // Enable session debugging
 
+            // Validate email addresses
+            if (!isValidEmailAddress(fromEmail)) {
+                LOGGER.severe("Invalid sender email address: " + fromEmail);
+                return false;
+            }
+
+            if (!isValidEmailAddress(adminEmail)) {
+                LOGGER.severe("Invalid admin email address: " + adminEmail);
+                return false;
+            }
+
             // Create the email message
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(fromEmail));
@@ -160,11 +192,26 @@ public class EmailUtil {
             message.setText(body.toString());
 
             LOGGER.info("Email message prepared, attempting to send...");
+            LOGGER.info("From: " + fromEmail + ", To: " + adminEmail);
 
-            // Send the message
-            Transport.send(message);
-            LOGGER.info("Contact notification email sent successfully to " + adminEmail);
-            return true;
+            try {
+                // Send the message
+                Transport.send(message);
+                LOGGER.info("Contact notification email sent successfully to " + adminEmail);
+                return true;
+            } catch (MessagingException e) {
+                // Log more details about the error
+                LOGGER.severe("Failed to send email: " + e.getMessage());
+                if (e instanceof jakarta.mail.SendFailedException) {
+                    jakarta.mail.SendFailedException sfe = (jakarta.mail.SendFailedException) e;
+                    if (sfe.getInvalidAddresses() != null) {
+                        for (jakarta.mail.Address address : sfe.getInvalidAddresses()) {
+                            LOGGER.severe("Invalid address: " + address);
+                        }
+                    }
+                }
+                throw e; // Re-throw to be caught by the outer catch block
+            }
 
         } catch (MessagingException e) {
             LOGGER.log(Level.SEVERE, "Error sending contact notification email: " + e.getMessage(), e);
@@ -211,6 +258,17 @@ public class EmailUtil {
             });
             session.setDebug(true); // Enable session debugging
 
+            // Validate email addresses
+            if (!isValidEmailAddress(fromEmail)) {
+                LOGGER.severe("Invalid sender email address: " + fromEmail);
+                return false;
+            }
+
+            if (!isValidEmailAddress(contact.getEmail())) {
+                LOGGER.severe("Invalid recipient email address: " + contact.getEmail());
+                return false;
+            }
+
             // Create the email message
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(fromEmail));
@@ -230,11 +288,26 @@ public class EmailUtil {
             message.setText(body.toString());
 
             LOGGER.info("Confirmation email message prepared, attempting to send...");
+            LOGGER.info("From: " + fromEmail + ", To: " + contact.getEmail());
 
-            // Send the message
-            Transport.send(message);
-            LOGGER.info("Contact confirmation email sent successfully to " + contact.getEmail());
-            return true;
+            try {
+                // Send the message
+                Transport.send(message);
+                LOGGER.info("Contact confirmation email sent successfully to " + contact.getEmail());
+                return true;
+            } catch (MessagingException e) {
+                // Log more details about the error
+                LOGGER.severe("Failed to send email: " + e.getMessage());
+                if (e instanceof jakarta.mail.SendFailedException) {
+                    jakarta.mail.SendFailedException sfe = (jakarta.mail.SendFailedException) e;
+                    if (sfe.getInvalidAddresses() != null) {
+                        for (jakarta.mail.Address address : sfe.getInvalidAddresses()) {
+                            LOGGER.severe("Invalid address: " + address);
+                        }
+                    }
+                }
+                throw e; // Re-throw to be caught by the outer catch block
+            }
 
         } catch (MessagingException e) {
             LOGGER.log(Level.SEVERE, "Error sending contact confirmation email: " + e.getMessage(), e);

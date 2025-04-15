@@ -4,7 +4,6 @@
   <img src="src/main/webapp/assets/images/logo.png" alt="SkillForge Logo" width="200">
   <p><em>Learn from Industry Experts</em></p>
 
-  [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
   [![Java](https://img.shields.io/badge/Java-EE-red.svg)](https://www.oracle.com/java/technologies/java-ee-glance.html)
   [![Bootstrap](https://img.shields.io/badge/Bootstrap-5-purple.svg)](https://getbootstrap.com/)
   [![MySQL](https://img.shields.io/badge/MySQL-8-blue.svg)](https://www.mysql.com/)
@@ -141,10 +140,6 @@ Run the automated tests with:
 ```bash
 mvn test
 ```
-
-## 📝 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## 👨‍💻 Author
 
