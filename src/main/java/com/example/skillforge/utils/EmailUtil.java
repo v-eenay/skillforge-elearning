@@ -192,11 +192,26 @@ public class EmailUtil {
             message.setText(body.toString());
 
             LOGGER.info("Email message prepared, attempting to send...");
+            LOGGER.info("From: " + fromEmail + ", To: " + adminEmail);
 
-            // Send the message
-            Transport.send(message);
-            LOGGER.info("Contact notification email sent successfully to " + adminEmail);
-            return true;
+            try {
+                // Send the message
+                Transport.send(message);
+                LOGGER.info("Contact notification email sent successfully to " + adminEmail);
+                return true;
+            } catch (MessagingException e) {
+                // Log more details about the error
+                LOGGER.severe("Failed to send email: " + e.getMessage());
+                if (e instanceof jakarta.mail.SendFailedException) {
+                    jakarta.mail.SendFailedException sfe = (jakarta.mail.SendFailedException) e;
+                    if (sfe.getInvalidAddresses() != null) {
+                        for (jakarta.mail.Address address : sfe.getInvalidAddresses()) {
+                            LOGGER.severe("Invalid address: " + address);
+                        }
+                    }
+                }
+                throw e; // Re-throw to be caught by the outer catch block
+            }
 
         } catch (MessagingException e) {
             LOGGER.log(Level.SEVERE, "Error sending contact notification email: " + e.getMessage(), e);
@@ -273,11 +288,26 @@ public class EmailUtil {
             message.setText(body.toString());
 
             LOGGER.info("Confirmation email message prepared, attempting to send...");
+            LOGGER.info("From: " + fromEmail + ", To: " + contact.getEmail());
 
-            // Send the message
-            Transport.send(message);
-            LOGGER.info("Contact confirmation email sent successfully to " + contact.getEmail());
-            return true;
+            try {
+                // Send the message
+                Transport.send(message);
+                LOGGER.info("Contact confirmation email sent successfully to " + contact.getEmail());
+                return true;
+            } catch (MessagingException e) {
+                // Log more details about the error
+                LOGGER.severe("Failed to send email: " + e.getMessage());
+                if (e instanceof jakarta.mail.SendFailedException) {
+                    jakarta.mail.SendFailedException sfe = (jakarta.mail.SendFailedException) e;
+                    if (sfe.getInvalidAddresses() != null) {
+                        for (jakarta.mail.Address address : sfe.getInvalidAddresses()) {
+                            LOGGER.severe("Invalid address: " + address);
+                        }
+                    }
+                }
+                throw e; // Re-throw to be caught by the outer catch block
+            }
 
         } catch (MessagingException e) {
             LOGGER.log(Level.SEVERE, "Error sending contact confirmation email: " + e.getMessage(), e);
