@@ -20,8 +20,7 @@ CREATE TABLE IF NOT EXISTS User (
 
 -- Add Status field to User table if it doesn't exist
 -- This is safe to run even if the column already exists
-ALTER TABLE User ADD COLUMN IF NOT EXISTS Status ENUM('active', 'suspended') DEFAULT 'active';
-
+ALTER TABLE User ADD COLUMN Status ENUM('active', 'suspended') DEFAULT 'active';
 -- Contact table - for storing contact form submissions
 CREATE TABLE IF NOT EXISTS Contact (
     ContactID INT PRIMARY KEY AUTO_INCREMENT,
@@ -47,10 +46,6 @@ CREATE TABLE IF NOT EXISTS Contact (
     Status ENUM('new', 'read', 'replied') DEFAULT 'new'
 );
 
--- The following tables are commented out as they are not currently being used
--- Uncomment and run these statements when needed
-
-/*
 -- Course-Related Entities
 CREATE TABLE IF NOT EXISTS Category (
     CategoryID INT PRIMARY KEY AUTO_INCREMENT,
@@ -91,6 +86,20 @@ CREATE TABLE IF NOT EXISTS Lesson (
     FOREIGN KEY (ModuleID) REFERENCES Module(ModuleID)
 );
 
+-- Content Blocks for Lessons
+CREATE TABLE IF NOT EXISTS ContentBlock (
+    ContentBlockID INT PRIMARY KEY AUTO_INCREMENT,
+    LessonID INT,
+    BlockType ENUM('TEXT', 'VIDEO', 'IMAGE', 'DOCUMENT', 'CODE', 'EMBED') NOT NULL,
+    Content TEXT,
+    Title VARCHAR(200),
+    Description TEXT,
+    OrderIndex INT,
+    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    UpdatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (LessonID) REFERENCES Lesson(LessonID)
+);
+
 CREATE TABLE IF NOT EXISTS Resource (
     ResourceID INT PRIMARY KEY AUTO_INCREMENT,
     LessonID INT,
@@ -123,23 +132,58 @@ CREATE TABLE IF NOT EXISTS Progress (
 );
 
 -- Assessment & Feedback
+CREATE TABLE IF NOT EXISTS Assessment (
+    AssessmentID INT PRIMARY KEY AUTO_INCREMENT,
+    CourseID INT,
+    Title VARCHAR(200) NOT NULL,
+    Description TEXT,
+    AssessmentType ENUM('QUIZ', 'ASSIGNMENT', 'PROJECT', 'FINAL_EXAM', 'MIDTERM') NOT NULL,
+    TotalMarks INT NOT NULL,
+    PassingMarks INT NOT NULL,
+    Duration INT,
+    IsRequired BOOLEAN DEFAULT TRUE,
+    Weightage DOUBLE DEFAULT 0,
+    Status ENUM('DRAFT', 'PUBLISHED', 'ARCHIVED') DEFAULT 'DRAFT',
+    AvailableFrom DATETIME,
+    AvailableUntil DATETIME,
+    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    UpdatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (CourseID) REFERENCES Course(CourseID)
+);
+
 CREATE TABLE IF NOT EXISTS Quiz (
     QuizID INT PRIMARY KEY AUTO_INCREMENT,
     CourseID INT,
     ModuleID INT,
-    Title VARCHAR(200),
-    TotalMarks INT,
+    AssessmentID INT,
+    Title VARCHAR(200) NOT NULL,
+    Description TEXT,
+    TotalMarks INT NOT NULL,
+    PassingMarks INT NOT NULL,
     Duration INT,
+    MaxAttempts INT DEFAULT 1,
+    RandomizeQuestions BOOLEAN DEFAULT FALSE,
+    ShowAnswersAfterSubmission BOOLEAN DEFAULT FALSE,
+    Status ENUM('DRAFT', 'PUBLISHED', 'ARCHIVED') DEFAULT 'DRAFT',
+    AvailableFrom DATETIME,
+    AvailableUntil DATETIME,
+    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    UpdatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (CourseID) REFERENCES Course(CourseID),
-    FOREIGN KEY (ModuleID) REFERENCES Module(ModuleID)
+    FOREIGN KEY (ModuleID) REFERENCES Module(ModuleID),
+    FOREIGN KEY (AssessmentID) REFERENCES Assessment(AssessmentID)
 );
 
 CREATE TABLE IF NOT EXISTS Question (
     QuestionID INT PRIMARY KEY AUTO_INCREMENT,
     QuizID INT,
-    QuestionText TEXT,
-    QuestionType ENUM('MCQ', 'TrueFalse'),
+    QuestionText TEXT NOT NULL,
+    QuestionType ENUM('MCQ', 'TRUE_FALSE', 'SHORT_ANSWER', 'ESSAY', 'MATCHING', 'FILL_BLANK') NOT NULL,
     CorrectAnswer VARCHAR(255),
+    Marks INT DEFAULT 1,
+    Explanation TEXT,
+    MediaURL VARCHAR(255),
+    OrderIndex INT,
     FOREIGN KEY (QuizID) REFERENCES Quiz(QuizID)
 );
 
@@ -147,8 +191,11 @@ CREATE TABLE IF NOT EXISTS Question (
 CREATE TABLE IF NOT EXISTS QuestionOption (
     OptionID INT PRIMARY KEY AUTO_INCREMENT,
     QuestionID INT,
-    OptionText VARCHAR(255),
-    IsCorrect BOOLEAN,
+    OptionText VARCHAR(255) NOT NULL,
+    IsCorrect BOOLEAN DEFAULT FALSE,
+    Feedback TEXT,
+    MediaURL VARCHAR(255),
+    OrderIndex INT,
     FOREIGN KEY (QuestionID) REFERENCES Question(QuestionID)
 );
 
@@ -156,8 +203,14 @@ CREATE TABLE IF NOT EXISTS Submission (
     SubmissionID INT PRIMARY KEY AUTO_INCREMENT,
     UserID INT,
     QuizID INT,
-    SubmittedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-    TotalScore INT,
+    Status ENUM('IN_PROGRESS', 'SUBMITTED', 'GRADED') DEFAULT 'IN_PROGRESS',
+    TotalScore INT DEFAULT 0,
+    IsPassed BOOLEAN DEFAULT FALSE,
+    AttemptNumber INT DEFAULT 1,
+    StartedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    SubmittedAt DATETIME,
+    GradedAt DATETIME,
+    InstructorFeedback TEXT,
     FOREIGN KEY (UserID) REFERENCES User(UserID),
     FOREIGN KEY (QuizID) REFERENCES Quiz(QuizID)
 );
@@ -167,6 +220,10 @@ CREATE TABLE IF NOT EXISTS Answer (
     SubmissionID INT,
     QuestionID INT,
     SelectedOption VARCHAR(255),
+    TextAnswer TEXT,
+    IsCorrect BOOLEAN DEFAULT FALSE,
+    ScoreAwarded INT DEFAULT 0,
+    InstructorFeedback TEXT,
     FOREIGN KEY (SubmissionID) REFERENCES Submission(SubmissionID),
     FOREIGN KEY (QuestionID) REFERENCES Question(QuestionID)
 );
@@ -204,6 +261,42 @@ CREATE TABLE IF NOT EXISTS AdminActivityLog (
     FOREIGN KEY (AdminID) REFERENCES User(UserID)
 );
 
+-- Grade-Related Entities
+CREATE TABLE IF NOT EXISTS Grade (
+    GradeID INT PRIMARY KEY AUTO_INCREMENT,
+    UserID INT,
+    CourseID INT,
+    AssessmentID INT,
+    QuizID INT,
+    Score DOUBLE NOT NULL,
+    LetterGrade VARCHAR(5),
+    IsPassed BOOLEAN DEFAULT FALSE,
+    Status ENUM('PENDING', 'GRADED', 'FINALIZED') DEFAULT 'PENDING',
+    Feedback TEXT,
+    GradedAt DATETIME,
+    UpdatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (UserID) REFERENCES User(UserID),
+    FOREIGN KEY (CourseID) REFERENCES Course(CourseID),
+    FOREIGN KEY (AssessmentID) REFERENCES Assessment(AssessmentID),
+    FOREIGN KEY (QuizID) REFERENCES Quiz(QuizID)
+);
+
+CREATE TABLE IF NOT EXISTS CourseGradeSettings (
+    SettingsID INT PRIMARY KEY AUTO_INCREMENT,
+    CourseID INT,
+    PassingGrade DOUBLE DEFAULT 70.0,
+    UseLetterGrades BOOLEAN DEFAULT TRUE,
+    AutoCalculateFinalGrade BOOLEAN DEFAULT TRUE,
+    GradeScale TEXT,
+    QuizWeightage DOUBLE DEFAULT 20.0,
+    AssignmentWeightage DOUBLE DEFAULT 20.0,
+    ProjectWeightage DOUBLE DEFAULT 20.0,
+    MidtermWeightage DOUBLE DEFAULT 15.0,
+    FinalExamWeightage DOUBLE DEFAULT 20.0,
+    ParticipationWeightage DOUBLE DEFAULT 5.0,
+    FOREIGN KEY (CourseID) REFERENCES Course(CourseID)
+);
+
 CREATE TABLE IF NOT EXISTS Report (
     ReportID INT PRIMARY KEY AUTO_INCREMENT,
     ReportedBy INT,
@@ -213,4 +306,4 @@ CREATE TABLE IF NOT EXISTS Report (
     CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (ReportedBy) REFERENCES User(UserID)
 );
-*/
+
