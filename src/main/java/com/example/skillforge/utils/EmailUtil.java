@@ -71,6 +71,27 @@ public class EmailUtil {
     }
 
     /**
+     * Validate if a string is a valid email address
+     * @param email The email address to validate
+     * @return true if the email is valid, false otherwise
+     */
+    private static boolean isValidEmailAddress(String email) {
+        if (email == null || email.trim().isEmpty()) {
+            return false;
+        }
+
+        // Basic email validation using regex
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+
+        if (!email.matches(emailRegex)) {
+            LOGGER.warning("Email address does not match valid pattern: " + email);
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Find the properties file in different locations
      * @return InputStream for the properties file, or null if not found
      */
@@ -135,6 +156,17 @@ public class EmailUtil {
                 }
             });
             session.setDebug(true); // Enable session debugging
+
+            // Validate email addresses
+            if (!isValidEmailAddress(fromEmail)) {
+                LOGGER.severe("Invalid sender email address: " + fromEmail);
+                return false;
+            }
+
+            if (!isValidEmailAddress(adminEmail)) {
+                LOGGER.severe("Invalid admin email address: " + adminEmail);
+                return false;
+            }
 
             // Create the email message
             Message message = new MimeMessage(session);
@@ -210,6 +242,17 @@ public class EmailUtil {
                 }
             });
             session.setDebug(true); // Enable session debugging
+
+            // Validate email addresses
+            if (!isValidEmailAddress(fromEmail)) {
+                LOGGER.severe("Invalid sender email address: " + fromEmail);
+                return false;
+            }
+
+            if (!isValidEmailAddress(contact.getEmail())) {
+                LOGGER.severe("Invalid recipient email address: " + contact.getEmail());
+                return false;
+            }
 
             // Create the email message
             Message message = new MimeMessage(session);
