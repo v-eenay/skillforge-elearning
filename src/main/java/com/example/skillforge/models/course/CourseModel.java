@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
  */
 public class CourseModel implements Serializable {
     public enum Status {active, inactive}
-    
+
     private int courseId;
     private String title;
     private String description;
@@ -20,7 +20,14 @@ public class CourseModel implements Serializable {
     private int createdBy;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    
+
+    // Additional properties
+    private String promoVideo;
+    private String duration;
+    private double price;
+    private String prerequisites;
+    private String tags;
+
     // Navigation properties
     private CategoryModel category;
     private UserModel creator;
@@ -122,5 +129,46 @@ public class CourseModel implements Serializable {
 
     public void setCreator(UserModel creator) {
         this.creator = creator;
+    }
+
+    // Getters and setters for additional properties
+    public String getPromoVideo() {
+        return promoVideo;
+    }
+
+    public void setPromoVideo(String promoVideo) {
+        this.promoVideo = promoVideo;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public String getPrerequisites() {
+        return prerequisites;
+    }
+
+    public void setPrerequisites(String prerequisites) {
+        this.prerequisites = prerequisites;
+    }
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
     }
 }

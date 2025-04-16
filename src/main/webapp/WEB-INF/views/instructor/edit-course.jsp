@@ -302,27 +302,33 @@
     <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <!-- CKEditor -->
-    <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/40.0.0/classic/ckeditor.js"></script>
     <script>
         // Initialize CKEditor for course description
-        ClassicEditor
-            .create(document.querySelector('#courseDescription'), {
-                toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|', 'outdent', 'indent', '|', 'blockQuote', 'insertTable', 'undo', 'redo']
-            })
-            .then(editor => {
-                // Update hidden textarea with editor content for form submission
-                editor.model.document.on('change:data', () => {
-                    document.querySelector('#descriptionHidden').value = editor.getData();
-                });
+        document.addEventListener('DOMContentLoaded', function() {
+            ClassicEditor
+                .create(document.querySelector('#courseDescription'), {
+                    toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|', 'outdent', 'indent', '|', 'blockQuote', 'insertTable', 'undo', 'redo']
+                })
+                .then(editor => {
+                    console.log('CKEditor initialized successfully');
+                    // Update hidden textarea with editor content for form submission
+                    editor.model.document.on('change:data', () => {
+                        document.querySelector('#descriptionHidden').value = editor.getData();
+                    });
 
-                // Set initial content if available
-                if (document.querySelector('#descriptionHidden').value) {
-                    editor.setData(document.querySelector('#descriptionHidden').value);
-                }
-            })
-            .catch(error => {
-                console.error(error);
-            });
+                    // Set initial content if available
+                    if (document.querySelector('#descriptionHidden').value) {
+                        editor.setData(document.querySelector('#descriptionHidden').value);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error initializing CKEditor:', error);
+                    // Fallback to regular textarea if CKEditor fails to load
+                    document.querySelector('#courseDescription').style.display = 'block';
+                    document.querySelector('#courseDescription').style.height = '300px';
+                });
+        });
 
         // Thumbnail preview functionality
         document.getElementById('thumbnailFile').addEventListener('change', function(e) {
