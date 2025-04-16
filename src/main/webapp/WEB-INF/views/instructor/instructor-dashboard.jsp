@@ -1,4 +1,5 @@
 <%@ page language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="/common/header.jsp" %>
 
 <div class="container py-4">
@@ -22,8 +23,8 @@
             <div class="card bg-primary text-white">
                 <div class="card-body">
                     <h5 class="card-title">Active Courses</h5>
-                    <h2 class="display-4">5</h2>
-                    <p class="card-text"><small>2 pending approval</small></p>
+                    <h2 class="display-4">${activeCourses}</h2>
+                    <p class="card-text"><small>${totalCourses} total courses</small></p>
                 </div>
             </div>
         </div>
@@ -70,114 +71,75 @@
                 </div>
                 <div class="card-body">
                     <!-- Course 1 -->
-                    <div class="d-flex mb-3 p-3 border-bottom">
-                        <img src="https://placebeard.it/100/70?image=46" class="me-3" alt="Course" style="object-fit: cover;">
-                        <div class="flex-grow-1">
-                            <div class="d-flex justify-content-between align-items-start">
-                                <div>
-                                    <h5 class="mb-1">Web Development Fundamentals</h5>
-                                    <div class="d-flex align-items-center">
-                                        <span class="badge bg-success me-2">Published</span>
-                                        <small class="text-muted">Last updated: 2 weeks ago</small>
+                    <c:choose>
+                        <c:when test="${empty courses}">
+                            <div class="text-center p-4">
+                                <p class="text-muted">You haven't created any courses yet.</p>
+                                <a href="${pageContext.request.contextPath}/instructor/courses/create" class="btn btn-primary">Create Your First Course</a>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                            <c:forEach items="${courses}" var="course" varStatus="loop" begin="0" end="3">
+                                <div class="d-flex ${!loop.last ? 'mb-3 p-3 border-bottom' : 'p-3'}">
+                                    <c:choose>
+                                        <c:when test="${not empty course.thumbnail}">
+                                            <img src="${pageContext.request.contextPath}${course.thumbnail}" class="me-3" alt="${course.title}" style="object-fit: cover; width: 100px; height: 70px;">
+                                        </c:when>
+                                        <c:otherwise>
+                                            <img src="https://placebeard.it/100/70?image=${course.courseId % 10 + 45}" class="me-3" alt="${course.title}" style="object-fit: cover;">
+                                        </c:otherwise>
+                                    </c:choose>
+                                    <div class="flex-grow-1">
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            <div>
+                                                <h5 class="mb-1">${course.title}</h5>
+                                                <div class="d-flex align-items-center">
+                                                    <c:choose>
+                                                        <c:when test="${course.status == 'active'}">
+                                                            <span class="badge bg-success me-2">Published</span>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <span class="badge bg-secondary me-2">Draft</span>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                    <small class="text-muted">Created: ${course.createdAt}</small>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <a href="${pageContext.request.contextPath}/instructor/courses/edit?id=${course.courseId}" class="btn btn-sm btn-outline-primary me-1">Edit</a>
+                                                <c:choose>
+                                                    <c:when test="${course.status == 'active'}">
+                                                        <button class="btn btn-sm btn-outline-secondary">Statistics</button>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <button class="btn btn-sm btn-success">Publish</button>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mt-2">
+                                            <div>
+                                                <small class="text-muted me-3"><strong>Category:</strong> ${course.category.name}</small>
+                                                <small class="text-muted me-3"><strong>Level:</strong> ${course.level}</small>
+                                                <c:if test="${course.status == 'active'}">
+                                                    <small class="text-muted"><strong>Students:</strong> 0</small>
+                                                </c:if>
+                                                <c:if test="${course.status != 'active'}">
+                                                    <small class="text-muted"><strong>Status:</strong> ${course.status}</small>
+                                                </c:if>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div>
-                                    <button class="btn btn-sm btn-outline-primary me-1">Edit</button>
-                                    <button class="btn btn-sm btn-outline-secondary">Statistics</button>
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center mt-2">
-                                <div>
-                                    <small class="text-muted me-3"><strong>Students:</strong> 87</small>
-                                    <small class="text-muted me-3"><strong>Rating:</strong> 4.9 <i class="fa-solid fa-star"></i> (42 reviews)</small>
-                                    <small class="text-muted"><strong>Revenue:</strong> $1,740</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                            </c:forEach>
 
-                    <!-- Course 2 -->
-                    <div class="d-flex mb-3 p-3 border-bottom">
-                        <img src="https://placebeard.it/100/70?image=47" class="me-3" alt="Course" style="object-fit: cover;">
-                        <div class="flex-grow-1">
-                            <div class="d-flex justify-content-between align-items-start">
-                                <div>
-                                    <h5 class="mb-1">Advanced JavaScript Techniques</h5>
-                                    <div class="d-flex align-items-center">
-                                        <span class="badge bg-success me-2">Published</span>
-                                        <small class="text-muted">Last updated: 1 month ago</small>
-                                    </div>
+                            <c:if test="${courses.size() > 4}">
+                                <div class="text-center mt-3">
+                                    <a href="${pageContext.request.contextPath}/instructor/courses/" class="btn btn-outline-primary">View All Courses</a>
                                 </div>
-                                <div>
-                                    <button class="btn btn-sm btn-outline-primary me-1">Edit</button>
-                                    <button class="btn btn-sm btn-outline-secondary">Statistics</button>
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center mt-2">
-                                <div>
-                                    <small class="text-muted me-3"><strong>Students:</strong> 64</small>
-                                    <small class="text-muted me-3"><strong>Rating:</strong> 4.7 <i class="fa-solid fa-star"></i> (38 reviews)</small>
-                                    <small class="text-muted"><strong>Revenue:</strong> $1,280</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Course 3 -->
-                    <div class="d-flex mb-3 p-3 border-bottom">
-                        <img src="https://placebeard.it/100/70?image=45" class="me-3" alt="Course" style="object-fit: cover;">
-                        <div class="flex-grow-1">
-                            <div class="d-flex justify-content-between align-items-start">
-                                <div>
-                                    <h5 class="mb-1">Responsive Web Design Masterclass</h5>
-                                    <div class="d-flex align-items-center">
-                                        <span class="badge bg-success me-2">Published</span>
-                                        <small class="text-muted">Last updated: 3 months ago</small>
-                                    </div>
-                                </div>
-                                <div>
-                                    <button class="btn btn-sm btn-outline-primary me-1">Edit</button>
-                                    <button class="btn btn-sm btn-outline-secondary">Statistics</button>
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center mt-2">
-                                <div>
-                                    <small class="text-muted me-3"><strong>Students:</strong> 96</small>
-                                    <small class="text-muted me-3"><strong>Rating:</strong> 4.8 <i class="fa-solid fa-star"></i> (52 reviews)</small>
-                                    <small class="text-muted"><strong>Revenue:</strong> $1,920</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Course 4 (Draft) -->
-                    <div class="d-flex p-3">
-                        <img src="https://placebeard.it/100/70?image=48" class="me-3" alt="Course" style="object-fit: cover;">
-                        <div class="flex-grow-1">
-                            <div class="d-flex justify-content-between align-items-start">
-                                <div>
-                                    <h5 class="mb-1">Full Stack Development with MERN</h5>
-                                    <div class="d-flex align-items-center">
-                                        <span class="badge bg-secondary me-2">Draft</span>
-                                        <small class="text-muted">Last updated: 2 days ago</small>
-                                    </div>
-                                </div>
-                                <div>
-                                    <button class="btn btn-sm btn-outline-primary me-1">Edit</button>
-                                    <button class="btn btn-sm btn-success">Publish</button>
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center mt-2">
-                                <div>
-                                    <small class="text-muted"><strong>Completion:</strong> 85%</small>
-                                    <div class="progress mt-1" style="height: 5px; width: 200px;">
-                                        <div class="progress-bar" role="progressbar" style="width: 85%"
-                                             aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                            </c:if>
+                        </c:otherwise>
+                    </c:choose>
                 </div>
             </div>
         </div>

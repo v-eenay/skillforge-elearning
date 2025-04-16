@@ -96,7 +96,7 @@
                                     <div class="custom-dropdown" id="profileDropdownContainer">
                                         <a class="nav-link d-flex align-items-center" href="#" id="profileDropdownToggle">
                                             <%
-                                                com.example.skillforge.models.UserModel headerUser = (com.example.skillforge.models.UserModel) session.getAttribute("user");
+                                                com.example.skillforge.models.user.UserModel headerUser = (com.example.skillforge.models.user.UserModel) session.getAttribute("user");
                                                 String profileImage = headerUser.getProfileImage();
                                                 String userName = headerUser.getUserName();
                                                 String firstLetter = headerUser.getName().substring(0, 1);
@@ -118,6 +118,7 @@
                                                 <a class="custom-dropdown-item" href="${pageContext.request.contextPath}/admin/users"><i class="fas fa-users me-2"></i>Manage Users</a>
                                             <% } else if ("instructor".equals(userRole)) { %>
                                                 <a class="custom-dropdown-item" href="${pageContext.request.contextPath}/instructor/dashboard"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
+                                                <a class="custom-dropdown-item" href="${pageContext.request.contextPath}/instructor/courses/"><i class="fas fa-book me-2"></i>My Courses</a>
                                                 <a class="custom-dropdown-item" href="${pageContext.request.contextPath}/instructor/profile"><i class="fas fa-user me-2"></i>My Profile</a>
                                             <% } else { %>
                                                 <a class="custom-dropdown-item" href="${pageContext.request.contextPath}/student/dashboard"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
