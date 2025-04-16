@@ -179,6 +179,8 @@ public class InstructorController extends HttpServlet {
                 // If saveAction is publish, override status to active
                 if ("publish".equals(saveAction)) {
                     status = "active";
+                } else if ("draft".equals(saveAction)) {
+                    status = "inactive";
                 }
 
                 // Optional fields

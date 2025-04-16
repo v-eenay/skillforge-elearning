@@ -119,6 +119,13 @@
             background-color: #e9ecef;
         }
 
+        .rich-text-editor {
+            min-height: 200px;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            padding: 10px;
+        }
+
         .ck-editor__editable {
             min-height: 200px;
         }
@@ -165,7 +172,7 @@
 
                     <div class="mb-3">
                         <label for="courseDescription" class="form-label">Course Description <span class="text-danger">*</span></label>
-                        <textarea id="courseDescription">${course.description}</textarea>
+                        <textarea id="courseDescription" style="display: none;">${course.description}</textarea>
                         <input type="hidden" id="descriptionHidden" name="description" value="${course.description}">
                         <small class="text-muted">Use the rich text editor to format your description.</small>
                     </div>
@@ -265,8 +272,8 @@
                     <div class="mb-3">
                         <label class="form-label">Status</label>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="status" id="statusDraft" value="draft" ${course.status == 'draft' ? 'checked' : ''}>
-                            <label class="form-check-label" for="statusDraft">
+                            <input class="form-check-input" type="radio" name="status" id="statusInactive" value="inactive" ${course.status == 'inactive' ? 'checked' : ''}>
+                            <label class="form-check-label" for="statusInactive">
                                 <i class="fas fa-save me-2"></i>Draft - Save your course but don't publish it yet
                             </label>
                         </div>
@@ -302,7 +309,7 @@
     <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <!-- CKEditor -->
-    <script src="https://cdn.ckeditor.com/ckeditor5/40.0.0/classic/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
     <script>
         // Initialize CKEditor for course description
         document.addEventListener('DOMContentLoaded', function() {
