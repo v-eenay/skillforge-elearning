@@ -144,7 +144,7 @@
 
             <form action="${pageContext.request.contextPath}/instructor/courses/edit" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="courseId" value="${course.courseId}">
-                
+
                 <!-- Basic Information Section -->
                 <div class="form-section">
                     <h3><i class="fas fa-info-circle me-2"></i>Basic Information</h3>
@@ -165,8 +165,9 @@
 
                     <div class="mb-3">
                         <label for="courseDescription" class="form-label">Course Description <span class="text-danger">*</span></label>
-                        <textarea id="courseDescription" name="description">${course.description}</textarea>
+                        <textarea id="courseDescription">${course.description}</textarea>
                         <input type="hidden" id="descriptionHidden" name="description" value="${course.description}">
+                        <small class="text-muted">Use the rich text editor to format your description.</small>
                     </div>
 
                     <div class="row">
@@ -280,15 +281,15 @@
 
                 <!-- Form Actions -->
                 <div class="d-flex justify-content-between mt-4">
-                    <button type="button" class="btn btn-cancel" onclick="history.back()">
+                    <a href="${pageContext.request.contextPath}/instructor/courses/" class="btn btn-cancel">
                         <i class="fas fa-times me-2"></i>Cancel
-                    </button>
+                    </a>
                     <div>
                         <button type="submit" name="saveAction" value="draft" class="btn btn-secondary me-2">
-                            <i class="fas fa-save me-2"></i>Save Draft
+                            <i class="fas fa-save me-2"></i>Save as Draft
                         </button>
-                        <button type="submit" name="saveAction" value="publish" class="btn btn-create-course">
-                            <i class="fas fa-check me-2"></i>Update Course
+                        <button type="submit" name="saveAction" value="publish" class="btn btn-primary">
+                            <i class="fas fa-check me-2"></i>Save and Publish
                         </button>
                     </div>
                 </div>
@@ -305,12 +306,19 @@
     <script>
         // Initialize CKEditor for course description
         ClassicEditor
-            .create(document.querySelector('#courseDescription'))
+            .create(document.querySelector('#courseDescription'), {
+                toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|', 'outdent', 'indent', '|', 'blockQuote', 'insertTable', 'undo', 'redo']
+            })
             .then(editor => {
                 // Update hidden textarea with editor content for form submission
                 editor.model.document.on('change:data', () => {
                     document.querySelector('#descriptionHidden').value = editor.getData();
                 });
+
+                // Set initial content if available
+                if (document.querySelector('#descriptionHidden').value) {
+                    editor.setData(document.querySelector('#descriptionHidden').value);
+                }
             })
             .catch(error => {
                 console.error(error);
@@ -331,7 +339,7 @@
                             </button>
                         </div>
                     `;
-                    
+
                     // Add event listener to the new button
                     document.getElementById('changeThumbnailBtn').addEventListener('click', function() {
                         document.getElementById('thumbnailFile').click();
