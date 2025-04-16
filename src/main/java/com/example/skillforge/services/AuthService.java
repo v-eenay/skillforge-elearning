@@ -1,7 +1,7 @@
 package com.example.skillforge.services;
 
-import com.example.skillforge.dao.UserDAO;
-import com.example.skillforge.models.UserModel;
+import com.example.skillforge.dao.user.UserDAO;
+import com.example.skillforge.models.user.UserModel;
 import com.example.skillforge.utils.PasswordHashUtil;
 
 import java.util.List;

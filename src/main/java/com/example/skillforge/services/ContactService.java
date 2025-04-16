@@ -1,7 +1,7 @@
 package com.example.skillforge.services;
 
-import com.example.skillforge.dao.ContactDAO;
-import com.example.skillforge.models.ContactModel;
+import com.example.skillforge.dao.user.ContactDAO;
+import com.example.skillforge.models.user.ContactModel;
 import com.example.skillforge.utils.EmailUtil;
 
 import java.util.List;
