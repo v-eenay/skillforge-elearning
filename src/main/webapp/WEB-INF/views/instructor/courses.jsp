@@ -277,82 +277,73 @@
                 </a>
             </div>
 
-            <!-- Sample Course Cards (These would be dynamically generated) -->
-            <div class="col-md-4 mb-4">
-                <div class="course-card">
-                    <div class="course-thumbnail">
-                        <img src="https://via.placeholder.com/300x180" alt="Course Thumbnail">
-                        <span class="course-status status-active">Published</span>
-                    </div>
-                    <div class="course-content">
-                        <h3 class="course-title">Advanced Java Programming</h3>
-                        <div class="course-category">
-                            <i class="fas fa-folder me-1"></i> Programming
+            <!-- Dynamic Course Cards -->
+            <c:forEach items="${courses}" var="course">
+                <div class="col-md-4 mb-4">
+                    <div class="course-card">
+                        <div class="course-thumbnail">
+                            <c:choose>
+                                <c:when test="${not empty course.thumbnail}">
+                                    <img src="${pageContext.request.contextPath}${course.thumbnail}" alt="${course.title}">
+                                </c:when>
+                                <c:otherwise>
+                                    <img src="https://placebeard.it/300/180?image=${course.courseId % 10 + 1}" alt="${course.title}">
+                                </c:otherwise>
+                            </c:choose>
+                            <span class="course-status status-${course.status.toString().toLowerCase()}">
+                                <c:choose>
+                                    <c:when test="${course.status == 'active'}">Published</c:when>
+                                    <c:when test="${course.status == 'inactive'}">Inactive</c:when>
+                                    <c:otherwise>Draft</c:otherwise>
+                                </c:choose>
+                            </span>
                         </div>
-                        <div class="course-stats">
-                            <span><i class="fas fa-users me-1"></i> 45 students</span>
-                            <span><i class="fas fa-star me-1"></i> 4.8 (24 reviews)</span>
-                        </div>
-                        <div class="course-actions">
-                            <a href="#" class="btn btn-outline-primary">
-                                <i class="fas fa-edit me-1"></i> Edit
-                            </a>
-                            <div class="dropdown">
-                                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                                    <i class="fas fa-ellipsis-v"></i>
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-end">
-                                    <li><a class="dropdown-item" href="#"><i class="fas fa-eye"></i> Preview</a></li>
-                                    <li><a class="dropdown-item" href="#"><i class="fas fa-chart-bar"></i> Analytics</a></li>
-                                    <li><a class="dropdown-item" href="#"><i class="fas fa-users"></i> Students</a></li>
-                                    <li><a class="dropdown-item" href="#"><i class="fas fa-comments"></i> Discussions</a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item text-danger" href="#"><i class="fas fa-trash"></i> Delete</a></li>
-                                </ul>
+                        <div class="course-content">
+                            <h3 class="course-title">${course.title}</h3>
+                            <div class="course-category">
+                                <i class="fas fa-folder me-1"></i> ${course.category.name}
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                            <div class="course-stats">
+                                <span><i class="fas fa-users me-1"></i> 0 students</span>
+                                <span><i class="fas fa-clock me-1"></i> Created ${course.createdAt}</span>
+                            </div>
+                            <div class="course-actions">
+                                <a href="${pageContext.request.contextPath}/instructor/courses/edit?id=${course.courseId}" class="btn btn-outline-primary">
+                                    <i class="fas fa-edit me-1"></i> Edit
+                                </a>
+                                <div class="dropdown">
+                                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/courses/view?id=${course.courseId}"><i class="fas fa-eye"></i> Preview</a></li>
 
-            <div class="col-md-4 mb-4">
-                <div class="course-card">
-                    <div class="course-thumbnail">
-                        <img src="https://via.placeholder.com/300x180" alt="Course Thumbnail">
-                        <span class="course-status status-draft">Draft</span>
-                    </div>
-                    <div class="course-content">
-                        <h3 class="course-title">Web Development Fundamentals</h3>
-                        <div class="course-category">
-                            <i class="fas fa-folder me-1"></i> Web Development
-                        </div>
-                        <div class="course-stats">
-                            <span><i class="fas fa-users me-1"></i> 0 students</span>
-                            <span><i class="fas fa-clock me-1"></i> Last edited 2 days ago</span>
-                        </div>
-                        <div class="course-actions">
-                            <a href="#" class="btn btn-outline-primary">
-                                <i class="fas fa-edit me-1"></i> Edit
-                            </a>
-                            <div class="dropdown">
-                                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                                    <i class="fas fa-ellipsis-v"></i>
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-end">
-                                    <li><a class="dropdown-item" href="#"><i class="fas fa-eye"></i> Preview</a></li>
-                                    <li><a class="dropdown-item" href="#"><i class="fas fa-check-circle"></i> Publish</a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item text-danger" href="#"><i class="fas fa-trash"></i> Delete</a></li>
-                                </ul>
+                                        <c:choose>
+                                            <c:when test="${course.status == 'active'}">
+                                                <li><a class="dropdown-item" href="#"><i class="fas fa-chart-bar"></i> Analytics</a></li>
+                                                <li><a class="dropdown-item" href="#"><i class="fas fa-users"></i> Students</a></li>
+                                                <li><a class="dropdown-item" href="#"><i class="fas fa-comments"></i> Discussions</a></li>
+                                                <li><hr class="dropdown-divider"></li>
+                                                <li><a class="dropdown-item text-warning" href="#"><i class="fas fa-pause-circle"></i> Unpublish</a></li>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <li><a class="dropdown-item" href="#"><i class="fas fa-check-circle"></i> Publish</a></li>
+                                            </c:otherwise>
+                                        </c:choose>
+
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item text-danger" href="#"><i class="fas fa-trash"></i> Delete</a></li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </c:forEach>
 
             <!-- If no courses are available, show this instead of the grid -->
             <c:if test="${empty courses}">
-                <div class="no-courses" style="display: none;">
+                <div class="no-courses">
                     <i class="fas fa-book"></i>
                     <h3>No courses yet</h3>
                     <p>You haven't created any courses yet. Start sharing your knowledge today!</p>

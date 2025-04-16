@@ -40,6 +40,8 @@ public class InstructorController extends HttpServlet {
 
         if (pathInfo == null || pathInfo.equals("/")) {
             // List instructor's courses
+            List<CourseModel> courses = CourseDAO.getCoursesByInstructor(user.getUserId());
+            request.setAttribute("courses", courses);
             request.getRequestDispatcher("/WEB-INF/views/instructor/courses.jsp").forward(request, response);
         } else if (pathInfo.equals("/create")) {
             // Show course creation form
