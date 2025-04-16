@@ -1,4 +1,4 @@
-package com.example.skillforge.models;
+package com.example.skillforge.models.user;
 
 import java.io.Serializable;
 

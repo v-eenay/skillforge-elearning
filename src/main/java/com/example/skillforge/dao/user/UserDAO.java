@@ -1,6 +1,6 @@
-package com.example.skillforge.dao;
+package com.example.skillforge.dao.user;
 
-import com.example.skillforge.models.UserModel;
+import com.example.skillforge.models.user.UserModel;
 import com.example.skillforge.utils.DBConnectionUtil;
 
 import java.sql.Connection;

@@ -1,6 +1,6 @@
 package com.example.skillforge.controllers.student;
 
-import com.example.skillforge.models.UserModel;
+import com.example.skillforge.models.user.UserModel;
 import com.example.skillforge.services.AuthService;
 import com.example.skillforge.utils.FileUploadUtil;
 import jakarta.servlet.*;

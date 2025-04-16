@@ -59,7 +59,7 @@
                             </a>
                         </li>
                         <li class="list-group-item px-0 py-2 border-0">
-                            <a href="#" class="text-decoration-none d-flex align-items-center">
+                            <a href="${pageContext.request.contextPath}/instructor/courses/" class="text-decoration-none d-flex align-items-center">
                                 <i class="fas fa-book-open me-2"></i> My Courses
                             </a>
                         </li>
@@ -92,7 +92,7 @@
             <div class="card border-0 shadow-sm mb-4">
                 <div class="card-header bg-white p-4 border-0 d-flex justify-content-between align-items-center">
                     <h4 class="fw-bold mb-0">Course Statistics</h4>
-                    <a href="#" class="btn btn-sm btn-outline-primary">View All Courses</a>
+                    <a href="${pageContext.request.contextPath}/instructor/courses/" class="btn btn-sm btn-outline-primary">View All Courses</a>
                 </div>
                 <div class="card-body p-4">
                     <div class="table-responsive">

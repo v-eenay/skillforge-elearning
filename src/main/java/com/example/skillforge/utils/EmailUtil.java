@@ -1,6 +1,6 @@
 package com.example.skillforge.utils;
 
-import com.example.skillforge.models.ContactModel;
+import com.example.skillforge.models.user.ContactModel;
 
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
