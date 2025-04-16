@@ -48,6 +48,33 @@ public class InstructorController extends HttpServlet {
             List<CategoryModel> categories = CategoryDAO.getAllCategories();
             request.setAttribute("categories", categories);
             request.getRequestDispatcher("/WEB-INF/views/instructor/create-course.jsp").forward(request, response);
+        } else if (pathInfo.equals("/edit")) {
+            // Show course edit form
+            String courseIdParam = request.getParameter("id");
+            if (courseIdParam == null || courseIdParam.isEmpty()) {
+                response.sendRedirect(request.getContextPath() + "/instructor/courses/");
+                return;
+            }
+
+            try {
+                int courseId = Integer.parseInt(courseIdParam);
+                CourseModel course = CourseDAO.getCourseById(courseId);
+
+                // Check if course exists and belongs to the current instructor
+                if (course == null || course.getCreatedBy() != user.getUserId()) {
+                    response.sendRedirect(request.getContextPath() + "/instructor/courses/");
+                    return;
+                }
+
+                // Get categories for the dropdown
+                List<CategoryModel> categories = CategoryDAO.getAllCategories();
+
+                request.setAttribute("course", course);
+                request.setAttribute("categories", categories);
+                request.getRequestDispatcher("/WEB-INF/views/instructor/edit-course.jsp").forward(request, response);
+            } catch (NumberFormatException e) {
+                response.sendRedirect(request.getContextPath() + "/instructor/courses/");
+            }
         } else {
             // Handle 404
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
@@ -125,6 +152,76 @@ public class InstructorController extends HttpServlet {
                 List<CategoryModel> categories = CategoryDAO.getAllCategories();
                 request.setAttribute("categories", categories);
                 request.getRequestDispatcher("/WEB-INF/views/instructor/create-course.jsp").forward(request, response);
+            }
+        } else if (pathInfo != null && pathInfo.equals("/edit")) {
+            // Handle course edit form submission
+            try {
+                // Get course ID
+                int courseId = Integer.parseInt(request.getParameter("courseId"));
+
+                // Get the course from the database
+                CourseModel course = CourseDAO.getCourseById(courseId);
+
+                // Check if course exists and belongs to the current instructor
+                if (course == null || course.getCreatedBy() != user.getUserId()) {
+                    response.sendRedirect(request.getContextPath() + "/instructor/courses/");
+                    return;
+                }
+
+                // Get form data
+                String title = request.getParameter("title");
+                String description = request.getParameter("description");
+                int categoryId = Integer.parseInt(request.getParameter("categoryId"));
+                String level = request.getParameter("level");
+                String status = request.getParameter("status"); // draft or active
+                String saveAction = request.getParameter("saveAction"); // draft or publish
+
+                // If saveAction is publish, override status to active
+                if ("publish".equals(saveAction)) {
+                    status = "active";
+                }
+
+                // Optional fields
+                String promoVideo = request.getParameter("promoVideo");
+                String durationStr = request.getParameter("duration");
+                String priceStr = request.getParameter("price");
+                String prerequisites = request.getParameter("prerequisites");
+                String tags = request.getParameter("tags");
+
+                // Handle thumbnail upload if a new file was provided
+                String thumbnailPath = course.getThumbnail(); // Default to existing thumbnail
+                if (request.getPart("thumbnailFile").getSize() > 0) {
+                    thumbnailPath = FileUploadUtil.uploadCourseThumbnail(request, "thumbnailFile");
+                }
+
+                // Update course model
+                course.setTitle(title);
+                course.setDescription(description);
+                course.setCategoryId(categoryId);
+                course.setLevel(level);
+                course.setThumbnail(thumbnailPath);
+                course.setStatus(CourseModel.Status.valueOf(status));
+                course.setUpdatedAt(LocalDateTime.now());
+
+                // Update course in database
+                boolean updated = CourseDAO.updateCourse(course);
+
+                if (updated) {
+                    // Course updated successfully
+                    session.setAttribute("message", "Course updated successfully!");
+                    response.sendRedirect(request.getContextPath() + "/instructor/courses/");
+                } else {
+                    // Course update failed
+                    request.setAttribute("error", "Failed to update course. Please try again.");
+                    List<CategoryModel> categories = CategoryDAO.getAllCategories();
+                    request.setAttribute("categories", categories);
+                    request.setAttribute("course", course);
+                    request.getRequestDispatcher("/WEB-INF/views/instructor/edit-course.jsp").forward(request, response);
+                }
+            } catch (Exception e) {
+                // Handle exceptions
+                request.setAttribute("error", "An error occurred: " + e.getMessage());
+                response.sendRedirect(request.getContextPath() + "/instructor/courses/");
             }
         } else {
             // Handle 404
