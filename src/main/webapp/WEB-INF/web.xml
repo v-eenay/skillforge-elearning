@@ -30,13 +30,31 @@
         <location>/WEB-INF/views/errors/error.jsp</location>
     </error-page>
 
-    <!-- Servlet Mappings -->
+    <!-- Servlet Mappings for Module Management -->
     <servlet>
-        <servlet-name>ModuleController</servlet-name>
-        <servlet-class>com.example.skillforge.controllers.instructor.ModuleController</servlet-class>
+        <servlet-name>AddModuleServlet</servlet-name>
+        <servlet-class>com.example.skillforge.controllers.instructor.AddModuleServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>ModuleController</servlet-name>
-        <url-pattern>/instructor/module/*</url-pattern>
+        <servlet-name>AddModuleServlet</servlet-name>
+        <url-pattern>/instructor/add-module</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>EditModuleServlet</servlet-name>
+        <servlet-class>com.example.skillforge.controllers.instructor.EditModuleServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EditModuleServlet</servlet-name>
+        <url-pattern>/instructor/edit-module</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DeleteModuleServlet</servlet-name>
+        <servlet-class>com.example.skillforge.controllers.instructor.DeleteModuleServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteModuleServlet</servlet-name>
+        <url-pattern>/instructor/delete-module</url-pattern>
     </servlet-mapping>
 </web-app>

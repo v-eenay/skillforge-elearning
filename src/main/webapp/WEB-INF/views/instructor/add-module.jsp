@@ -45,23 +45,23 @@
                     <h5 class="mb-0">Module Details</h5>
                 </div>
                 <div class="card-body p-4">
-                    <form action="${pageContext.request.contextPath}/instructor/modules/add" method="post" id="addModuleForm">
+                    <form action="${pageContext.request.contextPath}/instructor/add-module" method="post" id="addModuleForm">
                         <input type="hidden" name="courseId" value="${course.courseId}">
-                        
+
                         <div class="mb-4">
                             <label for="moduleTitle" class="form-label">Module Title <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="moduleTitle" name="title" required 
+                            <input type="text" class="form-control" id="moduleTitle" name="title" required
                                    placeholder="e.g., Introduction to the Course" maxlength="255">
                             <div class="form-text">Give your module a clear and descriptive title.</div>
                         </div>
-                        
+
                         <div class="mb-4">
                             <label for="moduleOrder" class="form-label">Module Order</label>
-                            <input type="number" class="form-control" id="moduleOrder" name="orderIndex" 
+                            <input type="number" class="form-control" id="moduleOrder" name="orderIndex"
                                    value="${nextOrderIndex}" min="1">
                             <div class="form-text">The order in which this module appears in the course. Leave as is to add to the end.</div>
                         </div>
-                        
+
                         <div class="mb-4">
                             <label class="form-label d-block">After creating this module:</label>
                             <div class="form-check form-check-inline">
@@ -77,7 +77,7 @@
                                 <label class="form-check-label" for="afterActionAddAnother">Add another module</label>
                             </div>
                         </div>
-                        
+
                         <div class="d-flex justify-content-between">
                             <a href="${pageContext.request.contextPath}/instructor/courses/view?id=${course.courseId}" class="btn btn-outline-secondary">
                                 <i class="fas fa-times me-2"></i>Cancel
@@ -90,7 +90,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="col-lg-4">
             <div class="card border-0 shadow-sm mb-4">
                 <div class="card-header bg-white py-3">
@@ -98,7 +98,7 @@
                 </div>
                 <div class="card-body p-4">
                     <p>Modules are the main sections of your course. They help organize your content into logical units.</p>
-                    
+
                     <div class="alert alert-info">
                         <h6 class="alert-heading"><i class="fas fa-lightbulb me-2"></i>Tips for Creating Modules</h6>
                         <ul class="mb-0 ps-3">
@@ -108,11 +108,11 @@
                             <li>Consider a logical progression of topics</li>
                         </ul>
                     </div>
-                    
+
                     <p class="mb-0">After creating a module, you can add lessons, quizzes, and assignments to it.</p>
                 </div>
             </div>
-            
+
             <div class="card border-0 shadow-sm">
                 <div class="card-header bg-white py-3">
                     <h5 class="mb-0">Current Modules</h5>
@@ -151,7 +151,7 @@
         if (!titleInput.value.trim()) {
             event.preventDefault();
             titleInput.classList.add('is-invalid');
-            
+
             // Add invalid feedback if it doesn't exist
             if (!document.querySelector('.invalid-feedback')) {
                 const feedback = document.createElement('div');
@@ -161,7 +161,7 @@
             }
         }
     });
-    
+
     // Remove invalid state when user types
     document.getElementById('moduleTitle').addEventListener('input', function() {
         this.classList.remove('is-invalid');
