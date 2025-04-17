@@ -29,4 +29,14 @@
         <exception-type>java.lang.Throwable</exception-type>
         <location>/WEB-INF/views/errors/error.jsp</location>
     </error-page>
+
+    <!-- Servlet Mappings -->
+    <servlet>
+        <servlet-name>ModuleController</servlet-name>
+        <servlet-class>com.example.skillforge.controllers.instructor.ModuleController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ModuleController</servlet-name>
+        <url-pattern>/instructor/module/*</url-pattern>
+    </servlet-mapping>
 </web-app>

@@ -89,7 +89,7 @@
                 <div class="card mb-4 border-0 shadow-sm">
                     <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
                         <h5 class="mb-0">Course Content</h5>
-                        <a href="${pageContext.request.contextPath}/instructor/modules/add?courseId=${course.courseId}" class="btn btn-sm btn-primary">
+                        <a href="${pageContext.request.contextPath}/instructor/module/add?courseId=${course.courseId}" class="btn btn-sm btn-primary">
                             <i class="fas fa-plus me-1"></i> Add Module
                         </a>
                     </div>
@@ -102,7 +102,7 @@
                                     </div>
                                     <h5>No content yet</h5>
                                     <p class="text-muted">Start building your course by adding modules and lessons.</p>
-                                    <a href="${pageContext.request.contextPath}/instructor/modules/add?courseId=${course.courseId}" class="btn btn-primary">
+                                    <a href="${pageContext.request.contextPath}/instructor/module/add?courseId=${course.courseId}" class="btn btn-primary">
                                         <i class="fas fa-plus me-1"></i> Add First Module
                                     </a>
                                 </div>
@@ -184,7 +184,7 @@
                             <a href="${pageContext.request.contextPath}/instructor/courses/edit?id=${course.courseId}" class="btn btn-primary">
                                 <i class="fas fa-edit me-2"></i> Edit Course Details
                             </a>
-                            <a href="${pageContext.request.contextPath}/instructor/modules/add?courseId=${course.courseId}" class="btn btn-outline-primary">
+                            <a href="${pageContext.request.contextPath}/instructor/module/add?courseId=${course.courseId}" class="btn btn-outline-primary">
                                 <i class="fas fa-plus-circle me-2"></i> Add Module
                             </a>
                             <c:choose>
