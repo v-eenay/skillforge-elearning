@@ -172,7 +172,8 @@
                                                         <c:when test="${fn:startsWith(block.content, '/uploads/')}">
                                                             <!-- Display uploaded document file -->
                                                             <div class="document-preview mb-3">
-                                                                <c:set var="fileExtension" value="${fn:substringAfterLast(block.content, '.')}"/>
+                                                                <c:set var="fileName" value="${fn:substringAfter(block.content, '/')}" />
+                                                                <c:set var="fileExtension" value="${fn:toLowerCase(fn:substringAfter(fileName, '.'))}"/>
                                                                 <c:choose>
                                                                     <c:when test="${fileExtension == 'pdf'}">
                                                                         <!-- PDF Preview -->
@@ -194,7 +195,7 @@
                                                                                                 fileExtension == 'xls' || fileExtension == 'xlsx' ? 'excel' :
                                                                                                 fileExtension == 'ppt' || fileExtension == 'pptx' ? 'powerpoint' :
                                                                                                 'alt'} fa-4x mb-3 text-primary"></i>
-                                                                            <h5>${fn:substringAfterLast(block.content, '/')}</h5>
+                                                                            <h5>${fileName}</h5>
                                                                         </div>
                                                                     </c:otherwise>
                                                                 </c:choose>

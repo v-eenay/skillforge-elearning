@@ -55,7 +55,7 @@
                     </c:if>
                 </div>
             </div>
-            
+
             <!-- Content Blocks -->
             <div class="card border-0 shadow-sm mb-4">
                 <div class="card-header bg-white py-3">
@@ -77,7 +77,7 @@
                                         <c:if test="${not empty block.title}">
                                             <h5 class="mb-3">${block.title}</h5>
                                         </c:if>
-                                        
+
                                         <c:choose>
                                             <c:when test="${block.blockType == 'TEXT'}">
                                                 <div class="content-text">
@@ -110,7 +110,7 @@
                                             </c:when>
                                             <c:when test="${block.blockType == 'IMAGE'}">
                                                 <div class="content-image">
-                                                    <img src="${fn:startsWith(block.content, '/uploads/') ? pageContext.request.contextPath : ''}${block.content}" 
+                                                    <img src="${fn:startsWith(block.content, '/uploads/') ? pageContext.request.contextPath : ''}${block.content}"
                                                          alt="${block.title}" class="img-fluid mb-2">
                                                     <c:if test="${not empty block.description}">
                                                         <p class="text-muted">${block.description}</p>
@@ -128,29 +128,30 @@
                                                         <c:when test="${fn:startsWith(block.content, '/uploads/')}">
                                                             <!-- Display uploaded document file -->
                                                             <div class="document-preview mb-3">
-                                                                <c:set var="fileExtension" value="${fn:substringAfterLast(block.content, '.')}"/>
+                                                                <c:set var="fileName" value="${fn:substringAfter(block.content, '/')}" />
+                                                                <c:set var="fileExtension" value="${fn:toLowerCase(fn:substringAfter(fileName, '.'))}"/>
                                                                 <c:choose>
                                                                     <c:when test="${fileExtension == 'pdf'}">
                                                                         <!-- PDF Preview -->
                                                                         <div class="ratio ratio-16x9 mb-3">
-                                                                            <iframe src="${pageContext.request.contextPath}${block.content}" 
+                                                                            <iframe src="${pageContext.request.contextPath}${block.content}"
                                                                                     title="${block.title}" allowfullscreen></iframe>
                                                                         </div>
                                                                     </c:when>
                                                                     <c:when test="${fileExtension == 'jpg' || fileExtension == 'jpeg' || fileExtension == 'png' || fileExtension == 'gif'}">
                                                                         <!-- Image Preview -->
-                                                                        <img src="${pageContext.request.contextPath}${block.content}" 
+                                                                        <img src="${pageContext.request.contextPath}${block.content}"
                                                                              alt="${block.title}" class="img-fluid mb-2">
                                                                     </c:when>
                                                                     <c:otherwise>
                                                                         <!-- Document Icon -->
                                                                         <div class="text-center p-4 bg-light rounded mb-3">
-                                                                            <i class="fas fa-file-${fileExtension == 'pdf' ? 'pdf' : 
-                                                                                                fileExtension == 'doc' || fileExtension == 'docx' ? 'word' : 
-                                                                                                fileExtension == 'xls' || fileExtension == 'xlsx' ? 'excel' : 
-                                                                                                fileExtension == 'ppt' || fileExtension == 'pptx' ? 'powerpoint' : 
+                                                                            <i class="fas fa-file-${fileExtension == 'pdf' ? 'pdf' :
+                                                                                                fileExtension == 'doc' || fileExtension == 'docx' ? 'word' :
+                                                                                                fileExtension == 'xls' || fileExtension == 'xlsx' ? 'excel' :
+                                                                                                fileExtension == 'ppt' || fileExtension == 'pptx' ? 'powerpoint' :
                                                                                                 'alt'} fa-4x mb-3 text-primary"></i>
-                                                                            <h5>${fn:substringAfterLast(block.content, '/')}</h5>
+                                                                            <h5>${fileName}</h5>
                                                                         </div>
                                                                     </c:otherwise>
                                                                 </c:choose>
@@ -185,7 +186,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="col-lg-4">
             <!-- Course Navigation -->
             <div class="card border-0 shadow-sm mb-4">
@@ -210,7 +211,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Lesson Information -->
             <div class="card border-0 shadow-sm">
                 <div class="card-header bg-white py-3">
@@ -229,7 +230,7 @@
                             </li>
                         </c:if>
                     </ul>
-                    
+
                     <div class="mt-4">
                         <a href="${pageContext.request.contextPath}/instructor/view-lesson?id=${lesson.lessonId}" class="btn btn-primary w-100">
                             <i class="fas fa-edit me-2"></i> Edit This Lesson
