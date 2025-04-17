@@ -5,6 +5,14 @@
 
 <div class="container-fluid py-4">
     <div class="container">
+        <!-- Success Messages -->
+        <c:if test="${not empty sessionScope.success}">
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                ${sessionScope.success}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <c:remove var="success" scope="session" />
+        </c:if>
         <!-- Course Header -->
         <div class="row mb-4">
             <div class="col-md-8">

@@ -31,11 +31,24 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     </c:if>
+    <c:if test="${not empty requestScope.error}">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            ${requestScope.error}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </c:if>
     <c:if test="${not empty success}">
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             ${success}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
+    </c:if>
+    <c:if test="${not empty sessionScope.success}">
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            ${sessionScope.success}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <c:remove var="success" scope="session" />
     </c:if>
 
     <div class="row">
@@ -45,20 +58,20 @@
                     <h5 class="mb-0">Module Details</h5>
                 </div>
                 <div class="card-body p-4">
-                    <form action="${pageContext.request.contextPath}/instructor/add-module" method="post" id="addModuleForm">
+                    <form action="${pageContext.request.contextPath}/instructor/add-module" method="post" id="addModuleForm" autocomplete="off">
                         <input type="hidden" name="courseId" value="${course.courseId}">
 
                         <div class="mb-4">
                             <label for="moduleTitle" class="form-label">Module Title <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="moduleTitle" name="title" required
-                                   placeholder="e.g., Introduction to the Course" maxlength="255">
+                                   placeholder="e.g., Introduction to the Course" maxlength="255" value="${param.title}">
                             <div class="form-text">Give your module a clear and descriptive title.</div>
                         </div>
 
                         <div class="mb-4">
                             <label for="moduleOrder" class="form-label">Module Order</label>
                             <input type="number" class="form-control" id="moduleOrder" name="orderIndex"
-                                   value="${nextOrderIndex}" min="1">
+                                   value="${not empty param.orderIndex ? param.orderIndex : nextOrderIndex}" min="1">
                             <div class="form-text">The order in which this module appears in the course. Leave as is to add to the end.</div>
                         </div>
 
