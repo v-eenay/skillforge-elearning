@@ -29,62 +29,62 @@ public class AddLessonServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         UserModel user = (UserModel) session.getAttribute("user");
-        
+
         // Check if user is logged in and is an instructor
         if (user == null || !user.getRole().equals(UserModel.Role.instructor)) {
             response.sendRedirect(request.getContextPath() + "/auth/login");
             return;
         }
-        
+
         // Get module ID from request parameter
         String moduleIdParam = request.getParameter("moduleId");
         if (moduleIdParam == null || moduleIdParam.isEmpty()) {
             response.sendRedirect(request.getContextPath() + "/instructor/courses/");
             return;
         }
-        
+
         try {
             int moduleId = Integer.parseInt(moduleIdParam);
             ModuleModel module = ModuleDAO.getModuleById(moduleId);
-            
+
             if (module == null) {
                 response.sendRedirect(request.getContextPath() + "/instructor/courses/");
                 return;
             }
-            
+
             // Get the course to check ownership
             CourseModel course = CourseDAO.getCourseById(module.getCourseId());
-            
+
             // Check if course exists and belongs to the current instructor
             if (course == null || course.getCreatedBy() != user.getUserId()) {
                 response.sendRedirect(request.getContextPath() + "/instructor/courses/");
                 return;
             }
-            
+
             request.setAttribute("module", module);
             request.setAttribute("course", course);
-            
+
             // Get existing lessons for the module
             module.setLessons(LessonDAO.getLessonsByModule(moduleId));
-            
+
             request.getRequestDispatcher("/WEB-INF/views/instructor/add-lesson.jsp").forward(request, response);
         } catch (NumberFormatException e) {
             LOGGER.log(Level.WARNING, "Invalid module ID: {0}", moduleIdParam);
             response.sendRedirect(request.getContextPath() + "/instructor/courses/");
         }
     }
-    
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         UserModel user = (UserModel) session.getAttribute("user");
-        
+
         // Check if user is logged in and is an instructor
         if (user == null || !user.getRole().equals(UserModel.Role.instructor)) {
             response.sendRedirect(request.getContextPath() + "/auth/login");
             return;
         }
-        
+
         // Get form data
         String moduleIdParam = request.getParameter("moduleId");
         String title = request.getParameter("title");
@@ -92,38 +92,38 @@ public class AddLessonServlet extends HttpServlet {
         String durationParam = request.getParameter("duration");
         String resourceLink = request.getParameter("resourceLink");
         String afterAction = request.getParameter("afterAction");
-        
+
         // Validate required fields
         if (moduleIdParam == null || moduleIdParam.isEmpty() || title == null || title.trim().isEmpty()) {
             request.setAttribute("error", "Module ID and lesson title are required.");
             doGet(request, response);
             return;
         }
-        
+
         try {
             int moduleId = Integer.parseInt(moduleIdParam);
             ModuleModel module = ModuleDAO.getModuleById(moduleId);
-            
+
             if (module == null) {
                 response.sendRedirect(request.getContextPath() + "/instructor/courses/");
                 return;
             }
-            
+
             // Get the course to check ownership
             CourseModel course = CourseDAO.getCourseById(module.getCourseId());
-            
+
             // Check if course exists and belongs to the current instructor
             if (course == null || course.getCreatedBy() != user.getUserId()) {
                 response.sendRedirect(request.getContextPath() + "/instructor/courses/");
                 return;
             }
-            
+
             // Create new lesson
             LessonModel lesson = new LessonModel();
             lesson.setModuleId(moduleId);
             lesson.setTitle(title);
             lesson.setContent(content);
-            
+
             // Set duration if provided
             if (durationParam != null && !durationParam.isEmpty()) {
                 try {
@@ -134,30 +134,36 @@ public class AddLessonServlet extends HttpServlet {
                     lesson.setDuration(0);
                 }
             }
-            
+
             // Set resource link if provided
             if (resourceLink != null && !resourceLink.isEmpty()) {
                 lesson.setResourceLink(resourceLink);
             }
-            
+
             try {
                 // Insert lesson
                 LOGGER.info("Inserting lesson: " + lesson.getTitle() + " for module ID: " + lesson.getModuleId());
                 int lessonId = LessonDAO.insertLesson(lesson);
-                
+
                 if (lessonId > 0) {
                     // Lesson created successfully
                     LOGGER.info("Lesson created successfully with ID: " + lessonId);
                     lesson.setLessonId(lessonId);
                     session.setAttribute("success", "Lesson '" + lesson.getTitle() + "' created successfully!");
-                    
+
                     // Handle after action
-                    if ("addAnother".equals(afterAction)) {
+                    if ("addContent".equals(afterAction)) {
+                        // Redirect to add content block page
+                        response.sendRedirect(request.getContextPath() + "/instructor/add-content-block?lessonId=" + lessonId);
+                        return;
+                    } else if ("addAnother".equals(afterAction)) {
                         // Redirect back to add lesson page
                         response.sendRedirect(request.getContextPath() + "/instructor/add-lesson?moduleId=" + moduleId);
+                        return;
                     } else {
                         // Default: return to course view
                         response.sendRedirect(request.getContextPath() + "/instructor/courses/view?id=" + course.getCourseId());
+                        return;
                     }
                 } else {
                     // Lesson creation failed

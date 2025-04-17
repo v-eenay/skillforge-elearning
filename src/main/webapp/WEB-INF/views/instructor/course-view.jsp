@@ -133,14 +133,19 @@
                                                         <c:forEach items="${module.lessons}" var="lesson">
                                                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                                                 <div>
-                                                                    <i class="fas fa-${lesson.type == 'video' ? 'video' : lesson.type == 'quiz' ? 'question-circle' : 'file-alt'} me-2"></i>
-                                                                    ${lesson.title}
+                                                                    <i class="fas fa-file-alt me-2"></i>
+                                                                    <a href="${pageContext.request.contextPath}/instructor/view-lesson?id=${lesson.lessonId}" class="text-decoration-none text-dark">
+                                                                        ${lesson.title}
+                                                                    </a>
                                                                 </div>
                                                                 <div>
-                                                                    <c:if test="${lesson.type == 'video'}">
+                                                                    <c:if test="${lesson.duration > 0}">
                                                                         <span class="text-muted me-3"><i class="fas fa-clock me-1"></i> ${lesson.duration} min</span>
                                                                     </c:if>
-                                                                    <a href="#" class="btn btn-sm btn-outline-primary">
+                                                                    <a href="${pageContext.request.contextPath}/instructor/view-lesson?id=${lesson.lessonId}" class="btn btn-sm btn-outline-secondary me-1">
+                                                                        <i class="fas fa-eye"></i>
+                                                                    </a>
+                                                                    <a href="${pageContext.request.contextPath}/instructor/edit-lesson?id=${lesson.lessonId}" class="btn btn-sm btn-outline-primary">
                                                                         <i class="fas fa-edit"></i>
                                                                     </a>
                                                                 </div>

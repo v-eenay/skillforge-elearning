@@ -60,39 +60,43 @@
                 <div class="card-body p-4">
                     <form action="${pageContext.request.contextPath}/instructor/add-lesson" method="post" id="addLessonForm" autocomplete="off">
                         <input type="hidden" name="moduleId" value="${module.moduleId}">
-                        
+
                         <div class="mb-4">
                             <label for="lessonTitle" class="form-label">Lesson Title <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="lessonTitle" name="title" required 
+                            <input type="text" class="form-control" id="lessonTitle" name="title" required
                                    placeholder="e.g., Introduction to the Topic" maxlength="255" value="${param.title}">
                             <div class="form-text">Give your lesson a clear and descriptive title.</div>
                         </div>
-                        
+
                         <div class="mb-4">
-                            <label for="lessonContent" class="form-label">Lesson Content</label>
-                            <textarea class="form-control" id="lessonContent" name="content" rows="8" 
-                                      placeholder="Enter the lesson content here...">${param.content}</textarea>
-                            <div class="form-text">You can use Markdown formatting for rich text.</div>
+                            <label class="form-label">Content Blocks</label>
+                            <div class="alert alert-info">
+                                <small>Content blocks will be added after creating the lesson. You'll be able to add text, images, videos, and more.</small>
+                            </div>
                         </div>
-                        
+
                         <div class="mb-4">
                             <label for="lessonDuration" class="form-label">Duration (minutes)</label>
-                            <input type="number" class="form-control" id="lessonDuration" name="duration" 
+                            <input type="number" class="form-control" id="lessonDuration" name="duration"
                                    value="${not empty param.duration ? param.duration : 0}" min="0">
                             <div class="form-text">Estimated time to complete this lesson in minutes.</div>
                         </div>
-                        
+
                         <div class="mb-4">
                             <label for="resourceLink" class="form-label">Resource Link (Optional)</label>
-                            <input type="url" class="form-control" id="resourceLink" name="resourceLink" 
+                            <input type="url" class="form-control" id="resourceLink" name="resourceLink"
                                    placeholder="e.g., https://example.com/resource" value="${param.resourceLink}">
                             <div class="form-text">Add a link to an external resource (video, article, etc.).</div>
                         </div>
-                        
+
                         <div class="mb-4">
                             <label class="form-label d-block">After creating this lesson:</label>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="afterAction" id="afterActionReturn" value="return" checked>
+                                <input class="form-check-input" type="radio" name="afterAction" id="afterActionAddContent" value="addContent" checked>
+                                <label class="form-check-label" for="afterActionAddContent">Add content blocks</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="afterAction" id="afterActionReturn" value="return">
                                 <label class="form-check-label" for="afterActionReturn">Return to course view</label>
                             </div>
                             <div class="form-check form-check-inline">
@@ -100,7 +104,7 @@
                                 <label class="form-check-label" for="afterActionAddAnother">Add another lesson</label>
                             </div>
                         </div>
-                        
+
                         <div class="d-flex justify-content-between">
                             <a href="${pageContext.request.contextPath}/instructor/courses/view?id=${course.courseId}" class="btn btn-outline-secondary">
                                 <i class="fas fa-times me-2"></i>Cancel
@@ -113,7 +117,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="col-lg-4">
             <div class="card border-0 shadow-sm mb-4">
                 <div class="card-header bg-white py-3">
@@ -121,7 +125,7 @@
                 </div>
                 <div class="card-body p-4">
                     <p>Lessons are the building blocks of your modules. They contain the actual content that students will learn.</p>
-                    
+
                     <div class="alert alert-info">
                         <h6 class="alert-heading"><i class="fas fa-lightbulb me-2"></i>Tips for Creating Lessons</h6>
                         <ul class="mb-0 ps-3">
@@ -129,13 +133,22 @@
                             <li>Keep content focused on a single topic</li>
                             <li>Include examples and practical applications</li>
                             <li>Add external resources for further learning</li>
+                            <li>Use different content block types for variety</li>
                         </ul>
                     </div>
-                    
-                    <p class="mb-0">You can add different types of content to your lessons, including text, images, videos, and more.</p>
+
+                    <p class="mb-0">You can add different types of content blocks to your lessons:</p>
+                    <ul class="mt-2">
+                        <li><strong>Text</strong> - For written content</li>
+                        <li><strong>Video</strong> - Embed videos from YouTube, Vimeo, etc.</li>
+                        <li><strong>Image</strong> - Add images to illustrate concepts</li>
+                        <li><strong>Code</strong> - Share code snippets with syntax highlighting</li>
+                        <li><strong>Document</strong> - Link to downloadable resources</li>
+                        <li><strong>Embed</strong> - Embed external content</li>
+                    </ul>
                 </div>
             </div>
-            
+
             <div class="card border-0 shadow-sm">
                 <div class="card-header bg-white py-3">
                     <h5 class="mb-0">Current Lessons in Module</h5>
@@ -176,7 +189,7 @@
         if (!titleInput.value.trim()) {
             event.preventDefault();
             titleInput.classList.add('is-invalid');
-            
+
             // Add invalid feedback if it doesn't exist
             if (!document.querySelector('.invalid-feedback')) {
                 const feedback = document.createElement('div');
@@ -186,7 +199,7 @@
             }
         }
     });
-    
+
     // Remove invalid state when user types
     document.getElementById('lessonTitle').addEventListener('input', function() {
         this.classList.remove('is-invalid');
