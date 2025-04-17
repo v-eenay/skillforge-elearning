@@ -92,7 +92,11 @@
                                     <div class="flex-grow-1">
                                         <div class="d-flex justify-content-between align-items-start">
                                             <div>
-                                                <h5 class="mb-1">${course.title}</h5>
+                                                <h5 class="mb-1">
+                                                    <a href="${pageContext.request.contextPath}/instructor/courses/view?id=${course.courseId}" class="text-decoration-none text-dark">
+                                                        ${course.title}
+                                                    </a>
+                                                </h5>
                                                 <div class="d-flex align-items-center">
                                                     <c:choose>
                                                         <c:when test="${course.status == 'active'}">
@@ -106,6 +110,7 @@
                                                 </div>
                                             </div>
                                             <div>
+                                                <a href="${pageContext.request.contextPath}/instructor/courses/view?id=${course.courseId}" class="btn btn-sm btn-outline-secondary me-1">View</a>
                                                 <a href="${pageContext.request.contextPath}/instructor/courses/edit?id=${course.courseId}" class="btn btn-sm btn-outline-primary me-1">Edit</a>
                                                 <c:choose>
                                                     <c:when test="${course.status == 'active'}">
