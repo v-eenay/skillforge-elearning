@@ -2,8 +2,10 @@ package com.example.skillforge.controllers;
 
 import com.example.skillforge.dao.course.CategoryDAO;
 import com.example.skillforge.dao.course.CourseDAO;
+import com.example.skillforge.dao.course.ModuleDAO;
 import com.example.skillforge.models.course.CategoryModel;
 import com.example.skillforge.models.course.CourseModel;
+import com.example.skillforge.models.course.ModuleModel;
 import com.example.skillforge.models.user.UserModel;
 import com.example.skillforge.utils.FileUploadUtil;
 
@@ -48,6 +50,33 @@ public class InstructorController extends HttpServlet {
             List<CategoryModel> categories = CategoryDAO.getAllCategories();
             request.setAttribute("categories", categories);
             request.getRequestDispatcher("/WEB-INF/views/instructor/create-course.jsp").forward(request, response);
+        } else if (pathInfo.equals("/view")) {
+            // Show course view page
+            String courseIdParam = request.getParameter("id");
+            if (courseIdParam == null || courseIdParam.isEmpty()) {
+                response.sendRedirect(request.getContextPath() + "/instructor/courses/");
+                return;
+            }
+
+            try {
+                int courseId = Integer.parseInt(courseIdParam);
+                CourseModel course = CourseDAO.getCourseById(courseId);
+
+                // Check if course exists and belongs to the current instructor
+                if (course == null || course.getCreatedBy() != user.getUserId()) {
+                    response.sendRedirect(request.getContextPath() + "/instructor/courses/");
+                    return;
+                }
+
+                // Get course modules
+                List<ModuleModel> modules = ModuleDAO.getModulesByCourse(courseId);
+
+                request.setAttribute("course", course);
+                request.setAttribute("modules", modules);
+                request.getRequestDispatcher("/WEB-INF/views/instructor/course-view.jsp").forward(request, response);
+            } catch (NumberFormatException e) {
+                response.sendRedirect(request.getContextPath() + "/instructor/courses/");
+            }
         } else if (pathInfo.equals("/edit")) {
             // Show course edit form
             String courseIdParam = request.getParameter("id");

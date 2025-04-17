@@ -299,7 +299,11 @@
                             </span>
                         </div>
                         <div class="course-content">
-                            <h3 class="course-title">${course.title}</h3>
+                            <h3 class="course-title">
+                                <a href="${pageContext.request.contextPath}/instructor/courses/view?id=${course.courseId}" class="text-decoration-none text-dark">
+                                    ${course.title}
+                                </a>
+                            </h3>
                             <div class="course-category">
                                 <i class="fas fa-folder me-1"></i> ${course.category.name}
                             </div>
@@ -308,6 +312,9 @@
                                 <span><i class="fas fa-clock me-1"></i> Created ${course.createdAt}</span>
                             </div>
                             <div class="course-actions">
+                                <a href="${pageContext.request.contextPath}/instructor/courses/view?id=${course.courseId}" class="btn btn-outline-secondary me-1">
+                                    <i class="fas fa-eye me-1"></i> View
+                                </a>
                                 <a href="${pageContext.request.contextPath}/instructor/courses/edit?id=${course.courseId}" class="btn btn-outline-primary">
                                     <i class="fas fa-edit me-1"></i> Edit
                                 </a>
@@ -316,7 +323,8 @@
                                         <i class="fas fa-ellipsis-v"></i>
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-end">
-                                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/courses/view?id=${course.courseId}"><i class="fas fa-eye"></i> Preview</a></li>
+                                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/instructor/courses/view?id=${course.courseId}"><i class="fas fa-eye"></i> View Details</a></li>
+                                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/courses/view?id=${course.courseId}"><i class="fas fa-external-link-alt"></i> Preview as Student</a></li>
 
                                         <c:choose>
                                             <c:when test="${course.status == 'active'}">
