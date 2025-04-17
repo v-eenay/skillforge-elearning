@@ -5,6 +5,14 @@
 
 <div class="container-fluid py-4">
     <div class="container">
+        <!-- Success Messages -->
+        <c:if test="${not empty sessionScope.success}">
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                ${sessionScope.success}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <c:remove var="success" scope="session" />
+        </c:if>
         <!-- Course Header -->
         <div class="row mb-4">
             <div class="col-md-8">
@@ -125,21 +133,26 @@
                                                         <c:forEach items="${module.lessons}" var="lesson">
                                                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                                                 <div>
-                                                                    <i class="fas fa-${lesson.type == 'video' ? 'video' : lesson.type == 'quiz' ? 'question-circle' : 'file-alt'} me-2"></i>
-                                                                    ${lesson.title}
+                                                                    <i class="fas fa-file-alt me-2"></i>
+                                                                    <a href="${pageContext.request.contextPath}/instructor/view-lesson?id=${lesson.lessonId}" class="text-decoration-none text-dark">
+                                                                        ${lesson.title}
+                                                                    </a>
                                                                 </div>
                                                                 <div>
-                                                                    <c:if test="${lesson.type == 'video'}">
+                                                                    <c:if test="${lesson.duration > 0}">
                                                                         <span class="text-muted me-3"><i class="fas fa-clock me-1"></i> ${lesson.duration} min</span>
                                                                     </c:if>
-                                                                    <a href="#" class="btn btn-sm btn-outline-primary">
+                                                                    <a href="${pageContext.request.contextPath}/instructor/view-lesson?id=${lesson.lessonId}" class="btn btn-sm btn-outline-secondary me-1">
+                                                                        <i class="fas fa-eye"></i>
+                                                                    </a>
+                                                                    <a href="${pageContext.request.contextPath}/instructor/edit-lesson?id=${lesson.lessonId}" class="btn btn-sm btn-outline-primary">
                                                                         <i class="fas fa-edit"></i>
                                                                     </a>
                                                                 </div>
                                                             </li>
                                                         </c:forEach>
                                                         <li class="list-group-item text-center">
-                                                            <a href="#" class="btn btn-sm btn-outline-primary">
+                                                            <a href="${pageContext.request.contextPath}/instructor/add-lesson?moduleId=${module.moduleId}" class="btn btn-sm btn-outline-primary">
                                                                 <i class="fas fa-plus me-1"></i> Add Lesson
                                                             </a>
                                                         </li>
@@ -253,7 +266,13 @@
                             </li>
                             <li class="list-group-item d-flex justify-content-between px-0">
                                 <span>Lessons</span>
-                                <span class="badge bg-primary rounded-pill">0</span>
+                                <span class="badge bg-primary rounded-pill">
+                                    <c:set var="totalLessons" value="0" />
+                                    <c:forEach items="${modules}" var="module">
+                                        <c:set var="totalLessons" value="${totalLessons + fn:length(module.lessons)}" />
+                                    </c:forEach>
+                                    ${totalLessons}
+                                </span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between px-0">
                                 <span>Quizzes</span>

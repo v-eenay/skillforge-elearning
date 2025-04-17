@@ -11,11 +11,11 @@
                     <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/instructor/dashboard">Dashboard</a></li>
                     <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/instructor/courses/">My Courses</a></li>
                     <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/instructor/courses/view?id=${course.courseId}">${course.title}</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Add Module</li>
+                    <li class="breadcrumb-item active" aria-current="page">Add Lesson to ${module.title}</li>
                 </ol>
             </nav>
-            <h2 class="mb-3">Add New Module</h2>
-            <p class="text-muted">Create a new module for your course "${course.title}"</p>
+            <h2 class="mb-3">Add New Lesson</h2>
+            <p class="text-muted">Create a new lesson for the module "${module.title}"</p>
         </div>
         <div class="col-md-4 text-end">
             <a href="${pageContext.request.contextPath}/instructor/courses/view?id=${course.courseId}" class="btn btn-outline-secondary">
@@ -55,39 +55,53 @@
         <div class="col-lg-8">
             <div class="card border-0 shadow-sm">
                 <div class="card-header bg-white py-3">
-                    <h5 class="mb-0">Module Details</h5>
+                    <h5 class="mb-0">Lesson Details</h5>
                 </div>
                 <div class="card-body p-4">
-                    <form action="${pageContext.request.contextPath}/instructor/add-module" method="post" id="addModuleForm" autocomplete="off">
-                        <input type="hidden" name="courseId" value="${course.courseId}">
+                    <form action="${pageContext.request.contextPath}/instructor/add-lesson" method="post" id="addLessonForm" autocomplete="off">
+                        <input type="hidden" name="moduleId" value="${module.moduleId}">
 
                         <div class="mb-4">
-                            <label for="moduleTitle" class="form-label">Module Title <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="moduleTitle" name="title" required
-                                   placeholder="e.g., Introduction to the Course" maxlength="255" value="${param.title}">
-                            <div class="form-text">Give your module a clear and descriptive title.</div>
+                            <label for="lessonTitle" class="form-label">Lesson Title <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="lessonTitle" name="title" required
+                                   placeholder="e.g., Introduction to the Topic" maxlength="255" value="${param.title}">
+                            <div class="form-text">Give your lesson a clear and descriptive title.</div>
                         </div>
 
                         <div class="mb-4">
-                            <label for="moduleOrder" class="form-label">Module Order</label>
-                            <input type="number" class="form-control" id="moduleOrder" name="orderIndex"
-                                   value="${not empty param.orderIndex ? param.orderIndex : nextOrderIndex}" min="1">
-                            <div class="form-text">The order in which this module appears in the course. Leave as is to add to the end.</div>
+                            <label class="form-label">Content Blocks</label>
+                            <div class="alert alert-info">
+                                <small>Content blocks will be added after creating the lesson. You'll be able to add text, images, videos, and more.</small>
+                            </div>
                         </div>
 
                         <div class="mb-4">
-                            <label class="form-label d-block">After creating this module:</label>
+                            <label for="lessonDuration" class="form-label">Duration (minutes)</label>
+                            <input type="number" class="form-control" id="lessonDuration" name="duration"
+                                   value="${not empty param.duration ? param.duration : 0}" min="0">
+                            <div class="form-text">Estimated time to complete this lesson in minutes.</div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="resourceLink" class="form-label">Resource Link (Optional)</label>
+                            <input type="url" class="form-control" id="resourceLink" name="resourceLink"
+                                   placeholder="e.g., https://example.com/resource" value="${param.resourceLink}">
+                            <div class="form-text">Add a link to an external resource (video, article, etc.).</div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label d-block">After creating this lesson:</label>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="afterAction" id="afterActionReturn" value="return" checked>
+                                <input class="form-check-input" type="radio" name="afterAction" id="afterActionAddContent" value="addContent" checked>
+                                <label class="form-check-label" for="afterActionAddContent">Add content blocks</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="afterAction" id="afterActionReturn" value="return">
                                 <label class="form-check-label" for="afterActionReturn">Return to course view</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="afterAction" id="afterActionAddLesson" value="addLesson">
-                                <label class="form-check-label" for="afterActionAddLesson">Add lesson to this module</label>
-                            </div>
-                            <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="afterAction" id="afterActionAddAnother" value="addAnother">
-                                <label class="form-check-label" for="afterActionAddAnother">Add another module</label>
+                                <label class="form-check-label" for="afterActionAddAnother">Add another lesson</label>
                             </div>
                         </div>
 
@@ -96,7 +110,7 @@
                                 <i class="fas fa-times me-2"></i>Cancel
                             </a>
                             <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-save me-2"></i>Save Module
+                                <i class="fas fa-save me-2"></i>Save Lesson
                             </button>
                         </div>
                     </form>
@@ -107,45 +121,56 @@
         <div class="col-lg-4">
             <div class="card border-0 shadow-sm mb-4">
                 <div class="card-header bg-white py-3">
-                    <h5 class="mb-0">About Modules</h5>
+                    <h5 class="mb-0">About Lessons</h5>
                 </div>
                 <div class="card-body p-4">
-                    <p>Modules are the main sections of your course. They help organize your content into logical units.</p>
+                    <p>Lessons are the building blocks of your modules. They contain the actual content that students will learn.</p>
 
                     <div class="alert alert-info">
-                        <h6 class="alert-heading"><i class="fas fa-lightbulb me-2"></i>Tips for Creating Modules</h6>
+                        <h6 class="alert-heading"><i class="fas fa-lightbulb me-2"></i>Tips for Creating Lessons</h6>
                         <ul class="mb-0 ps-3">
                             <li>Use clear, descriptive titles</li>
-                            <li>Group related content together</li>
-                            <li>Keep modules balanced in size</li>
-                            <li>Consider a logical progression of topics</li>
+                            <li>Keep content focused on a single topic</li>
+                            <li>Include examples and practical applications</li>
+                            <li>Add external resources for further learning</li>
+                            <li>Use different content block types for variety</li>
                         </ul>
                     </div>
 
-                    <p class="mb-0">After creating a module, you can add lessons, quizzes, and assignments to it.</p>
+                    <p class="mb-0">You can add different types of content blocks to your lessons:</p>
+                    <ul class="mt-2">
+                        <li><strong>Text</strong> - For written content</li>
+                        <li><strong>Video</strong> - Embed videos from YouTube, Vimeo, etc.</li>
+                        <li><strong>Image</strong> - Add images to illustrate concepts</li>
+                        <li><strong>Code</strong> - Share code snippets with syntax highlighting</li>
+                        <li><strong>Document</strong> - Link to downloadable resources</li>
+                        <li><strong>Embed</strong> - Embed external content</li>
+                    </ul>
                 </div>
             </div>
 
             <div class="card border-0 shadow-sm">
                 <div class="card-header bg-white py-3">
-                    <h5 class="mb-0">Current Modules</h5>
+                    <h5 class="mb-0">Current Lessons in Module</h5>
                 </div>
                 <div class="card-body p-0">
                     <c:choose>
-                        <c:when test="${empty modules}">
+                        <c:when test="${empty module.lessons}">
                             <div class="p-4 text-center">
-                                <p class="text-muted mb-0">No modules yet. This will be your first module!</p>
+                                <p class="text-muted mb-0">No lessons yet. This will be your first lesson in this module!</p>
                             </div>
                         </c:when>
                         <c:otherwise>
                             <ul class="list-group list-group-flush">
-                                <c:forEach items="${modules}" var="module" varStatus="status">
+                                <c:forEach items="${module.lessons}" var="lesson" varStatus="status">
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
                                         <div>
                                             <span class="badge bg-secondary rounded-pill me-2">${status.index + 1}</span>
-                                            ${module.title}
+                                            ${lesson.title}
                                         </div>
-                                        <span class="badge bg-light text-dark">${fn:length(module.lessons)} lessons</span>
+                                        <c:if test="${lesson.duration > 0}">
+                                            <span class="badge bg-light text-dark">${lesson.duration} min</span>
+                                        </c:if>
                                     </li>
                                 </c:forEach>
                             </ul>
@@ -159,8 +184,8 @@
 
 <script>
     // Client-side validation
-    document.getElementById('addModuleForm').addEventListener('submit', function(event) {
-        const titleInput = document.getElementById('moduleTitle');
+    document.getElementById('addLessonForm').addEventListener('submit', function(event) {
+        const titleInput = document.getElementById('lessonTitle');
         if (!titleInput.value.trim()) {
             event.preventDefault();
             titleInput.classList.add('is-invalid');
@@ -169,14 +194,14 @@
             if (!document.querySelector('.invalid-feedback')) {
                 const feedback = document.createElement('div');
                 feedback.className = 'invalid-feedback';
-                feedback.textContent = 'Module title is required';
+                feedback.textContent = 'Lesson title is required';
                 titleInput.parentNode.appendChild(feedback);
             }
         }
     });
 
     // Remove invalid state when user types
-    document.getElementById('moduleTitle').addEventListener('input', function() {
+    document.getElementById('lessonTitle').addEventListener('input', function() {
         this.classList.remove('is-invalid');
     });
 </script>

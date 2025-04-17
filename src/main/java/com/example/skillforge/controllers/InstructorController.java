@@ -71,6 +71,13 @@ public class InstructorController extends HttpServlet {
                 // Get course modules
                 List<ModuleModel> modules = ModuleDAO.getModulesByCourse(courseId);
 
+                // Load lessons for each module
+                for (ModuleModel module : modules) {
+                    List<com.example.skillforge.models.content.LessonModel> lessons =
+                        com.example.skillforge.dao.content.LessonDAO.getLessonsByModule(module.getModuleId());
+                    module.setLessons(lessons);
+                }
+
                 request.setAttribute("course", course);
                 request.setAttribute("modules", modules);
                 request.getRequestDispatcher("/WEB-INF/views/instructor/course-view.jsp").forward(request, response);
