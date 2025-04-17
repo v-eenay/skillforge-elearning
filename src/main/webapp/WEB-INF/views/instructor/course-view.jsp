@@ -266,7 +266,13 @@
                             </li>
                             <li class="list-group-item d-flex justify-content-between px-0">
                                 <span>Lessons</span>
-                                <span class="badge bg-primary rounded-pill">0</span>
+                                <span class="badge bg-primary rounded-pill">
+                                    <c:set var="totalLessons" value="0" />
+                                    <c:forEach items="${modules}" var="module">
+                                        <c:set var="totalLessons" value="${totalLessons + fn:length(module.lessons)}" />
+                                    </c:forEach>
+                                    ${totalLessons}
+                                </span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between px-0">
                                 <span>Quizzes</span>
