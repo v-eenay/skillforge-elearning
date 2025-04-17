@@ -139,12 +139,15 @@ public class AddModuleServlet extends HttpServlet {
                     if ("addLesson".equals(afterAction)) {
                         // Redirect to add lesson page
                         response.sendRedirect(request.getContextPath() + "/instructor/add-lesson?moduleId=" + moduleId);
+                        return;
                     } else if ("addAnother".equals(afterAction)) {
                         // Redirect back to add module page
                         response.sendRedirect(request.getContextPath() + "/instructor/add-module?courseId=" + courseId);
+                        return;
                     } else {
                         // Default: return to course view
                         response.sendRedirect(request.getContextPath() + "/instructor/courses/view?id=" + courseId);
+                        return;
                     }
                 } else {
                     // Module creation failed

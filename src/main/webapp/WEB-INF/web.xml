@@ -57,4 +57,13 @@
         <servlet-name>DeleteModuleServlet</servlet-name>
         <url-pattern>/instructor/delete-module</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AddLessonServlet</servlet-name>
+        <servlet-class>com.example.skillforge.controllers.instructor.AddLessonServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddLessonServlet</servlet-name>
+        <url-pattern>/instructor/add-lesson</url-pattern>
+    </servlet-mapping>
 </web-app>

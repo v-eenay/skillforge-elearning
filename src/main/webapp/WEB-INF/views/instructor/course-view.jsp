@@ -147,7 +147,7 @@
                                                             </li>
                                                         </c:forEach>
                                                         <li class="list-group-item text-center">
-                                                            <a href="#" class="btn btn-sm btn-outline-primary">
+                                                            <a href="${pageContext.request.contextPath}/instructor/add-lesson?moduleId=${module.moduleId}" class="btn btn-sm btn-outline-primary">
                                                                 <i class="fas fa-plus me-1"></i> Add Lesson
                                                             </a>
                                                         </li>
