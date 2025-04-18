@@ -180,12 +180,46 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="categoryId" class="form-label">Category <span class="text-danger">*</span></label>
-                            <select class="form-select" id="categoryId" name="categoryId" required>
-                                <option value="">Select a category</option>
-                                <c:forEach items="${categories}" var="category">
-                                    <option value="${category.categoryId}" ${course.categoryId == category.categoryId ? 'selected' : ''}>${category.name}</option>
-                                </c:forEach>
-                            </select>
+                            <div class="input-group">
+                                <select class="form-select" id="categoryId" name="categoryId" required>
+                                    <option value="">Select a category</option>
+                                    <c:forEach items="${categories}" var="category">
+                                        <option value="${category.categoryId}" ${course.categoryId == category.categoryId ? 'selected' : ''}>${category.name}</option>
+                                    </c:forEach>
+                                </select>
+                                <button class="btn btn-outline-secondary" type="button" id="newCategoryBtn">
+                                    <i class="fas fa-plus"></i> New
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- New Category Modal -->
+                        <div class="modal fade" id="newCategoryModal" tabindex="-1" aria-labelledby="newCategoryModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="newCategoryModalLabel">Create New Category</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form id="newCategoryForm">
+                                            <div class="mb-3">
+                                                <label for="categoryName" class="form-label">Category Name</label>
+                                                <input type="text" class="form-control" id="categoryName" name="name" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="categoryDescription" class="form-label">Description</label>
+                                                <textarea class="form-control" id="categoryDescription" name="description" rows="3"></textarea>
+                                            </div>
+                                        </form>
+                                        <div id="categoryFormMessage" class="alert" style="display: none;"></div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                        <button type="button" class="btn btn-primary" id="saveNewCategoryBtn">Create Category</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="level" class="form-label">Level <span class="text-danger">*</span></label>
@@ -335,6 +369,74 @@
                     document.querySelector('#courseDescription').style.display = 'block';
                     document.querySelector('#courseDescription').style.height = '300px';
                 });
+
+            // New Category Modal Functionality
+            const newCategoryBtn = document.getElementById('newCategoryBtn');
+            const newCategoryModal = new bootstrap.Modal(document.getElementById('newCategoryModal'));
+            const saveNewCategoryBtn = document.getElementById('saveNewCategoryBtn');
+            const categoryFormMessage = document.getElementById('categoryFormMessage');
+            const newCategoryForm = document.getElementById('newCategoryForm');
+            const categorySelect = document.getElementById('categoryId');
+
+            // Show the modal when the New button is clicked
+            newCategoryBtn.addEventListener('click', function() {
+                newCategoryModal.show();
+            });
+
+            // Handle form submission
+            saveNewCategoryBtn.addEventListener('click', function() {
+                // Validate form
+                const categoryName = document.getElementById('categoryName').value.trim();
+                if (!categoryName) {
+                    showMessage('Please enter a category name.', 'danger');
+                    return;
+                }
+
+                // Collect form data
+                const formData = new FormData(newCategoryForm);
+
+                // Send AJAX request
+                fetch('${pageContext.request.contextPath}/instructor/categories/create', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Show success message
+                        showMessage(data.message, 'success');
+
+                        // Add the new category to the dropdown
+                        const newOption = new Option(data.category.name, data.category.id);
+                        categorySelect.add(newOption);
+
+                        // Select the new category
+                        categorySelect.value = data.category.id;
+
+                        // Clear the form
+                        newCategoryForm.reset();
+
+                        // Close the modal after a short delay
+                        setTimeout(() => {
+                            newCategoryModal.hide();
+                            categoryFormMessage.style.display = 'none';
+                        }, 1500);
+                    } else {
+                        showMessage(data.message, 'danger');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showMessage('An error occurred. Please try again.', 'danger');
+                });
+            });
+
+            // Helper function to show messages
+            function showMessage(message, type) {
+                categoryFormMessage.textContent = message;
+                categoryFormMessage.className = 'alert alert-' + type;
+                categoryFormMessage.style.display = 'block';
+            }
         });
 
         // Thumbnail preview functionality
