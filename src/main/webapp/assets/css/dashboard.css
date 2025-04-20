@@ -43,6 +43,7 @@
     transition: all 0.3s ease;
     padding: 0.5rem 1rem;
     line-height: 1.5;
+    text-align: center;
 }
 
 .btn::after {
@@ -73,11 +74,14 @@
     z-index: 1;
     margin-right: 0.5rem;
     font-size: 1rem;
+    vertical-align: middle;
+    display: inline-block;
 }
 
 .btn span {
     position: relative;
     z-index: 1;
+    vertical-align: middle;
 }
 
 /* Dashboard Action Buttons */
@@ -85,11 +89,13 @@
     padding: 0.625rem 1.25rem;
     min-width: 120px;
     height: 42px;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
     font-size: 0.95rem;
+    text-align: center;
+    white-space: nowrap;
 }
 
 .dashboard-actions .btn:hover {
@@ -203,9 +209,11 @@
     border-radius: 0.375rem;
     min-width: 90px;
     height: 38px;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
+    text-align: center;
+    white-space: nowrap;
 }
 
 .filter-buttons .btn-primary {
@@ -312,6 +320,9 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
 }
 
 .course-item-actions .btn {

@@ -16,10 +16,10 @@
 
         // Force the dropdown container to have a higher stacking context
         dropdownContainer.style.position = 'relative';
-        dropdownContainer.style.zIndex = '9999';
+        dropdownContainer.style.zIndex = '99999';
 
         // Ensure the dropdown menu has the highest z-index
-        dropdownMenu.style.zIndex = '10000';
+        dropdownMenu.style.zIndex = '100000';
 
         // Remove any existing event listeners by cloning and replacing the toggle
         const newToggle = dropdownToggle.cloneNode(true);
