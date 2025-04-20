@@ -4,6 +4,7 @@
 .profile-dropdown {
     position: relative;
     display: inline-block;
+    z-index: 9999; /* Added z-index to ensure the container is above other elements */
 }
 
 /* Profile dropdown toggle button */
@@ -61,7 +62,7 @@
     position: absolute;
     top: 100%;
     right: 0;
-    z-index: 1000;
+    z-index: 9999; /* Increased z-index to ensure it appears above all other elements */
     display: none;
     min-width: 240px;
     padding: 0.75rem 0;
@@ -91,7 +92,7 @@
     transform: rotate(45deg);
     border-top: 1px solid rgba(0, 0, 0, 0.1);
     border-left: 1px solid rgba(0, 0, 0, 0.1);
-    z-index: -1;
+    z-index: 0; /* Changed from -1 to 0 to ensure it's visible but below dropdown content */
 }
 
 /* Dropdown menu items */
@@ -109,6 +110,8 @@
     background-color: transparent;
     border: 0;
     transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
+    position: relative; /* Added position relative */
+    z-index: 1; /* Added z-index to ensure items are above the arrow */
 }
 
 .profile-dropdown-item:hover {
