@@ -2,56 +2,63 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="/common/header.jsp" %>
 
-<div class="container py-4">
-    <div class="row mb-4">
-        <div class="col-md-8">
-            <h2 class="mb-3">Instructor Dashboard</h2>
-            <p class="text-muted">Welcome back, ${user.name}! Manage your courses and track student performance.</p>
-        </div>
-        <div class="col-md-4 text-end">
-            <div class="d-flex justify-content-end gap-2">
-                <button class="btn btn-outline-primary">Student Messages <span class="badge bg-danger">5</span></button>
-                <a href="${pageContext.request.contextPath}/instructor/profile" class="btn btn-outline-info">My Profile</a>
-                <a href="${pageContext.request.contextPath}/instructor/courses/create" class="btn btn-primary">Create Course</a>
+<div class="dashboard-container">
+    <div class="container">
+        <div class="row dashboard-header">
+            <div class="col-md-8">
+                <h2>Instructor Dashboard</h2>
+                <p>Welcome back, ${user.name}! Manage your courses and track student performance.</p>
+            </div>
+            <div class="col-md-4">
+                <div class="dashboard-actions">
+                    <button class="btn btn-outline-primary">
+                        <i class="fas fa-envelope"></i> Messages <span class="badge bg-danger">5</span>
+                    </button>
+                    <a href="${pageContext.request.contextPath}/instructor/profile" class="btn btn-outline-primary">
+                        <i class="fas fa-user"></i> My Profile
+                    </a>
+                    <a href="${pageContext.request.contextPath}/instructor/courses/create" class="btn btn-primary">
+                        <i class="fas fa-plus-circle"></i> Create Course
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
 
     <!-- Stats Overview -->
     <div class="row mb-4">
         <div class="col-md-3 mb-3">
-            <div class="card bg-primary text-white">
+            <div class="stats-card bg-primary text-white">
                 <div class="card-body">
                     <h5 class="card-title">Active Courses</h5>
                     <h2 class="display-4">${activeCourses}</h2>
-                    <p class="card-text"><small>${totalCourses} total courses</small></p>
+                    <p class="card-text"><i class="fas fa-book"></i> ${totalCourses} total courses</p>
                 </div>
             </div>
         </div>
         <div class="col-md-3 mb-3">
-            <div class="card bg-success text-white">
+            <div class="stats-card bg-success text-white">
                 <div class="card-body">
                     <h5 class="card-title">Total Students</h5>
                     <h2 class="display-4">247</h2>
-                    <p class="card-text"><small><i class="fas fa-arrow-up"></i> 12% from last month</small></p>
+                    <p class="card-text"><i class="fas fa-arrow-up"></i> 12% from last month</p>
                 </div>
             </div>
         </div>
         <div class="col-md-3 mb-3">
-            <div class="card bg-info text-white">
+            <div class="stats-card bg-info text-white">
                 <div class="card-body">
                     <h5 class="card-title">Course Rating</h5>
                     <h2 class="display-4">4.8</h2>
-                    <p class="card-text"><small>Based on 183 reviews</small></p>
+                    <p class="card-text"><i class="fas fa-star"></i> Based on 183 reviews</p>
                 </div>
             </div>
         </div>
         <div class="col-md-3 mb-3">
-            <div class="card bg-warning text-dark">
+            <div class="stats-card bg-warning text-white">
                 <div class="card-body">
                     <h5 class="card-title">Earnings</h5>
                     <h2 class="display-4">$3.2K</h2>
-                    <p class="card-text"><small>This month</small></p>
+                    <p class="card-text"><i class="fas fa-dollar-sign"></i> This month</p>
                 </div>
             </div>
         </div>
@@ -60,11 +67,11 @@
     <div class="row">
         <!-- Course Management -->
         <div class="col-md-8 mb-4">
-            <div class="card mb-4">
+            <div class="content-card mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">My Courses</h5>
-                    <div>
-                        <button class="btn btn-sm btn-outline-secondary me-2">All</button>
+                    <h5>My Courses</h5>
+                    <div class="filter-buttons">
+                        <button class="btn btn-sm btn-outline-secondary">All</button>
                         <button class="btn btn-sm btn-primary">Published</button>
                         <button class="btn btn-sm btn-outline-secondary">Draft</button>
                     </div>
@@ -152,42 +159,42 @@
         <!-- Sidebar -->
         <div class="col-md-4">
             <!-- Student Performance -->
-            <div class="card mb-4">
+            <div class="sidebar-card mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Student Performance</h5>
+                    <h5>Student Performance</h5>
                     <button class="btn btn-sm btn-primary">View All</button>
                 </div>
-                <div class="card-body p-0">
+                <div class="card-body">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
-                            <h6 class="mb-1">Web Development Fundamentals</h6>
+                            <h6>Web Development Fundamentals</h6>
                             <div class="d-flex justify-content-between align-items-center">
-                                <small class="text-muted">Average Completion Rate</small>
+                                <small><i class="fas fa-users"></i> Average Completion Rate</small>
                                 <span>78%</span>
                             </div>
-                            <div class="progress mt-1" style="height: 5px;">
+                            <div class="progress">
                                 <div class="progress-bar" role="progressbar" style="width: 78%" aria-valuenow="78"
                                      aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                         </li>
                         <li class="list-group-item">
-                            <h6 class="mb-1">Advanced JavaScript Techniques</h6>
+                            <h6>Advanced JavaScript Techniques</h6>
                             <div class="d-flex justify-content-between align-items-center">
-                                <small class="text-muted">Average Completion Rate</small>
+                                <small><i class="fas fa-users"></i> Average Completion Rate</small>
                                 <span>65%</span>
                             </div>
-                            <div class="progress mt-1" style="height: 5px;">
+                            <div class="progress">
                                 <div class="progress-bar" role="progressbar" style="width: 65%" aria-valuenow="65"
                                      aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                         </li>
                         <li class="list-group-item">
-                            <h6 class="mb-1">Responsive Web Design Masterclass</h6>
+                            <h6>Responsive Web Design Masterclass</h6>
                             <div class="d-flex justify-content-between align-items-center">
-                                <small class="text-muted">Average Completion Rate</small>
+                                <small><i class="fas fa-users"></i> Average Completion Rate</small>
                                 <span>82%</span>
                             </div>
-                            <div class="progress mt-1" style="height: 5px;">
+                            <div class="progress">
                                 <div class="progress-bar" role="progressbar" style="width: 82%" aria-valuenow="82"
                                      aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
@@ -197,75 +204,70 @@
             </div>
 
             <!-- Earnings Overview -->
-            <div class="card mb-4">
+            <div class="sidebar-card mb-4">
                 <div class="card-header">
-                    <h5 class="mb-0">Earnings Overview</h5>
+                    <h5>Earnings Overview</h5>
                 </div>
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h6 class="mb-0">This Month</h6>
+                        <h6><i class="fas fa-calendar-day"></i> This Month</h6>
                         <h5 class="text-success mb-0">$3,240</h5>
                     </div>
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h6 class="mb-0">Last Month</h6>
+                        <h6><i class="fas fa-calendar-week"></i> Last Month</h6>
                         <h5 class="mb-0">$2,890</h5>
                     </div>
                     <div class="d-flex justify-content-between align-items-center">
-                        <h6 class="mb-0">Year to Date</h6>
+                        <h6><i class="fas fa-calendar"></i> Year to Date</h6>
                         <h5 class="mb-0">$18,650</h5>
                     </div>
                     <hr>
                     <div class="d-grid">
-                        <button class="btn btn-outline-primary">View Earnings Report</button>
+                        <button class="btn btn-outline-primary"><i class="fas fa-chart-line"></i> View Earnings Report</button>
                     </div>
                 </div>
             </div>
 
             <!-- Recent Reviews -->
-            <div class="card">
+            <div class="sidebar-card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Recent Reviews</h5>
+                    <h5>Recent Reviews</h5>
                     <button class="btn btn-sm btn-primary">View All</button>
                 </div>
-                <div class="card-body p-0">
+                <div class="card-body">
                     <div class="list-group list-group-flush">
-                        <div class="list-group-item py-3">
+                        <div class="list-group-item">
                             <div class="d-flex justify-content-between align-items-center mb-1">
-                                <h6 class="mb-0">Rajesh Sharma</h6>
+                                <h6><i class="fas fa-user"></i> Rajesh Sharma</h6>
                                 <div>
-                                    <span class="text-warning"><i class="fa-solid fa-star"></i><i
-                                            class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                                            class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></span>
-                                    <small class="text-muted ms-1">5.0</small>
+                                    <span class="text-warning"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span>
+                                    <small class="ms-1">5.0</small>
                                 </div>
                             </div>
-                            <p class="mb-1">"Excellent course! The instructor explains complex concepts in a very
-                                understandable way."</p>
-                            <small class="text-muted">Web Development Fundamentals <i class="fa-solid fa-circle-dot"></i> 2 days ago</small>
+                            <p>"Excellent course! The instructor explains complex concepts in a very understandable way."</p>
+                            <small><i class="fas fa-book"></i> Web Development Fundamentals <i class="fas fa-circle"></i> 2 days ago</small>
                         </div>
-                        <div class="list-group-item py-3">
+                        <div class="list-group-item">
                             <div class="d-flex justify-content-between align-items-center mb-1">
-                                <h6 class="mb-0">Sunita Rai</h6>
+                                <h6><i class="fas fa-user"></i> Sunita Rai</h6>
                                 <div>
-                                    <span class="text-warning"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i></span>
-                                    <small class="text-muted ms-1">4.0</small>
+                                    <span class="text-warning"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></span>
+                                    <small class="ms-1">4.0</small>
                                 </div>
                             </div>
-                            <p class="mb-1">"Great content but would love more practical examples. Overall very
-                                helpful."</p>
-                            <small class="text-muted">Advanced JavaScript Techniques <i class="fa-solid fa-circle-dot"></i> 1 week ago</small>
+                            <p>"Great content but would love more practical examples. Overall very helpful."</p>
+                            <small><i class="fas fa-book"></i> Advanced JavaScript Techniques <i class="fas fa-circle"></i> 1 week ago</small>
                         </div>
-                        <div class="list-group-item py-3">
+                        <div class="list-group-item">
                             <div class="d-flex justify-content-between align-items-center mb-1">
-                                <h6 class="mb-0">Amit Kumar</h6>
+                                <h6><i class="fas fa-user"></i> Amit Kumar</h6>
                                 <div>
-                                    <span class="text-warning"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></span>
-                                    <small class="text-muted ms-1">5.0</small>
+                                    <span class="text-warning"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span>
+                                    <small class="ms-1">5.0</small>
                                 </div>
                             </div>
-                            <p class="mb-1">"This course transformed my understanding of responsive design. Highly
-                                recommended!"</p>
-                            <small class="text-muted">Responsive Web Design Masterclass <i class="fa-solid fa-circle-dot"></i> 2 weeks ago</small>
+                            <p>"This course transformed my understanding of responsive design. Highly recommended!"</p>
+                            <small><i class="fas fa-book"></i> Responsive Web Design Masterclass <i class="fas fa-circle"></i> 2 weeks ago</small>
                         </div>
                     </div>
                 </div>

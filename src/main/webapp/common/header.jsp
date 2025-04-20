@@ -11,119 +11,11 @@
     <link href="${pageContext.request.contextPath}/assets/css/modern.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/assets/css/styles.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/assets/css/auth.css" rel="stylesheet">
-    <style>
-        /* Custom dropdown styles */
-        .custom-dropdown {
-            position: relative;
-            display: inline-block;
-        }
-
-        .custom-dropdown-menu {
-            display: none;
-            position: absolute;
-            right: 0;
-            top: 100%;
-            background-color: #fff;
-            min-width: 220px;
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-            z-index: 9999;
-            border-radius: 0.5rem;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            padding: 0.75rem 0;
-            margin-top: 0.75rem;
-            transform-origin: top right;
-            transition: transform 0.2s, opacity 0.2s;
-        }
-
-        /* Arrow for dropdown menu */
-        .custom-dropdown-menu::before {
-            content: '';
-            position: absolute;
-            top: -8px;
-            right: 20px;
-            width: 16px;
-            height: 16px;
-            background-color: #fff;
-            transform: rotate(45deg);
-            border-top: 1px solid rgba(0, 0, 0, 0.1);
-            border-left: 1px solid rgba(0, 0, 0, 0.1);
-            z-index: -1;
-        }
-
-        .custom-dropdown-item {
-            display: flex;
-            align-items: center;
-            width: 100%;
-            padding: 0.75rem 1.25rem;
-            clear: both;
-            font-weight: 500;
-            color: #212529;
-            text-align: inherit;
-            text-decoration: none;
-            white-space: nowrap;
-            background-color: transparent;
-            border: 0;
-            transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
-        }
-
-        .custom-dropdown-item i {
-            width: 20px;
-            margin-right: 10px;
-            text-align: center;
-            font-size: 1rem;
-        }
-
-        .custom-dropdown-item:hover {
-            background-color: #f8f9fa;
-            color: #3b82f6;
-        }
-
-        .custom-dropdown-divider {
-            height: 0;
-            margin: 0.5rem 0;
-            overflow: hidden;
-            border-top: 1px solid #e9ecef;
-        }
-
-        .custom-dropdown-item.danger {
-            color: #dc3545;
-        }
-
-        .custom-dropdown-item.danger:hover {
-            background-color: #f8d7da;
-        }
-
-        /* Show the dropdown menu when the parent has the show class */
-        .custom-dropdown.show .custom-dropdown-menu {
-            display: block;
-            animation: dropdown-animation 0.2s ease-out forwards;
-        }
-
-        /* Style for the dropdown toggle when active */
-        .custom-dropdown.show #profileDropdownToggle {
-            background-color: #f8f9fa;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Rotate the chevron icon when dropdown is open */
-        .custom-dropdown.show #profileDropdownToggle .fa-chevron-down {
-            transform: rotate(180deg);
-        }
-
-        @keyframes dropdown-animation {
-            0% {
-                opacity: 0;
-                transform: translateY(-10px) scale(0.95);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-    </style>
+    <link href="${pageContext.request.contextPath}/assets/css/dropdown.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/assets/css/dashboard.css" rel="stylesheet">
 </head>
 <body>
-    <header class="navbar py-3 shadow-sm">
+    <header class="navbar py-3 shadow-sm" style="position: relative; z-index: 1; overflow: visible;">
         <div class="container">
             <div class="row align-items-center w-100">
                 <div class="col-md-4">
@@ -141,9 +33,9 @@
                                 <li class="nav-item ms-3"><a href="${pageContext.request.contextPath}/auth/login" class="btn btn-outline-primary btn-sm rounded-pill">Login</a></li>
                                 <li class="nav-item ms-2"><a href="${pageContext.request.contextPath}/auth/register" class="btn btn-primary btn-sm rounded-pill">Sign Up</a></li>
                             <% } else { %>
-                                <li class="nav-item ms-3">
-                                    <div class="custom-dropdown" id="profileDropdownContainer">
-                                        <a class="nav-link d-flex align-items-center" href="#" id="profileDropdownToggle" style="padding: 8px 12px; border-radius: 50px; transition: all 0.2s ease;">
+                                <li class="nav-item ms-3" style="position: relative; z-index: 99999;">
+                                    <div class="profile-dropdown" id="profileDropdownContainer" style="position: relative; z-index: 99999;">
+                                        <a class="profile-dropdown-toggle" href="#" id="profileDropdownToggle">
                                             <%
                                                 com.example.skillforge.models.user.UserModel headerUser = (com.example.skillforge.models.user.UserModel) session.getAttribute("user");
                                                 String profileImage = headerUser.getProfileImage();
@@ -151,30 +43,30 @@
                                                 String firstLetter = headerUser.getName().substring(0, 1);
                                             %>
                                             <% if (profileImage != null && !profileImage.isEmpty()) { %>
-                                                <img src="${pageContext.request.contextPath}<%= profileImage %>" alt="Profile" class="rounded-circle me-2" width="32" height="32" style="object-fit: cover;">
+                                                <img src="${pageContext.request.contextPath}<%= profileImage %>" alt="Profile" class="profile-image">
                                             <% } else { %>
-                                                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 32px; height: 32px; font-size: 0.9rem;">
+                                                <div class="profile-avatar">
                                                     <%= firstLetter %>
                                                 </div>
                                             <% } %>
-                                            <span style="font-weight: 500;"><%= userName %></span>
-                                            <i class="fas fa-chevron-down ms-2" style="font-size: 0.75rem; transition: transform 0.2s ease;"></i>
+                                            <span class="profile-name"><%= userName %></span>
+                                            <i class="fas fa-chevron-down dropdown-icon"></i>
                                         </a>
-                                        <div class="custom-dropdown-menu" id="profileDropdownMenu">
+                                        <div class="profile-dropdown-menu" id="profileDropdownMenu" style="z-index: 100000;">
                                             <% String userRole = (String) session.getAttribute("userRole"); %>
                                             <% if ("admin".equals(userRole)) { %>
-                                                <a class="custom-dropdown-item" href="${pageContext.request.contextPath}/admin/dashboard"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
-                                                <a class="custom-dropdown-item" href="${pageContext.request.contextPath}/admin/users"><i class="fas fa-users me-2"></i>Manage Users</a>
+                                                <a class="profile-dropdown-item" href="${pageContext.request.contextPath}/admin/dashboard"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
+                                                <a class="profile-dropdown-item" href="${pageContext.request.contextPath}/admin/users"><i class="fas fa-users"></i>Manage Users</a>
                                             <% } else if ("instructor".equals(userRole)) { %>
-                                                <a class="custom-dropdown-item" href="${pageContext.request.contextPath}/instructor/dashboard"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
-                                                <a class="custom-dropdown-item" href="${pageContext.request.contextPath}/instructor/courses/"><i class="fas fa-book me-2"></i>My Courses</a>
-                                                <a class="custom-dropdown-item" href="${pageContext.request.contextPath}/instructor/profile"><i class="fas fa-user me-2"></i>My Profile</a>
+                                                <a class="profile-dropdown-item" href="${pageContext.request.contextPath}/instructor/dashboard"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
+                                                <a class="profile-dropdown-item" href="${pageContext.request.contextPath}/instructor/courses/"><i class="fas fa-book"></i>My Courses</a>
+                                                <a class="profile-dropdown-item" href="${pageContext.request.contextPath}/instructor/profile"><i class="fas fa-user"></i>My Profile</a>
                                             <% } else { %>
-                                                <a class="custom-dropdown-item" href="${pageContext.request.contextPath}/student/dashboard"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
-                                                <a class="custom-dropdown-item" href="${pageContext.request.contextPath}/student/profile"><i class="fas fa-user me-2"></i>My Profile</a>
+                                                <a class="profile-dropdown-item" href="${pageContext.request.contextPath}/student/dashboard"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
+                                                <a class="profile-dropdown-item" href="${pageContext.request.contextPath}/student/profile"><i class="fas fa-user"></i>My Profile</a>
                                             <% } %>
-                                            <div class="custom-dropdown-divider"></div>
-                                            <a class="custom-dropdown-item danger" href="${pageContext.request.contextPath}/auth/logout"><i class="fas fa-sign-out-alt me-2"></i>Logout</a>
+                                            <div class="profile-dropdown-divider"></div>
+                                            <a class="profile-dropdown-item danger" href="${pageContext.request.contextPath}/auth/logout"><i class="fas fa-sign-out-alt"></i>Logout</a>
                                         </div>
                                     </div>
                                 </li>
@@ -187,75 +79,5 @@
     </header>
     <!-- Load Bootstrap JS early to avoid conflicts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script>
-        // Execute immediately to ensure dropdown functionality
-        (function() {
-            // Disable Bootstrap's built-in dropdown for our custom one
-            if (typeof bootstrap !== 'undefined') {
-                var bsDropdowns = [].slice.call(document.querySelectorAll('.custom-dropdown'));
-                bsDropdowns.forEach(function(dropdown) {
-                    var bsDropdown = bootstrap.Dropdown.getInstance(dropdown);
-                    if (bsDropdown) {
-                        bsDropdown.dispose();
-                    }
-                });
-            }
-
-            // Initialize dropdown functionality immediately
-            const initDropdown = function() {
-                const dropdownToggle = document.getElementById('profileDropdownToggle');
-                const dropdownContainer = document.getElementById('profileDropdownContainer');
-                const dropdownMenu = document.getElementById('profileDropdownMenu');
-
-                if (dropdownToggle && dropdownContainer && dropdownMenu) {
-                    // Remove any existing event listeners
-                    const newToggle = dropdownToggle.cloneNode(true);
-                    dropdownToggle.parentNode.replaceChild(newToggle, dropdownToggle);
-
-                    // Toggle dropdown on click
-                    newToggle.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        e.stopPropagation();
-
-                        // Close all other dropdowns first
-                        document.querySelectorAll('.custom-dropdown.show').forEach(function(el) {
-                            if (el !== dropdownContainer) {
-                                el.classList.remove('show');
-                            }
-                        });
-
-                        // Toggle this dropdown
-                        dropdownContainer.classList.toggle('show');
-                    });
-
-                    // Prevent dropdown from closing when clicking inside it
-                    dropdownMenu.addEventListener('click', function(e) {
-                        // Only prevent propagation if not clicking on a link
-                        if (!e.target.closest('a')) {
-                            e.stopPropagation();
-                        }
-                    });
-                }
-            };
-
-            // Close dropdown when clicking outside
-            document.addEventListener('click', function(e) {
-                const dropdownContainer = document.getElementById('profileDropdownContainer');
-                if (dropdownContainer && !dropdownContainer.contains(e.target)) {
-                    dropdownContainer.classList.remove('show');
-                }
-            });
-
-            // Initialize on DOM ready
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', initDropdown);
-            } else {
-                initDropdown();
-            }
-
-            // Also initialize on any potential AJAX page updates
-            window.addEventListener('load', initDropdown);
-        })();
-    </script>
+    <script src="${pageContext.request.contextPath}/assets/js/dropdown.js"></script>
     <main>

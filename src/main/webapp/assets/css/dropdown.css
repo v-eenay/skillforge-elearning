@@ -1,0 +1,186 @@
+/* Dropdown Menu Styles */
+
+/* Profile dropdown container */
+.profile-dropdown {
+    position: relative;
+    display: inline-block;
+    z-index: 99999; /* Increased z-index to ensure the container is above all other elements */
+}
+
+/* Profile dropdown toggle button */
+.profile-dropdown-toggle {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    border-radius: 50px;
+    background-color: transparent;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    color: #333;
+    border: 1px solid transparent;
+}
+
+.profile-dropdown-toggle:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Profile image or avatar */
+.profile-dropdown-toggle .profile-image {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 10px;
+    object-fit: cover;
+}
+
+.profile-dropdown-toggle .profile-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 10px;
+    background-color: #3b82f6;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.profile-dropdown-toggle .profile-name {
+    font-weight: 500;
+    margin-right: 8px;
+}
+
+.profile-dropdown-toggle .dropdown-icon {
+    font-size: 0.75rem;
+    transition: transform 0.2s ease;
+}
+
+/* Dropdown menu */
+.profile-dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    z-index: 100000; /* Increased z-index to ensure it appears above all other elements */
+    display: none;
+    min-width: 240px;
+    padding: 0.75rem 0;
+    margin-top: 0.75rem;
+    font-size: 0.9rem;
+    color: #212529;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    transform-origin: top right;
+    transition: transform 0.2s, opacity 0.2s;
+}
+
+/* Arrow for dropdown menu */
+.profile-dropdown-menu::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    right: 20px;
+    width: 16px;
+    height: 16px;
+    background-color: #fff;
+    transform: rotate(45deg);
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    z-index: 0; /* Changed from -1 to 0 to ensure it's visible but below dropdown content */
+}
+
+/* Dropdown menu items */
+.profile-dropdown-item {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 0.75rem 1.25rem;
+    clear: both;
+    font-weight: 500;
+    color: #212529;
+    text-align: inherit;
+    text-decoration: none;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;
+    transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
+    position: relative; /* Added position relative */
+    z-index: 1; /* Added z-index to ensure items are above the arrow */
+}
+
+.profile-dropdown-item:hover {
+    background-color: #f8f9fa;
+    color: #3b82f6;
+    text-decoration: none;
+}
+
+.profile-dropdown-item i {
+    width: 20px;
+    margin-right: 10px;
+    text-align: center;
+    font-size: 1rem;
+}
+
+/* Dropdown divider */
+.profile-dropdown-divider {
+    height: 0;
+    margin: 0.5rem 0;
+    overflow: hidden;
+    border-top: 1px solid #e9ecef;
+}
+
+/* Danger item (like logout) */
+.profile-dropdown-item.danger {
+    color: #dc3545;
+}
+
+.profile-dropdown-item.danger:hover {
+    background-color: #f8d7da;
+    color: #dc3545;
+}
+
+/* Show the dropdown menu when the parent has the show class */
+.profile-dropdown.show .profile-dropdown-menu {
+    display: block;
+    animation: dropdown-animation 0.2s ease-out forwards;
+}
+
+/* Style for the dropdown toggle when active */
+.profile-dropdown.show .profile-dropdown-toggle {
+    background-color: #f8f9fa;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Rotate the chevron icon when dropdown is open */
+.profile-dropdown.show .dropdown-icon {
+    transform: rotate(180deg);
+}
+
+/* Animation for dropdown */
+@keyframes dropdown-animation {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px) scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .profile-dropdown-menu {
+        position: absolute;
+        right: 0;
+        left: auto;
+        width: 240px;
+    }
+}
