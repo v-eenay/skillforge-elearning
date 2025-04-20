@@ -12,6 +12,7 @@
     <link href="${pageContext.request.contextPath}/assets/css/styles.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/assets/css/auth.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/assets/css/dropdown.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/assets/css/dashboard.css" rel="stylesheet">
 </head>
 <body>
     <header class="navbar py-3 shadow-sm" style="position: relative; z-index: 1;">
