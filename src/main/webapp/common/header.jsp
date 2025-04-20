@@ -24,32 +24,58 @@
             right: 0;
             top: 100%;
             background-color: #fff;
-            min-width: 200px;
+            min-width: 220px;
             box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
             z-index: 9999;
-            border-radius: 0.25rem;
-            border: 1px solid rgba(0, 0, 0, 0.15);
-            padding: 0.5rem 0;
-            margin-top: 0.5rem;
+            border-radius: 0.5rem;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 0.75rem 0;
+            margin-top: 0.75rem;
+            transform-origin: top right;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+
+        /* Arrow for dropdown menu */
+        .custom-dropdown-menu::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            right: 20px;
+            width: 16px;
+            height: 16px;
+            background-color: #fff;
+            transform: rotate(45deg);
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            border-left: 1px solid rgba(0, 0, 0, 0.1);
+            z-index: -1;
         }
 
         .custom-dropdown-item {
-            display: block;
+            display: flex;
+            align-items: center;
             width: 100%;
-            padding: 0.5rem 1rem;
+            padding: 0.75rem 1.25rem;
             clear: both;
-            font-weight: 400;
+            font-weight: 500;
             color: #212529;
             text-align: inherit;
             text-decoration: none;
             white-space: nowrap;
             background-color: transparent;
             border: 0;
+            transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
+        }
+
+        .custom-dropdown-item i {
+            width: 20px;
+            margin-right: 10px;
+            text-align: center;
+            font-size: 1rem;
         }
 
         .custom-dropdown-item:hover {
             background-color: #f8f9fa;
-            color: #16181b;
+            color: #3b82f6;
         }
 
         .custom-dropdown-divider {
@@ -70,6 +96,29 @@
         /* Show the dropdown menu when the parent has the show class */
         .custom-dropdown.show .custom-dropdown-menu {
             display: block;
+            animation: dropdown-animation 0.2s ease-out forwards;
+        }
+
+        /* Style for the dropdown toggle when active */
+        .custom-dropdown.show #profileDropdownToggle {
+            background-color: #f8f9fa;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Rotate the chevron icon when dropdown is open */
+        .custom-dropdown.show #profileDropdownToggle .fa-chevron-down {
+            transform: rotate(180deg);
+        }
+
+        @keyframes dropdown-animation {
+            0% {
+                opacity: 0;
+                transform: translateY(-10px) scale(0.95);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
     </style>
 </head>
@@ -94,7 +143,7 @@
                             <% } else { %>
                                 <li class="nav-item ms-3">
                                     <div class="custom-dropdown" id="profileDropdownContainer">
-                                        <a class="nav-link d-flex align-items-center" href="#" id="profileDropdownToggle">
+                                        <a class="nav-link d-flex align-items-center" href="#" id="profileDropdownToggle" style="padding: 8px 12px; border-radius: 50px; transition: all 0.2s ease;">
                                             <%
                                                 com.example.skillforge.models.user.UserModel headerUser = (com.example.skillforge.models.user.UserModel) session.getAttribute("user");
                                                 String profileImage = headerUser.getProfileImage();
@@ -108,8 +157,8 @@
                                                     <%= firstLetter %>
                                                 </div>
                                             <% } %>
-                                            <span><%= userName %></span>
-                                            <i class="fas fa-chevron-down ms-2" style="font-size: 0.75rem;"></i>
+                                            <span style="font-weight: 500;"><%= userName %></span>
+                                            <i class="fas fa-chevron-down ms-2" style="font-size: 0.75rem; transition: transform 0.2s ease;"></i>
                                         </a>
                                         <div class="custom-dropdown-menu" id="profileDropdownMenu">
                                             <% String userRole = (String) session.getAttribute("userRole"); %>
@@ -153,25 +202,31 @@
                 });
             }
 
-            // Setup our custom dropdown when DOM is ready
-            document.addEventListener('DOMContentLoaded', function() {
+            // Initialize dropdown functionality immediately
+            const initDropdown = function() {
                 const dropdownToggle = document.getElementById('profileDropdownToggle');
                 const dropdownContainer = document.getElementById('profileDropdownContainer');
                 const dropdownMenu = document.getElementById('profileDropdownMenu');
 
                 if (dropdownToggle && dropdownContainer && dropdownMenu) {
+                    // Remove any existing event listeners
+                    const newToggle = dropdownToggle.cloneNode(true);
+                    dropdownToggle.parentNode.replaceChild(newToggle, dropdownToggle);
+
                     // Toggle dropdown on click
-                    dropdownToggle.addEventListener('click', function(e) {
+                    newToggle.addEventListener('click', function(e) {
                         e.preventDefault();
                         e.stopPropagation();
-                        dropdownContainer.classList.toggle('show');
-                    });
 
-                    // Close dropdown when clicking outside
-                    document.addEventListener('click', function(e) {
-                        if (!dropdownContainer.contains(e.target)) {
-                            dropdownContainer.classList.remove('show');
-                        }
+                        // Close all other dropdowns first
+                        document.querySelectorAll('.custom-dropdown.show').forEach(function(el) {
+                            if (el !== dropdownContainer) {
+                                el.classList.remove('show');
+                            }
+                        });
+
+                        // Toggle this dropdown
+                        dropdownContainer.classList.toggle('show');
                     });
 
                     // Prevent dropdown from closing when clicking inside it
@@ -182,7 +237,25 @@
                         }
                     });
                 }
+            };
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                const dropdownContainer = document.getElementById('profileDropdownContainer');
+                if (dropdownContainer && !dropdownContainer.contains(e.target)) {
+                    dropdownContainer.classList.remove('show');
+                }
             });
+
+            // Initialize on DOM ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initDropdown);
+            } else {
+                initDropdown();
+            }
+
+            // Also initialize on any potential AJAX page updates
+            window.addEventListener('load', initDropdown);
         })();
     </script>
     <main>
