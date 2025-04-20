@@ -96,6 +96,60 @@
     font-size: 0.95rem;
     text-align: center;
     white-space: nowrap;
+    margin-right: 0.5rem;
+}
+
+/* Button Group Styling */
+.dashboard-actions .btn-group {
+    display: inline-flex;
+    vertical-align: middle;
+}
+
+.dashboard-actions .btn-group .btn {
+    margin-right: 0;
+    position: relative;
+}
+
+.dashboard-actions .btn-group .btn:not(:last-child) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.dashboard-actions .btn-group .dropdown-toggle-split {
+    min-width: auto;
+    width: 42px;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.dashboard-actions .dropdown-menu {
+    border-radius: 0.5rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 0.5rem 0;
+    min-width: 200px;
+    z-index: 1000;
+}
+
+.dashboard-actions .dropdown-item {
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+}
+
+.dashboard-actions .dropdown-item i {
+    margin-right: 0.5rem;
+    width: 20px;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.dashboard-actions .dropdown-item:hover {
+    background-color: #f3f4f6;
+    color: #4f46e5;
 }
 
 .dashboard-actions .btn:hover {

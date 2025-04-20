@@ -146,15 +146,19 @@
                                                 <td>Recently joined</td>
                                                 <td>
                                                     <a href="${pageContext.request.contextPath}/admin/users?action=view&userId=${user.userId}" class="btn btn-sm btn-outline-primary me-1">
-                                                        <i class="fas fa-eye me-1"></i> View
+                                                        <i class="fas fa-eye"></i> View
                                                     </a>
                                                     <c:if test="${user.role != 'admin'}">
                                                         <c:choose>
                                                             <c:when test="${user.status == 'active'}">
-                                                                <a href="${pageContext.request.contextPath}/admin/users?action=suspend&userId=${user.userId}" class="btn btn-sm btn-outline-danger">Suspend</a>
+                                                                <a href="${pageContext.request.contextPath}/admin/users?action=suspend&userId=${user.userId}" class="btn btn-sm btn-outline-danger">
+                                                                    <i class="fas fa-ban"></i> Suspend
+                                                                </a>
                                                             </c:when>
                                                             <c:otherwise>
-                                                                <a href="${pageContext.request.contextPath}/admin/users?action=activate&userId=${user.userId}" class="btn btn-sm btn-outline-success">Activate</a>
+                                                                <a href="${pageContext.request.contextPath}/admin/users?action=activate&userId=${user.userId}" class="btn btn-sm btn-outline-success">
+                                                                    <i class="fas fa-check-circle"></i> Activate
+                                                                </a>
                                                             </c:otherwise>
                                                         </c:choose>
                                                     </c:if>
@@ -210,7 +214,7 @@
             <div class="sidebar-card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5>Recent Notifications</h5>
-                    <button class="btn btn-sm btn-primary">View All</button>
+                    <button class="btn btn-sm btn-primary"><i class="fas fa-list"></i> View All</button>
                 </div>
                 <div class="card-body">
                     <div class="list-group list-group-flush">
