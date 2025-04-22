@@ -466,15 +466,12 @@
                     return;
                 }
 
-                // Collect form data
-                const formData = new FormData(newCategoryForm);
-
                 // Send AJAX request
                 console.log('Sending category creation request to: ${pageContext.request.contextPath}/instructor/categories/create');
                 console.log('Category name:', categoryName);
                 console.log('Category description:', document.getElementById('categoryDescription').value);
 
-                // Convert FormData to URL-encoded string for better compatibility
+                // Use URL-encoded string for better compatibility
                 const params = new URLSearchParams();
                 params.append('name', categoryName);
                 params.append('description', document.getElementById('categoryDescription').value);
