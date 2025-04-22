@@ -22,6 +22,24 @@
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         }
 
+        .btn-create-course {
+            background-color: #4f46e5;
+            color: white;
+            border-color: #4f46e5;
+            padding: 0.625rem 1.25rem;
+            font-weight: 500;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-create-course:hover {
+            background-color: #4338ca;
+            border-color: #4338ca;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            color: white;
+        }
+
         .form-section {
             margin-bottom: 30px;
             padding: 20px;
@@ -48,22 +66,41 @@
             margin-bottom: 15px;
             overflow: hidden;
             position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background-color: #f8f9fa;
         }
 
-        .thumbnail-preview img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: cover;
+        .thumbnail-preview:hover {
+            border-color: #4f46e5;
+            background-color: rgba(79, 70, 229, 0.05);
         }
 
         .thumbnail-preview .upload-placeholder {
             text-align: center;
             color: #6c757d;
+            padding: 20px;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         .thumbnail-preview .upload-placeholder i {
             font-size: 3rem;
             margin-bottom: 10px;
+            color: #4f46e5;
+        }
+
+        #thumbnailImage {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .form-label {
@@ -77,21 +114,7 @@
             margin-left: 4px;
         }
 
-        .btn-create-course {
-            background-color: #4e73df;
-            color: white;
-            padding: 10px 25px;
-            font-weight: 600;
-            border: none;
-            border-radius: 5px;
-            transition: all 0.3s;
-        }
-
-        .btn-create-course:hover {
-            background-color: #2e59d9;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
+        /* Button styles moved to the top */
 
         .btn-cancel {
             background-color: #f8f9fa;
@@ -169,7 +192,7 @@
                 <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
 
-            <form action="${pageContext.request.contextPath}/instructor/courses/create" method="post" enctype="multipart/form-data">
+            <form id="courseForm" action="${pageContext.request.contextPath}/instructor/courses/create" method="post" enctype="multipart/form-data">
                 <!-- Basic Information Section -->
                 <div class="form-section">
                     <h3><i class="fas fa-info-circle me-2"></i>Basic Information</h3>
@@ -275,12 +298,13 @@
                     <div class="mb-3">
                         <label for="courseThumbnail" class="form-label required-field">Course Thumbnail</label>
                         <div class="thumbnail-preview" id="thumbnailPreview">
-                            <div class="upload-placeholder">
+                            <div class="upload-placeholder" id="uploadPlaceholder">
                                 <i class="fas fa-cloud-upload-alt"></i>
                                 <p>Drag and drop your thumbnail here or click to browse</p>
                             </div>
+                            <img id="thumbnailImage" src="" alt="Course Thumbnail Preview" style="display: none; width: 100%; height: 100%; object-fit: cover;">
                         </div>
-                        <input type="file" class="form-control" id="courseThumbnail" name="thumbnailFile" accept="image/*" required>
+                        <input type="file" class="form-control" id="courseThumbnail" name="thumbnailFile" accept="image/*" required style="display: none;">
                         <div class="form-text">Upload a high-quality image that represents your course (16:9 ratio recommended)</div>
                     </div>
 
@@ -372,14 +396,17 @@
                         <i class="fas fa-times me-2"></i>Cancel
                     </button>
                     <div>
-                        <button type="submit" name="saveAction" value="draft" class="btn btn-secondary me-2">
+                        <button type="button" id="saveDraftBtn" class="btn btn-secondary me-2">
                             <i class="fas fa-save me-2"></i>Save Draft
                         </button>
-                        <button type="submit" name="saveAction" value="publish" class="btn btn-create-course">
+                        <button type="button" id="createCourseBtn" class="btn btn-create-course">
                             <i class="fas fa-check me-2"></i>Create Course
                         </button>
                     </div>
                 </div>
+
+                <!-- Hidden input for save action -->
+                <input type="hidden" name="saveAction" id="saveActionInput" value="draft">
             </form>
         </div>
     </div>
@@ -395,10 +422,13 @@
     <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
 
     <script>
+        let courseEditor;
+
         // Initialize CKEditor for course description
         ClassicEditor
             .create(document.querySelector('#courseDescription'))
             .then(editor => {
+                courseEditor = editor;
                 // Update hidden textarea with editor content for form submission
                 editor.model.document.on('change:data', () => {
                     document.querySelector('#descriptionHidden').value = editor.getData();
@@ -478,64 +508,187 @@
             }
         });
 
-        // Thumbnail preview functionality
-        document.getElementById('courseThumbnail').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    const previewDiv = document.getElementById('thumbnailPreview');
-                    previewDiv.innerHTML = `<img src="${event.target.result}" alt="Course Thumbnail Preview">`;
-                };
-                reader.readAsDataURL(file);
+        // Initialize all UI functionality when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Thumbnail preview functionality
+            initThumbnailPreview();
+
+            // Other initialization code...
+        });
+
+        // Function to initialize thumbnail preview
+        function initThumbnailPreview() {
+            // Get elements
+            const thumbnailPreview = document.getElementById('thumbnailPreview');
+            const thumbnailInput = document.getElementById('courseThumbnail');
+            const thumbnailImage = document.getElementById('thumbnailImage');
+            const uploadPlaceholder = document.getElementById('uploadPlaceholder');
+
+            if (!thumbnailPreview || !thumbnailInput || !thumbnailImage || !uploadPlaceholder) {
+                console.error('Thumbnail preview elements not found');
+                return;
             }
-        });
 
-        // Drag and drop functionality for thumbnail
-        const thumbnailPreview = document.getElementById('thumbnailPreview');
-        const thumbnailInput = document.getElementById('courseThumbnail');
+            // Handle file selection
+            thumbnailInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    if (!file.type.startsWith('image/')) {
+                        alert('Please select an image file');
+                        return;
+                    }
 
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-            thumbnailPreview.addEventListener(eventName, preventDefaults, false);
-        });
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        thumbnailImage.src = event.target.result;
+                        thumbnailImage.style.display = 'block';
+                        uploadPlaceholder.style.display = 'none';
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
 
-        function preventDefaults(e) {
-            e.preventDefault();
-            e.stopPropagation();
+            // Drag and drop functionality
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                thumbnailPreview.addEventListener(eventName, function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }, false);
+            });
+
+            // Add highlight class on drag enter/over
+            ['dragenter', 'dragover'].forEach(eventName => {
+                thumbnailPreview.addEventListener(eventName, function() {
+                    thumbnailPreview.classList.add('border-primary');
+                }, false);
+            });
+
+            // Remove highlight class on drag leave/drop
+            ['dragleave', 'drop'].forEach(eventName => {
+                thumbnailPreview.addEventListener(eventName, function() {
+                    thumbnailPreview.classList.remove('border-primary');
+                }, false);
+            });
+
+            // Handle file drop
+            thumbnailPreview.addEventListener('drop', function(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+
+                if (files.length) {
+                    if (files[0].type.startsWith('image/')) {
+                        thumbnailInput.files = files;
+
+                        // Manually trigger the change event
+                        const event = new Event('change', { bubbles: true });
+                        thumbnailInput.dispatchEvent(event);
+                    } else {
+                        alert('Please drop an image file');
+                    }
+                }
+            }, false);
+
+            // Click on preview to trigger file input
+            thumbnailPreview.addEventListener('click', function() {
+                thumbnailInput.click();
+            });
         }
 
-        ['dragenter', 'dragover'].forEach(eventName => {
-            thumbnailPreview.addEventListener(eventName, highlight, false);
-        });
+        // Form validation and submission
+        document.addEventListener('DOMContentLoaded', function() {
+            const courseForm = document.getElementById('courseForm');
+            const saveDraftBtn = document.getElementById('saveDraftBtn');
+            const createCourseBtn = document.getElementById('createCourseBtn');
+            const saveActionInput = document.getElementById('saveActionInput');
 
-        ['dragleave', 'drop'].forEach(eventName => {
-            thumbnailPreview.addEventListener(eventName, unhighlight, false);
-        });
+            // Function to validate the form
+            function validateForm() {
+                // Make sure the description from CKEditor is in the hidden field
+                if (courseEditor) {
+                    document.querySelector('#descriptionHidden').value = courseEditor.getData();
+                }
 
-        function highlight() {
-            thumbnailPreview.classList.add('border-primary');
-        }
+                // Check if title is filled
+                const title = document.getElementById('courseTitle').value.trim();
+                if (!title) {
+                    alert('Please enter a course title');
+                    document.getElementById('courseTitle').focus();
+                    return false;
+                }
 
-        function unhighlight() {
-            thumbnailPreview.classList.remove('border-primary');
-        }
+                // Check if description is filled
+                const description = document.querySelector('#descriptionHidden').value.trim();
+                if (!description) {
+                    alert('Please enter a course description');
+                    courseEditor.focus();
+                    return false;
+                }
 
-        thumbnailPreview.addEventListener('drop', handleDrop, false);
+                // Check if category is selected
+                const category = document.getElementById('courseCategory').value;
+                if (!category) {
+                    alert('Please select a category');
+                    document.getElementById('courseCategory').focus();
+                    return false;
+                }
 
-        function handleDrop(e) {
-            const dt = e.dataTransfer;
-            const files = dt.files;
+                // Check if level is selected
+                const level = document.getElementById('courseLevel').value;
+                if (!level) {
+                    alert('Please select a level');
+                    document.getElementById('courseLevel').focus();
+                    return false;
+                }
 
-            if (files.length) {
-                thumbnailInput.files = files;
-                const event = new Event('change');
-                thumbnailInput.dispatchEvent(event);
+                // Check if thumbnail is uploaded
+                const thumbnail = document.getElementById('courseThumbnail').files;
+                if (thumbnail.length === 0) {
+                    alert('Please upload a course thumbnail');
+                    document.getElementById('thumbnailPreview').click();
+                    return false;
+                }
+
+                return true;
             }
-        }
 
-        // Click on preview to trigger file input
-        thumbnailPreview.addEventListener('click', () => {
-            thumbnailInput.click();
+            // Save as Draft button click handler
+            saveDraftBtn.addEventListener('click', function() {
+                saveActionInput.value = 'draft';
+                document.getElementById('statusDraft').checked = true;
+
+                if (validateForm()) {
+                    // Show loading indicator or disable button here if needed
+                    saveDraftBtn.disabled = true;
+                    saveDraftBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Saving...';
+
+                    courseForm.submit();
+                }
+            });
+
+            // Create Course button click handler
+            createCourseBtn.addEventListener('click', function() {
+                saveActionInput.value = 'publish';
+                document.getElementById('statusPublish').checked = true;
+
+                if (validateForm()) {
+                    // Show loading indicator or disable button here if needed
+                    createCourseBtn.disabled = true;
+                    createCourseBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Creating...';
+
+                    courseForm.submit();
+                }
+            });
+
+            // Also handle form submission directly
+            courseForm.addEventListener('submit', function(e) {
+                // Prevent default submission to handle it ourselves
+                e.preventDefault();
+
+                if (validateForm()) {
+                    // If validation passes, submit the form
+                    this.submit();
+                }
+            });
         });
     </script>
 </body>
