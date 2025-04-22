@@ -178,11 +178,19 @@ public class InstructorController extends HttpServlet {
                     System.out.println("Thumbnail filename: " + thumbnailPart.getSubmittedFileName());
                 }
 
-                String thumbnailPath = FileUploadUtil.uploadCourseThumbnail(request, "thumbnailFile");
-                System.out.println("Thumbnail path: " + thumbnailPath);
+                String thumbnailPath = null;
+                try {
+                    thumbnailPath = FileUploadUtil.uploadCourseThumbnail(request, "thumbnailFile");
+                    System.out.println("Thumbnail path: " + thumbnailPath);
+                } catch (Exception e) {
+                    System.out.println("Exception during thumbnail upload: " + e.getMessage());
+                    e.printStackTrace();
+                }
 
+                // If thumbnail upload fails, use a default thumbnail
                 if (thumbnailPath == null) {
-                    throw new ServletException("Failed to upload thumbnail. Please try again.");
+                    System.out.println("Using default thumbnail");
+                    thumbnailPath = "/assets/images/default-course-thumbnail.jpg";
                 }
 
                 // Create course model

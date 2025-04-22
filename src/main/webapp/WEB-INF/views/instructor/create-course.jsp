@@ -304,7 +304,7 @@
                             </div>
                             <img id="thumbnailImage" src="" alt="Course Thumbnail Preview" style="display: none; width: 100%; height: 100%; object-fit: cover;">
                         </div>
-                        <input type="file" class="form-control" id="courseThumbnail" name="thumbnailFile" accept="image/*" required style="display: none;">
+                        <input type="file" class="form-control" id="courseThumbnail" name="thumbnailFile" accept="image/*" style="display: none;">
                         <div class="form-text">Upload a high-quality image that represents your course (16:9 ratio recommended)</div>
                     </div>
 
@@ -657,14 +657,15 @@
                     return false;
                 }
 
-                // Check if thumbnail is uploaded
+                // Check if thumbnail is uploaded (optional now since we have a default)
                 const thumbnail = document.getElementById('courseThumbnail').files;
                 console.log('Thumbnail files:', thumbnail.length);
-                if (thumbnail.length === 0) {
-                    alert('Please upload a course thumbnail');
-                    document.getElementById('thumbnailPreview').click();
-                    return false;
-                }
+                // We no longer require a thumbnail since we have a default
+                // if (thumbnail.length === 0) {
+                //     alert('Please upload a course thumbnail');
+                //     document.getElementById('thumbnailPreview').click();
+                //     return false;
+                // }
 
                 console.log('Form validation passed');
                 return true;
