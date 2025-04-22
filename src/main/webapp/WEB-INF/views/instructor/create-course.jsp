@@ -511,8 +511,9 @@
                         // Select the new category
                         courseCategorySelect.value = data.category.id;
 
-                        // Clear the form
-                        newCategoryForm.reset();
+                        // Clear the form fields manually since reset() might not work
+                        document.getElementById('categoryName').value = '';
+                        document.getElementById('categoryDescription').value = '';
 
                         // Close the modal after a short delay
                         setTimeout(() => {
