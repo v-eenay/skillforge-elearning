@@ -22,6 +22,24 @@
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         }
 
+        .btn-create-course {
+            background-color: #4f46e5;
+            color: white;
+            border-color: #4f46e5;
+            padding: 0.625rem 1.25rem;
+            font-weight: 500;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-create-course:hover {
+            background-color: #4338ca;
+            border-color: #4338ca;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            color: white;
+        }
+
         .form-section {
             margin-bottom: 30px;
             padding: 20px;
@@ -77,21 +95,7 @@
             margin-left: 4px;
         }
 
-        .btn-create-course {
-            background-color: #4e73df;
-            color: white;
-            padding: 10px 25px;
-            font-weight: 600;
-            border: none;
-            border-radius: 5px;
-            transition: all 0.3s;
-        }
-
-        .btn-create-course:hover {
-            background-color: #2e59d9;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
+        /* Button styles moved to the top */
 
         .btn-cancel {
             background-color: #f8f9fa;
@@ -169,7 +173,7 @@
                 <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
 
-            <form action="${pageContext.request.contextPath}/instructor/courses/create" method="post" enctype="multipart/form-data">
+            <form id="courseForm" action="${pageContext.request.contextPath}/instructor/courses/create" method="post" enctype="multipart/form-data">
                 <!-- Basic Information Section -->
                 <div class="form-section">
                     <h3><i class="fas fa-info-circle me-2"></i>Basic Information</h3>
@@ -372,14 +376,17 @@
                         <i class="fas fa-times me-2"></i>Cancel
                     </button>
                     <div>
-                        <button type="submit" name="saveAction" value="draft" class="btn btn-secondary me-2">
+                        <button type="button" id="saveDraftBtn" class="btn btn-secondary me-2">
                             <i class="fas fa-save me-2"></i>Save Draft
                         </button>
-                        <button type="submit" name="saveAction" value="publish" class="btn btn-create-course">
+                        <button type="button" id="createCourseBtn" class="btn btn-create-course">
                             <i class="fas fa-check me-2"></i>Create Course
                         </button>
                     </div>
                 </div>
+
+                <!-- Hidden input for save action -->
+                <input type="hidden" name="saveAction" id="saveActionInput" value="draft">
             </form>
         </div>
     </div>
@@ -395,10 +402,13 @@
     <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
 
     <script>
+        let courseEditor;
+
         // Initialize CKEditor for course description
         ClassicEditor
             .create(document.querySelector('#courseDescription'))
             .then(editor => {
+                courseEditor = editor;
                 // Update hidden textarea with editor content for form submission
                 editor.model.document.on('change:data', () => {
                     document.querySelector('#descriptionHidden').value = editor.getData();
@@ -536,6 +546,103 @@
         // Click on preview to trigger file input
         thumbnailPreview.addEventListener('click', () => {
             thumbnailInput.click();
+        });
+
+        // Form validation and submission
+        document.addEventListener('DOMContentLoaded', function() {
+            const courseForm = document.getElementById('courseForm');
+            const saveDraftBtn = document.getElementById('saveDraftBtn');
+            const createCourseBtn = document.getElementById('createCourseBtn');
+            const saveActionInput = document.getElementById('saveActionInput');
+
+            // Function to validate the form
+            function validateForm() {
+                // Make sure the description from CKEditor is in the hidden field
+                if (courseEditor) {
+                    document.querySelector('#descriptionHidden').value = courseEditor.getData();
+                }
+
+                // Check if title is filled
+                const title = document.getElementById('courseTitle').value.trim();
+                if (!title) {
+                    alert('Please enter a course title');
+                    document.getElementById('courseTitle').focus();
+                    return false;
+                }
+
+                // Check if description is filled
+                const description = document.querySelector('#descriptionHidden').value.trim();
+                if (!description) {
+                    alert('Please enter a course description');
+                    courseEditor.focus();
+                    return false;
+                }
+
+                // Check if category is selected
+                const category = document.getElementById('courseCategory').value;
+                if (!category) {
+                    alert('Please select a category');
+                    document.getElementById('courseCategory').focus();
+                    return false;
+                }
+
+                // Check if level is selected
+                const level = document.getElementById('courseLevel').value;
+                if (!level) {
+                    alert('Please select a level');
+                    document.getElementById('courseLevel').focus();
+                    return false;
+                }
+
+                // Check if thumbnail is uploaded
+                const thumbnail = document.getElementById('courseThumbnail').files;
+                if (thumbnail.length === 0) {
+                    alert('Please upload a course thumbnail');
+                    document.getElementById('courseThumbnail').focus();
+                    return false;
+                }
+
+                return true;
+            }
+
+            // Save as Draft button click handler
+            saveDraftBtn.addEventListener('click', function() {
+                saveActionInput.value = 'draft';
+                document.getElementById('statusDraft').checked = true;
+
+                if (validateForm()) {
+                    // Show loading indicator or disable button here if needed
+                    saveDraftBtn.disabled = true;
+                    saveDraftBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Saving...';
+
+                    courseForm.submit();
+                }
+            });
+
+            // Create Course button click handler
+            createCourseBtn.addEventListener('click', function() {
+                saveActionInput.value = 'publish';
+                document.getElementById('statusPublish').checked = true;
+
+                if (validateForm()) {
+                    // Show loading indicator or disable button here if needed
+                    createCourseBtn.disabled = true;
+                    createCourseBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Creating...';
+
+                    courseForm.submit();
+                }
+            });
+
+            // Also handle form submission directly
+            courseForm.addEventListener('submit', function(e) {
+                // Prevent default submission to handle it ourselves
+                e.preventDefault();
+
+                if (validateForm()) {
+                    // If validation passes, submit the form
+                    this.submit();
+                }
+            });
         });
     </script>
 </body>
