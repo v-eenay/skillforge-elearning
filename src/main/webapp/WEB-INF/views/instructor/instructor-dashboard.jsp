@@ -85,15 +85,27 @@
         <!-- Course Management -->
         <div class="col-md-8 mb-4">
             <div class="content-card mb-4">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5>My Courses</h5>
-                    <div class="filter-buttons">
-                        <button class="btn btn-sm btn-outline-secondary">All</button>
-                        <button class="btn btn-sm btn-primary">Published</button>
-                        <button class="btn btn-sm btn-outline-secondary">Draft</button>
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h5 class="mb-0">My Courses</h5>
+                        <div class="filter-buttons">
+                            <button class="btn btn-sm btn-outline-secondary filter-btn" data-filter="all">All</button>
+                            <button class="btn btn-sm btn-primary filter-btn active" data-filter="published">Published</button>
+                            <button class="btn btn-sm btn-outline-secondary filter-btn" data-filter="draft">Draft</button>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" class="form-control form-control-sm" id="searchCourses" placeholder="Search courses...">
+                        <button class="btn btn-sm btn-outline-secondary" type="button">
+                            <i class="fas fa-search"></i>
+                        </button>
                     </div>
                 </div>
-                <div class="card-body">
+                <div class="card-body" id="coursesContainer">
+                    <!-- No Results Message (hidden by default) -->
+                    <div id="noResults" class="alert alert-info text-center" style="display: none;">
+                        <i class="fas fa-search me-2"></i> No courses match your filter criteria.
+                    </div>
                     <!-- Course 1 -->
                     <c:choose>
                         <c:when test="${empty courses}">
@@ -104,7 +116,7 @@
                         </c:when>
                         <c:otherwise>
                             <c:forEach items="${courses}" var="course" varStatus="loop" begin="0" end="3">
-                                <div class="d-flex ${!loop.last ? 'mb-3 p-3 border-bottom' : 'p-3'}">
+                                <div class="d-flex ${!loop.last ? 'mb-3 p-3 border-bottom' : 'p-3'} course-item" data-status="${course.status}" data-created="${course.createdAt}" data-students="0">
                                     <c:choose>
                                         <c:when test="${not empty course.thumbnail}">
                                             <img src="${pageContext.request.contextPath}${course.thumbnail}" class="me-3" alt="${course.title}" style="object-fit: cover; width: 100px; height: 70px;">
@@ -294,3 +306,6 @@
 </div>
 
 <%@ include file="/common/footer.jsp" %>
+
+<!-- Instructor JS -->
+<script src="${pageContext.request.contextPath}/assets/js/instructor.js"></script>
