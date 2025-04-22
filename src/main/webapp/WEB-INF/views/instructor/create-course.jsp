@@ -68,6 +68,7 @@
             position: relative;
             cursor: pointer;
             transition: all 0.3s ease;
+            background-color: #f8f9fa;
         }
 
         .thumbnail-preview:hover {
@@ -75,23 +76,31 @@
             background-color: rgba(79, 70, 229, 0.05);
         }
 
-        .thumbnail-preview img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
         .thumbnail-preview .upload-placeholder {
             text-align: center;
             color: #6c757d;
             padding: 20px;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         .thumbnail-preview .upload-placeholder i {
             font-size: 3rem;
             margin-bottom: 10px;
             color: #4f46e5;
+        }
+
+        #thumbnailImage {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .form-label {
@@ -289,10 +298,11 @@
                     <div class="mb-3">
                         <label for="courseThumbnail" class="form-label required-field">Course Thumbnail</label>
                         <div class="thumbnail-preview" id="thumbnailPreview">
-                            <div class="upload-placeholder">
+                            <div class="upload-placeholder" id="uploadPlaceholder">
                                 <i class="fas fa-cloud-upload-alt"></i>
                                 <p>Drag and drop your thumbnail here or click to browse</p>
                             </div>
+                            <img id="thumbnailImage" src="" alt="Course Thumbnail Preview" style="display: none; width: 100%; height: 100%; object-fit: cover;">
                         </div>
                         <input type="file" class="form-control" id="courseThumbnail" name="thumbnailFile" accept="image/*" required style="display: none;">
                         <div class="form-text">Upload a high-quality image that represents your course (16:9 ratio recommended)</div>
@@ -498,19 +508,41 @@
             }
         });
 
-        // Initialize thumbnail preview functionality when DOM is loaded
+        // Initialize all UI functionality when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
+            // Thumbnail preview functionality
+            initThumbnailPreview();
+
+            // Other initialization code...
+        });
+
+        // Function to initialize thumbnail preview
+        function initThumbnailPreview() {
             // Get elements
             const thumbnailPreview = document.getElementById('thumbnailPreview');
             const thumbnailInput = document.getElementById('courseThumbnail');
+            const thumbnailImage = document.getElementById('thumbnailImage');
+            const uploadPlaceholder = document.getElementById('uploadPlaceholder');
+
+            if (!thumbnailPreview || !thumbnailInput || !thumbnailImage || !uploadPlaceholder) {
+                console.error('Thumbnail preview elements not found');
+                return;
+            }
 
             // Handle file selection
             thumbnailInput.addEventListener('change', function(e) {
                 const file = e.target.files[0];
                 if (file) {
+                    if (!file.type.startsWith('image/')) {
+                        alert('Please select an image file');
+                        return;
+                    }
+
                     const reader = new FileReader();
                     reader.onload = function(event) {
-                        thumbnailPreview.innerHTML = `<img src="${event.target.result}" alt="Course Thumbnail Preview">`;
+                        thumbnailImage.src = event.target.result;
+                        thumbnailImage.style.display = 'block';
+                        uploadPlaceholder.style.display = 'none';
                     };
                     reader.readAsDataURL(file);
                 }
@@ -518,50 +550,49 @@
 
             // Drag and drop functionality
             ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                thumbnailPreview.addEventListener(eventName, preventDefaults, false);
+                thumbnailPreview.addEventListener(eventName, function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }, false);
             });
 
-            function preventDefaults(e) {
-                e.preventDefault();
-                e.stopPropagation();
-            }
-
+            // Add highlight class on drag enter/over
             ['dragenter', 'dragover'].forEach(eventName => {
-                thumbnailPreview.addEventListener(eventName, highlight, false);
+                thumbnailPreview.addEventListener(eventName, function() {
+                    thumbnailPreview.classList.add('border-primary');
+                }, false);
             });
 
+            // Remove highlight class on drag leave/drop
             ['dragleave', 'drop'].forEach(eventName => {
-                thumbnailPreview.addEventListener(eventName, unhighlight, false);
+                thumbnailPreview.addEventListener(eventName, function() {
+                    thumbnailPreview.classList.remove('border-primary');
+                }, false);
             });
 
-            function highlight() {
-                thumbnailPreview.classList.add('border-primary');
-            }
-
-            function unhighlight() {
-                thumbnailPreview.classList.remove('border-primary');
-            }
-
-            thumbnailPreview.addEventListener('drop', handleDrop, false);
-
-            function handleDrop(e) {
+            // Handle file drop
+            thumbnailPreview.addEventListener('drop', function(e) {
                 const dt = e.dataTransfer;
                 const files = dt.files;
 
-                if (files.length && files[0].type.startsWith('image/')) {
-                    thumbnailInput.files = files;
-                    const event = new Event('change');
-                    thumbnailInput.dispatchEvent(event);
-                } else {
-                    alert('Please drop an image file');
+                if (files.length) {
+                    if (files[0].type.startsWith('image/')) {
+                        thumbnailInput.files = files;
+
+                        // Manually trigger the change event
+                        const event = new Event('change', { bubbles: true });
+                        thumbnailInput.dispatchEvent(event);
+                    } else {
+                        alert('Please drop an image file');
+                    }
                 }
-            }
+            }, false);
 
             // Click on preview to trigger file input
-            thumbnailPreview.addEventListener('click', () => {
+            thumbnailPreview.addEventListener('click', function() {
                 thumbnailInput.click();
             });
-        });
+        }
 
         // Form validation and submission
         document.addEventListener('DOMContentLoaded', function() {
@@ -613,7 +644,7 @@
                 const thumbnail = document.getElementById('courseThumbnail').files;
                 if (thumbnail.length === 0) {
                     alert('Please upload a course thumbnail');
-                    document.getElementById('courseThumbnail').focus();
+                    document.getElementById('thumbnailPreview').click();
                     return false;
                 }
 
