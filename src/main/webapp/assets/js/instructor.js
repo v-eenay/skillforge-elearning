@@ -193,7 +193,7 @@ function filterDashboardCourses(courses, searchTerm, filterType) {
         if (!status) {
             const badge = course.querySelector('.badge');
             if (badge) {
-                status = badge.textContent.toLowerCase().trim() === 'published' ? 'active' : 'inactive';
+                status = badge.textContent.toLowerCase().trim();
             }
         }
 
@@ -205,9 +205,18 @@ function filterDashboardCourses(courses, searchTerm, filterType) {
                              category.includes(searchTerm);
 
         // Check if course matches filter
-        const matchesFilter = filterType === 'all' ||
-                             (filterType === 'published' && (status === 'active' || status.includes('published'))) ||
-                             (filterType === 'draft' && (status === 'inactive' || status === 'draft' || status.includes('draft')));
+        let matchesFilter = false;
+        if (filterType === 'all') {
+            matchesFilter = true;
+        } else if (filterType === 'published') {
+            matchesFilter = status === 'active' ||
+                           status === 'published' ||
+                           status.includes('published');
+        } else if (filterType === 'draft') {
+            matchesFilter = status === 'inactive' ||
+                           status === 'draft' ||
+                           status.includes('draft');
+        }
 
         console.log(`Dashboard course ${index}: matchesSearch=${matchesSearch}, matchesFilter=${matchesFilter}`);
 
@@ -267,9 +276,18 @@ function filterCoursesPageCourses(courses, searchTerm, filterType) {
                              category.includes(searchTerm);
 
         // Check if course matches filter
-        const matchesFilter = filterType === 'all' ||
-                             (filterType === 'published' && (status === 'active' || status.includes('published'))) ||
-                             (filterType === 'draft' && (status === 'inactive' || status === 'draft' || status.includes('draft')));
+        let matchesFilter = false;
+        if (filterType === 'all') {
+            matchesFilter = true;
+        } else if (filterType === 'published') {
+            matchesFilter = status === 'active' ||
+                           status === 'published' ||
+                           status.includes('published');
+        } else if (filterType === 'draft') {
+            matchesFilter = status === 'inactive' ||
+                           status === 'draft' ||
+                           status.includes('draft');
+        }
 
         console.log(`Courses page course ${index}: matchesSearch=${matchesSearch}, matchesFilter=${matchesFilter}`);
 
