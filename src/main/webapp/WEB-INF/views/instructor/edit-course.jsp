@@ -393,14 +393,38 @@
                 }
 
                 // Collect form data
-                const formData = new FormData(newCategoryForm);
+                // Convert form data to URL-encoded string for better compatibility
+                const params = new URLSearchParams();
+                params.append('name', categoryName);
+                params.append('description', document.getElementById('categoryDescription').value);
+
+                console.log('Sending category creation request to: ${pageContext.request.contextPath}/instructor/categories/create');
+                console.log('Category name:', categoryName);
+                console.log('Category description:', document.getElementById('categoryDescription').value);
 
                 // Send AJAX request
                 fetch('${pageContext.request.contextPath}/instructor/categories/create', {
                     method: 'POST',
-                    body: formData
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: params
                 })
-                .then(response => response.json())
+                .then(response => {
+                    console.log('Response status:', response.status);
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok: ' + response.status);
+                    }
+                    return response.text().then(text => {
+                        console.log('Raw response text:', text);
+                        try {
+                            return JSON.parse(text);
+                        } catch (e) {
+                            console.error('Error parsing JSON:', e);
+                            throw new Error('Invalid JSON response: ' + text);
+                        }
+                    });
+                })
                 .then(data => {
                     if (data.success) {
                         // Show success message
@@ -427,7 +451,7 @@
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    showMessage('An error occurred. Please try again.', 'danger');
+                    showMessage('An error occurred. Please try again: ' + error.message, 'danger');
                 });
             });
 
