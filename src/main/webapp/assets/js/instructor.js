@@ -20,41 +20,75 @@ function initCoursesFiltering() {
     // If we're not on a page with courses, exit early
     if (!courseContainer) return;
 
-    // Get all course elements
+    // Get all course elements - handle both dashboard and courses page layouts
     const allCourses = Array.from(courseContainer.querySelectorAll('.course-item'));
+
+    // Log for debugging
+    console.log('Found ' + allCourses.length + ' course items');
+    allCourses.forEach((course, index) => {
+        console.log('Course ' + index + ' status: ' + course.dataset.status);
+    });
 
     // Search functionality
     if (searchInput) {
+        console.log('Search input found, adding event listener');
         searchInput.addEventListener('input', function() {
             const searchTerm = this.value.toLowerCase().trim();
+            console.log('Searching for: ' + searchTerm);
             filterCourses(allCourses, searchTerm, getCurrentFilter());
         });
+    } else {
+        console.log('Search input not found');
     }
 
     // Filter buttons
     if (filterButtons.length > 0) {
+        console.log('Found ' + filterButtons.length + ' filter buttons');
         filterButtons.forEach(button => {
             button.addEventListener('click', function() {
+                console.log('Filter button clicked: ' + this.dataset.filter);
+
+                // Handle different button styles based on page
+                const isDashboard = window.location.href.includes('dashboard');
+
                 // Remove active class from all buttons
-                filterButtons.forEach(btn => btn.classList.remove('active', 'btn-primary'));
-                filterButtons.forEach(btn => btn.classList.add('btn-outline-secondary'));
+                filterButtons.forEach(btn => {
+                    btn.classList.remove('active');
+                    if (isDashboard) {
+                        btn.classList.remove('btn-primary');
+                        btn.classList.add('btn-outline-secondary');
+                    } else {
+                        btn.classList.remove('btn-primary');
+                        btn.classList.add('btn-outline-secondary');
+                    }
+                });
 
                 // Add active class to clicked button
-                this.classList.add('active', 'btn-primary');
-                this.classList.remove('btn-outline-secondary');
+                this.classList.add('active');
+                if (isDashboard) {
+                    this.classList.add('btn-primary');
+                    this.classList.remove('btn-outline-secondary');
+                } else {
+                    this.classList.add('btn-primary');
+                    this.classList.remove('btn-outline-secondary');
+                }
 
                 // Filter courses
                 const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
                 filterCourses(allCourses, searchTerm, this.dataset.filter);
             });
         });
+    } else {
+        console.log('No filter buttons found');
     }
 
     // Sort options
     if (sortOptions.length > 0) {
+        console.log('Found ' + sortOptions.length + ' sort options');
         sortOptions.forEach(option => {
             option.addEventListener('click', function(e) {
                 e.preventDefault();
+                console.log('Sort option clicked: ' + this.dataset.sort);
 
                 // Update dropdown button text
                 const sortDropdown = document.getElementById('sortDropdown');
@@ -70,6 +104,8 @@ function initCoursesFiltering() {
                 filterCourses(allCourses, searchTerm, getCurrentFilter());
             });
         });
+    } else {
+        console.log('No sort options found');
     }
 }
 
@@ -80,35 +116,59 @@ function initCoursesFiltering() {
  * @param {string} filterType - Type of filter (all, published, draft)
  */
 function filterCourses(courses, searchTerm, filterType) {
-    courses.forEach(course => {
+    console.log('Filtering courses with search term: "' + searchTerm + '" and filter: "' + filterType + '"');
+    console.log('Number of courses to filter: ' + courses.length);
+
+    // Check if we're on the dashboard page
+    const isDashboard = window.location.href.includes('dashboard');
+    console.log('Is dashboard page: ' + isDashboard);
+
+    courses.forEach((course, index) => {
         // Get course data
         let title = '';
         let category = '';
         const status = course.dataset.status ? course.dataset.status.toLowerCase() : '';
+        console.log('Course ' + index + ' status: ' + status);
 
         // Handle different DOM structures
-        const titleElement = course.querySelector('.course-title');
-        if (titleElement) {
-            title = titleElement.textContent.toLowerCase();
-        } else {
-            // Try to find title in other elements (for dashboard view)
+        if (isDashboard) {
+            // Dashboard view - find title in h5 > a
             const titleH5 = course.querySelector('h5 a');
             if (titleH5) {
-                title = titleH5.textContent.toLowerCase();
+                title = titleH5.textContent.toLowerCase().trim();
+                console.log('Course ' + index + ' title: ' + title);
+            } else {
+                console.log('Course ' + index + ' title element not found');
             }
-        }
 
-        const categoryElement = course.querySelector('.course-category');
-        if (categoryElement) {
-            category = categoryElement.textContent.toLowerCase();
-        } else {
-            // Try to find category in other elements (for dashboard view)
-            const categorySmalls = course.querySelectorAll('small');
-            categorySmalls.forEach(small => {
+            // Find category in small elements
+            const smallElements = course.querySelectorAll('small');
+            smallElements.forEach(small => {
                 if (small.textContent.includes('Category:')) {
-                    category = small.textContent.toLowerCase();
+                    category = small.textContent.toLowerCase().trim();
+                    console.log('Course ' + index + ' category: ' + category);
                 }
             });
+            if (!category) {
+                console.log('Course ' + index + ' category not found');
+            }
+        } else {
+            // Courses page view
+            const titleElement = course.querySelector('.course-title');
+            if (titleElement) {
+                title = titleElement.textContent.toLowerCase().trim();
+                console.log('Course ' + index + ' title: ' + title);
+            } else {
+                console.log('Course ' + index + ' title element not found');
+            }
+
+            const categoryElement = course.querySelector('.course-category');
+            if (categoryElement) {
+                category = categoryElement.textContent.toLowerCase().trim();
+                console.log('Course ' + index + ' category: ' + category);
+            } else {
+                console.log('Course ' + index + ' category element not found');
+            }
         }
 
         // Check if course matches search term
@@ -119,13 +179,17 @@ function filterCourses(courses, searchTerm, filterType) {
         // Check if course matches filter
         const matchesFilter = filterType === 'all' ||
                              (filterType === 'published' && status === 'active') ||
-                             (filterType === 'draft' && status === 'inactive');
+                             (filterType === 'draft' && (status === 'inactive' || status === 'draft'));
+
+        console.log('Course ' + index + ' matches search: ' + matchesSearch + ', matches filter: ' + matchesFilter);
 
         // Show or hide course
         if (matchesSearch && matchesFilter) {
             course.style.display = '';
+            console.log('Course ' + index + ' is visible');
         } else {
             course.style.display = 'none';
+            console.log('Course ' + index + ' is hidden');
         }
     });
 
@@ -133,7 +197,10 @@ function filterCourses(courses, searchTerm, filterType) {
     const noResults = document.getElementById('noResults');
     if (noResults) {
         const visibleCourses = courses.filter(course => course.style.display !== 'none');
+        console.log('Visible courses after filtering: ' + visibleCourses.length);
         noResults.style.display = visibleCourses.length === 0 ? 'block' : 'none';
+    } else {
+        console.log('No results element not found');
     }
 }
 
@@ -175,16 +242,27 @@ function sortCourses(courses, sortType) {
  * @returns {string} The title text
  */
 function getTitleText(courseElement) {
-    // Try to get title from course-title class
-    const titleElement = courseElement.querySelector('.course-title');
-    if (titleElement) {
-        return titleElement.textContent.trim();
-    }
+    // Check if we're on the dashboard page
+    const isDashboard = window.location.href.includes('dashboard');
 
-    // Try to get title from h5 > a (dashboard view)
-    const titleH5 = courseElement.querySelector('h5 a');
-    if (titleH5) {
-        return titleH5.textContent.trim();
+    if (isDashboard) {
+        // Dashboard view - find title in h5 > a
+        const titleH5 = courseElement.querySelector('h5 a');
+        if (titleH5) {
+            return titleH5.textContent.trim();
+        }
+    } else {
+        // Courses page view - find title in course-title class
+        const titleElement = courseElement.querySelector('.course-title');
+        if (titleElement) {
+            return titleElement.textContent.trim();
+        }
+
+        // Fallback to h5 > a if course-title not found
+        const titleH5 = courseElement.querySelector('h5 a');
+        if (titleH5) {
+            return titleH5.textContent.trim();
+        }
     }
 
     // Fallback
