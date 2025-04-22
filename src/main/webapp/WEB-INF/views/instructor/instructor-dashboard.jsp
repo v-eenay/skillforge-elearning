@@ -4,6 +4,23 @@
 
 <div class="dashboard-container">
     <div class="container">
+        <!-- Success Messages -->
+        <c:if test="${not empty sessionScope.message}">
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                ${sessionScope.message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <c:remove var="message" scope="session" />
+        </c:if>
+
+        <!-- Error Messages -->
+        <c:if test="${not empty sessionScope.error}">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                ${sessionScope.error}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <c:remove var="error" scope="session" />
+        </c:if>
         <div class="row dashboard-header">
             <div class="col-md-8">
                 <h2>Instructor Dashboard</h2>
@@ -124,7 +141,7 @@
                                                         <button class="btn btn-sm btn-outline-secondary">Statistics</button>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <button class="btn btn-sm btn-success">Publish</button>
+                                                        <a href="${pageContext.request.contextPath}/instructor/courses/toggle-status?id=${course.courseId}" class="btn btn-sm btn-success">Publish</a>
                                                     </c:otherwise>
                                                 </c:choose>
                                             </div>

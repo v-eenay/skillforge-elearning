@@ -358,7 +358,7 @@
                     <div class="mb-3">
                         <label class="form-label">Visibility</label>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="status" id="statusDraft" value="draft" checked>
+                            <input class="form-check-input" type="radio" name="status" id="statusDraft" value="inactive" checked>
                             <label class="form-check-label" for="statusDraft">
                                 <i class="fas fa-save me-1"></i> Save as Draft
                                 <div class="form-text">Your course won't be visible to students until you publish it</div>
@@ -406,7 +406,7 @@
                 </div>
 
                 <!-- Hidden input for save action -->
-                <input type="hidden" name="saveAction" id="saveActionInput" value="draft">
+                <input type="hidden" name="saveAction" id="saveActionInput" value="inactive">
             </form>
         </div>
     </div>
@@ -674,7 +674,7 @@
             // Save as Draft button click handler
             saveDraftBtn.addEventListener('click', function() {
                 console.log('Save Draft button clicked');
-                saveActionInput.value = 'draft';
+                saveActionInput.value = 'inactive';
                 document.getElementById('statusDraft').checked = true;
 
                 if (validateForm()) {

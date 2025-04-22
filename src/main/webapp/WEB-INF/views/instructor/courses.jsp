@@ -332,10 +332,10 @@
                                                 <li><a class="dropdown-item" href="#"><i class="fas fa-users"></i> Students</a></li>
                                                 <li><a class="dropdown-item" href="#"><i class="fas fa-comments"></i> Discussions</a></li>
                                                 <li><hr class="dropdown-divider"></li>
-                                                <li><a class="dropdown-item text-warning" href="#"><i class="fas fa-pause-circle"></i> Unpublish</a></li>
+                                                <li><a class="dropdown-item text-warning" href="${pageContext.request.contextPath}/instructor/courses/toggle-status?id=${course.courseId}"><i class="fas fa-pause-circle"></i> Unpublish</a></li>
                                             </c:when>
                                             <c:otherwise>
-                                                <li><a class="dropdown-item" href="#"><i class="fas fa-check-circle"></i> Publish</a></li>
+                                                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/instructor/courses/toggle-status?id=${course.courseId}"><i class="fas fa-check-circle"></i> Publish</a></li>
                                             </c:otherwise>
                                         </c:choose>
 
