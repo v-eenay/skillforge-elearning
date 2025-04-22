@@ -235,7 +235,7 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search courses...">
+                        <input type="text" class="form-control" id="searchCourses" placeholder="Search courses...">
                         <button class="btn btn-outline-secondary" type="button">
                             <i class="fas fa-search"></i>
                         </button>
@@ -243,28 +243,33 @@
                 </div>
                 <div class="col-md-8 text-md-end">
                     <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-outline-secondary active">All</button>
-                        <button type="button" class="btn btn-outline-secondary">Published</button>
-                        <button type="button" class="btn btn-outline-secondary">Drafts</button>
+                        <button type="button" class="btn btn-primary filter-btn active" data-filter="all">All</button>
+                        <button type="button" class="btn btn-outline-secondary filter-btn" data-filter="published">Published</button>
+                        <button type="button" class="btn btn-outline-secondary filter-btn" data-filter="draft">Drafts</button>
                     </div>
                     <div class="btn-group ms-2">
-                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" id="sortDropdown">
                             Sort By
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="#">Newest First</a></li>
-                            <li><a class="dropdown-item" href="#">Oldest First</a></li>
-                            <li><a class="dropdown-item" href="#">A-Z</a></li>
-                            <li><a class="dropdown-item" href="#">Z-A</a></li>
-                            <li><a class="dropdown-item" href="#">Most Students</a></li>
+                            <li><a class="dropdown-item sort-option" href="#" data-sort="newest">Newest First</a></li>
+                            <li><a class="dropdown-item sort-option" href="#" data-sort="oldest">Oldest First</a></li>
+                            <li><a class="dropdown-item sort-option" href="#" data-sort="az">A-Z</a></li>
+                            <li><a class="dropdown-item sort-option" href="#" data-sort="za">Z-A</a></li>
+                            <li><a class="dropdown-item sort-option" href="#" data-sort="students">Most Students</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- No Results Message (hidden by default) -->
+        <div id="noResults" class="alert alert-info text-center" style="display: none;">
+            <i class="fas fa-search me-2"></i> No courses match your search criteria.
+        </div>
+
         <!-- Courses Grid -->
-        <div class="row">
+        <div class="row" id="coursesContainer">
             <!-- Create Course Card -->
             <div class="col-md-4 mb-4">
                 <a href="${pageContext.request.contextPath}/instructor/courses/create" class="text-decoration-none">
@@ -279,7 +284,7 @@
 
             <!-- Dynamic Course Cards -->
             <c:forEach items="${courses}" var="course">
-                <div class="col-md-4 mb-4">
+                <div class="col-md-4 mb-4 course-item" data-status="${course.status}" data-created="${course.createdAt}" data-students="0">
                     <div class="course-card">
                         <div class="course-thumbnail">
                             <c:choose>
@@ -368,5 +373,7 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Instructor JS -->
+    <script src="${pageContext.request.contextPath}/assets/js/instructor.js"></script>
 </body>
 </html>
