@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.Part;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -133,17 +134,32 @@ public class InstructorController extends HttpServlet {
         if (pathInfo != null && pathInfo.equals("/create")) {
             // Handle course creation form submission
             try {
+                System.out.println("Processing course creation form submission");
+
                 // Get form data
                 String title = request.getParameter("title");
+                System.out.println("Title: " + title);
+
                 String description = request.getParameter("description");
-                int categoryId = Integer.parseInt(request.getParameter("categoryId"));
+                System.out.println("Description length: " + (description != null ? description.length() : "null"));
+
+                String categoryIdStr = request.getParameter("categoryId");
+                System.out.println("Category ID string: " + categoryIdStr);
+                int categoryId = Integer.parseInt(categoryIdStr);
+
                 String level = request.getParameter("level");
+                System.out.println("Level: " + level);
+
                 String status = request.getParameter("status"); // draft or active
+                System.out.println("Status: " + status);
+
                 String saveAction = request.getParameter("saveAction"); // draft or publish
+                System.out.println("Save Action: " + saveAction);
 
                 // If saveAction is publish, override status to active
                 if ("publish".equals(saveAction)) {
                     status = "active";
+                    System.out.println("Status overridden to active");
                 }
 
                 // Optional fields
@@ -154,9 +170,23 @@ public class InstructorController extends HttpServlet {
                 String tags = request.getParameter("tags");
 
                 // Handle thumbnail upload
+                System.out.println("Processing thumbnail upload");
+                Part thumbnailPart = request.getPart("thumbnailFile");
+                System.out.println("Thumbnail part: " + (thumbnailPart != null ? "found" : "null"));
+                if (thumbnailPart != null) {
+                    System.out.println("Thumbnail size: " + thumbnailPart.getSize());
+                    System.out.println("Thumbnail filename: " + thumbnailPart.getSubmittedFileName());
+                }
+
                 String thumbnailPath = FileUploadUtil.uploadCourseThumbnail(request, "thumbnailFile");
+                System.out.println("Thumbnail path: " + thumbnailPath);
+
+                if (thumbnailPath == null) {
+                    throw new ServletException("Failed to upload thumbnail. Please try again.");
+                }
 
                 // Create course model
+                System.out.println("Creating course model");
                 CourseModel course = new CourseModel();
                 course.setTitle(title);
                 course.setDescription(description);
@@ -168,15 +198,44 @@ public class InstructorController extends HttpServlet {
                 course.setCreatedAt(LocalDateTime.now());
                 course.setUpdatedAt(LocalDateTime.now());
 
+                // Set optional fields if provided
+                if (promoVideo != null && !promoVideo.isEmpty()) {
+                    course.setPromoVideo(promoVideo);
+                }
+
+                if (durationStr != null && !durationStr.isEmpty()) {
+                    course.setDuration(durationStr);
+                }
+
+                if (priceStr != null && !priceStr.isEmpty()) {
+                    try {
+                        course.setPrice(Double.parseDouble(priceStr));
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid price format: " + priceStr);
+                    }
+                }
+
+                if (prerequisites != null && !prerequisites.isEmpty()) {
+                    course.setPrerequisites(prerequisites);
+                }
+
+                if (tags != null && !tags.isEmpty()) {
+                    course.setTags(tags);
+                }
+
                 // Insert course into database
+                System.out.println("Inserting course into database");
                 int courseId = CourseDAO.insertCourse(course);
+                System.out.println("Course ID after insertion: " + courseId);
 
                 if (courseId > 0) {
                     // Course created successfully
+                    System.out.println("Course created successfully");
                     session.setAttribute("message", "Course created successfully!");
                     response.sendRedirect(request.getContextPath() + "/instructor/courses/");
                 } else {
                     // Course creation failed
+                    System.out.println("Course creation failed");
                     request.setAttribute("error", "Failed to create course. Please try again.");
                     List<CategoryModel> categories = CategoryDAO.getAllCategories();
                     request.setAttribute("categories", categories);
@@ -184,6 +243,8 @@ public class InstructorController extends HttpServlet {
                 }
             } catch (Exception e) {
                 // Handle exceptions
+                System.out.println("Exception during course creation: " + e.getMessage());
+                e.printStackTrace();
                 request.setAttribute("error", "An error occurred: " + e.getMessage());
                 List<CategoryModel> categories = CategoryDAO.getAllCategories();
                 request.setAttribute("categories", categories);

@@ -192,7 +192,7 @@
                 <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
 
-            <form id="courseForm" action="${pageContext.request.contextPath}/instructor/courses/create" method="post" enctype="multipart/form-data" onsubmit="console.log('Form submitted');">
+            <form id="courseForm" action="${pageContext.request.contextPath}/instructor/courses/create" method="post" enctype="multipart/form-data">
                 <!-- Basic Information Section -->
                 <div class="form-section">
                     <h3><i class="fas fa-info-circle me-2"></i>Basic Information</h3>
@@ -672,17 +672,34 @@
 
             // Save as Draft button click handler
             saveDraftBtn.addEventListener('click', function() {
+                console.log('Save Draft button clicked');
                 saveActionInput.value = 'draft';
                 document.getElementById('statusDraft').checked = true;
 
                 if (validateForm()) {
+                    console.log('Form validation passed, submitting form as draft');
                     // Show loading indicator or disable button here if needed
                     saveDraftBtn.disabled = true;
                     saveDraftBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Saving...';
 
-                    // Submit the form directly without using the form's submit method
-                    // This avoids potential issues with the submit event handler
-                    courseForm.submit();
+                    // Make sure the form is properly submitted
+                    try {
+                        // Log form data for debugging
+                        console.log('Form action:', courseForm.action);
+                        console.log('Form method:', courseForm.method);
+                        console.log('Form enctype:', courseForm.enctype);
+
+                        // Submit the form
+                        courseForm.submit();
+                        console.log('Form submitted successfully as draft');
+                    } catch (error) {
+                        console.error('Error submitting form:', error);
+                        saveDraftBtn.disabled = false;
+                        saveDraftBtn.innerHTML = '<i class="fas fa-save me-2"></i>Save Draft';
+                        alert('Error submitting form: ' + error.message);
+                    }
+                } else {
+                    console.log('Form validation failed');
                 }
             });
 
@@ -698,9 +715,14 @@
                     createCourseBtn.disabled = true;
                     createCourseBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Creating...';
 
-                    // Submit the form directly without using the form's submit method
-                    // This avoids potential issues with the submit event handler
+                    // Make sure the form is properly submitted
                     try {
+                        // Log form data for debugging
+                        console.log('Form action:', courseForm.action);
+                        console.log('Form method:', courseForm.method);
+                        console.log('Form enctype:', courseForm.enctype);
+
+                        // Submit the form
                         courseForm.submit();
                         console.log('Form submitted successfully');
                     } catch (error) {
