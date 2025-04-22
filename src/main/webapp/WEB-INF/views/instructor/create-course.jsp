@@ -66,22 +66,32 @@
             margin-bottom: 15px;
             overflow: hidden;
             position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .thumbnail-preview:hover {
+            border-color: #4f46e5;
+            background-color: rgba(79, 70, 229, 0.05);
         }
 
         .thumbnail-preview img {
-            max-width: 100%;
-            max-height: 100%;
+            width: 100%;
+            height: 100%;
             object-fit: cover;
+            display: block;
         }
 
         .thumbnail-preview .upload-placeholder {
             text-align: center;
             color: #6c757d;
+            padding: 20px;
         }
 
         .thumbnail-preview .upload-placeholder i {
             font-size: 3rem;
             margin-bottom: 10px;
+            color: #4f46e5;
         }
 
         .form-label {
@@ -284,7 +294,7 @@
                                 <p>Drag and drop your thumbnail here or click to browse</p>
                             </div>
                         </div>
-                        <input type="file" class="form-control" id="courseThumbnail" name="thumbnailFile" accept="image/*" required>
+                        <input type="file" class="form-control" id="courseThumbnail" name="thumbnailFile" accept="image/*" required style="display: none;">
                         <div class="form-text">Upload a high-quality image that represents your course (16:9 ratio recommended)</div>
                     </div>
 
@@ -488,64 +498,69 @@
             }
         });
 
-        // Thumbnail preview functionality
-        document.getElementById('courseThumbnail').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    const previewDiv = document.getElementById('thumbnailPreview');
-                    previewDiv.innerHTML = `<img src="${event.target.result}" alt="Course Thumbnail Preview">`;
-                };
-                reader.readAsDataURL(file);
+        // Initialize thumbnail preview functionality when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get elements
+            const thumbnailPreview = document.getElementById('thumbnailPreview');
+            const thumbnailInput = document.getElementById('courseThumbnail');
+
+            // Handle file selection
+            thumbnailInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        thumbnailPreview.innerHTML = `<img src="${event.target.result}" alt="Course Thumbnail Preview">`;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            // Drag and drop functionality
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                thumbnailPreview.addEventListener(eventName, preventDefaults, false);
+            });
+
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
             }
-        });
 
-        // Drag and drop functionality for thumbnail
-        const thumbnailPreview = document.getElementById('thumbnailPreview');
-        const thumbnailInput = document.getElementById('courseThumbnail');
+            ['dragenter', 'dragover'].forEach(eventName => {
+                thumbnailPreview.addEventListener(eventName, highlight, false);
+            });
 
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-            thumbnailPreview.addEventListener(eventName, preventDefaults, false);
-        });
+            ['dragleave', 'drop'].forEach(eventName => {
+                thumbnailPreview.addEventListener(eventName, unhighlight, false);
+            });
 
-        function preventDefaults(e) {
-            e.preventDefault();
-            e.stopPropagation();
-        }
-
-        ['dragenter', 'dragover'].forEach(eventName => {
-            thumbnailPreview.addEventListener(eventName, highlight, false);
-        });
-
-        ['dragleave', 'drop'].forEach(eventName => {
-            thumbnailPreview.addEventListener(eventName, unhighlight, false);
-        });
-
-        function highlight() {
-            thumbnailPreview.classList.add('border-primary');
-        }
-
-        function unhighlight() {
-            thumbnailPreview.classList.remove('border-primary');
-        }
-
-        thumbnailPreview.addEventListener('drop', handleDrop, false);
-
-        function handleDrop(e) {
-            const dt = e.dataTransfer;
-            const files = dt.files;
-
-            if (files.length) {
-                thumbnailInput.files = files;
-                const event = new Event('change');
-                thumbnailInput.dispatchEvent(event);
+            function highlight() {
+                thumbnailPreview.classList.add('border-primary');
             }
-        }
 
-        // Click on preview to trigger file input
-        thumbnailPreview.addEventListener('click', () => {
-            thumbnailInput.click();
+            function unhighlight() {
+                thumbnailPreview.classList.remove('border-primary');
+            }
+
+            thumbnailPreview.addEventListener('drop', handleDrop, false);
+
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+
+                if (files.length && files[0].type.startsWith('image/')) {
+                    thumbnailInput.files = files;
+                    const event = new Event('change');
+                    thumbnailInput.dispatchEvent(event);
+                } else {
+                    alert('Please drop an image file');
+                }
+            }
+
+            // Click on preview to trigger file input
+            thumbnailPreview.addEventListener('click', () => {
+                thumbnailInput.click();
+            });
         });
 
         // Form validation and submission
