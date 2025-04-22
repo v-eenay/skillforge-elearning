@@ -44,10 +44,10 @@
                     <ul class="dropdown-menu dropdown-menu-end">
                         <c:choose>
                             <c:when test="${course.status == 'active'}">
-                                <li><a class="dropdown-item" href="#"><i class="fas fa-pause-circle me-2"></i> Unpublish</a></li>
+                                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/instructor/courses/toggle-status?id=${course.courseId}"><i class="fas fa-pause-circle me-2"></i> Unpublish</a></li>
                             </c:when>
                             <c:otherwise>
-                                <li><a class="dropdown-item" href="#"><i class="fas fa-check-circle me-2"></i> Publish</a></li>
+                                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/instructor/courses/toggle-status?id=${course.courseId}"><i class="fas fa-check-circle me-2"></i> Publish</a></li>
                             </c:otherwise>
                         </c:choose>
                         <li><a class="dropdown-item" href="#"><i class="fas fa-chart-bar me-2"></i> Analytics</a></li>
@@ -202,12 +202,12 @@
                             </a>
                             <c:choose>
                                 <c:when test="${course.status == 'active'}">
-                                    <a href="#" class="btn btn-outline-warning">
+                                    <a href="${pageContext.request.contextPath}/instructor/courses/toggle-status?id=${course.courseId}" class="btn btn-outline-warning">
                                         <i class="fas fa-pause-circle me-2"></i> Unpublish Course
                                     </a>
                                 </c:when>
                                 <c:otherwise>
-                                    <a href="#" class="btn btn-success">
+                                    <a href="${pageContext.request.contextPath}/instructor/courses/toggle-status?id=${course.courseId}" class="btn btn-success">
                                         <i class="fas fa-check-circle me-2"></i> Publish Course
                                     </a>
                                 </c:otherwise>

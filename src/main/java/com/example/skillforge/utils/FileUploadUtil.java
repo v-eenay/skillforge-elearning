@@ -20,6 +20,29 @@ public class FileUploadUtil {
     private static final String CONTENT_VIDEOS_DIRECTORY = "content-videos";
     private static final String CONTENT_DOCUMENTS_DIRECTORY = "content-documents";
 
+    // Ensure the upload directories exist
+    static {
+        try {
+            // Create the upload directories if they don't exist
+            File uploadDir = new File(System.getProperty("catalina.base") + File.separator + "webapps" + File.separator + UPLOAD_DIRECTORY);
+            if (!uploadDir.exists()) {
+                uploadDir.mkdirs();
+            }
+
+            // Create subdirectories
+            new File(uploadDir, PROFILE_IMAGES_DIRECTORY).mkdirs();
+            new File(uploadDir, COURSE_THUMBNAILS_DIRECTORY).mkdirs();
+            new File(uploadDir, CONTENT_IMAGES_DIRECTORY).mkdirs();
+            new File(uploadDir, CONTENT_VIDEOS_DIRECTORY).mkdirs();
+            new File(uploadDir, CONTENT_DOCUMENTS_DIRECTORY).mkdirs();
+
+            System.out.println("Upload directories created successfully");
+        } catch (Exception e) {
+            System.out.println("Error creating upload directories: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
     /**
      * Uploads a profile image and returns the path to the uploaded file
      *
@@ -97,37 +120,115 @@ public class FileUploadUtil {
      */
     public static String uploadCourseThumbnail(HttpServletRequest request, String partName) {
         try {
+            System.out.println("Starting thumbnail upload process for part: " + partName);
             Part filePart = request.getPart(partName);
+            System.out.println("File part retrieved: " + (filePart != null ? "yes" : "no"));
 
             // Check if a file was actually uploaded
-            if (filePart == null || filePart.getSize() <= 0 || filePart.getSubmittedFileName() == null || filePart.getSubmittedFileName().isEmpty()) {
+            if (filePart == null) {
+                System.out.println("File part is null");
+                return null;
+            }
+
+            System.out.println("File size: " + filePart.getSize());
+            System.out.println("File name: " + filePart.getSubmittedFileName());
+
+            if (filePart.getSize() <= 0) {
+                System.out.println("File size is 0 or negative");
+                return null;
+            }
+
+            if (filePart.getSubmittedFileName() == null || filePart.getSubmittedFileName().isEmpty()) {
+                System.out.println("File name is null or empty");
                 return null;
             }
 
             // Get the file extension
             String fileName = filePart.getSubmittedFileName();
-            String fileExtension = fileName.substring(fileName.lastIndexOf("."));
+            String fileExtension = "";
+            if (fileName.contains(".")) {
+                fileExtension = fileName.substring(fileName.lastIndexOf("."));
+            } else {
+                // Default to .jpg if no extension is found
+                fileExtension = ".jpg";
+            }
+            System.out.println("File extension: " + fileExtension);
 
             // Generate a unique file name
             String uniqueFileName = UUID.randomUUID().toString() + fileExtension;
+            System.out.println("Generated unique filename: " + uniqueFileName);
 
-            // Create the upload directory if it doesn't exist
+            // Get the application path
             String applicationPath = request.getServletContext().getRealPath("");
-            String uploadPath = applicationPath + File.separator + UPLOAD_DIRECTORY + File.separator + COURSE_THUMBNAILS_DIRECTORY;
+            System.out.println("Application path: " + applicationPath);
 
+            // Try multiple approaches to create the upload directory
+            String uploadPath = applicationPath + File.separator + UPLOAD_DIRECTORY + File.separator + COURSE_THUMBNAILS_DIRECTORY;
+            System.out.println("Upload path: " + uploadPath);
+
+            // First approach: Use the application path
             File uploadDir = new File(uploadPath);
             if (!uploadDir.exists()) {
-                uploadDir.mkdirs();
+                boolean dirCreated = uploadDir.mkdirs();
+                System.out.println("Created upload directory (approach 1): " + dirCreated);
+
+                // Second approach: Use catalina.base if first approach fails
+                if (!dirCreated) {
+                    String catalinaBase = System.getProperty("catalina.base");
+                    if (catalinaBase != null) {
+                        uploadPath = catalinaBase + File.separator + "webapps" + File.separator +
+                                     request.getContextPath().substring(1) + File.separator +
+                                     UPLOAD_DIRECTORY + File.separator + COURSE_THUMBNAILS_DIRECTORY;
+                        uploadDir = new File(uploadPath);
+                        dirCreated = uploadDir.mkdirs();
+                        System.out.println("Created upload directory (approach 2): " + dirCreated);
+                    }
+
+                    // Third approach: Use java.io.tmpdir if second approach fails
+                    if (!dirCreated) {
+                        uploadPath = System.getProperty("java.io.tmpdir") + File.separator +
+                                     UPLOAD_DIRECTORY + File.separator + COURSE_THUMBNAILS_DIRECTORY;
+                        uploadDir = new File(uploadPath);
+                        dirCreated = uploadDir.mkdirs();
+                        System.out.println("Created upload directory (approach 3): " + dirCreated);
+
+                        if (!dirCreated) {
+                            // Last resort: use a fixed path that should be writable
+                            uploadPath = "C:" + File.separator + "temp" + File.separator +
+                                         UPLOAD_DIRECTORY + File.separator + COURSE_THUMBNAILS_DIRECTORY;
+                            uploadDir = new File(uploadPath);
+                            dirCreated = uploadDir.mkdirs();
+                            System.out.println("Created upload directory (approach 4): " + dirCreated);
+
+                            if (!dirCreated) {
+                                throw new IOException("Failed to create upload directory after multiple attempts");
+                            }
+                        }
+                    }
+                }
             }
 
             // Save the file
             String filePath = uploadPath + File.separator + uniqueFileName;
+            System.out.println("Saving file to: " + filePath);
             filePart.write(filePath);
+            System.out.println("File saved successfully");
+
+            // Verify the file was actually saved
+            File savedFile = new File(filePath);
+            if (!savedFile.exists() || savedFile.length() == 0) {
+                System.out.println("File was not saved properly. Exists: " + savedFile.exists() + ", Size: " + savedFile.length());
+                throw new IOException("File was not saved properly");
+            }
+            System.out.println("File verified: exists and has content");
 
             // Return the relative path to the file
-            return "/" + UPLOAD_DIRECTORY + "/" + COURSE_THUMBNAILS_DIRECTORY + "/" + uniqueFileName;
+            String relativePath = "/" + UPLOAD_DIRECTORY + "/" + COURSE_THUMBNAILS_DIRECTORY + "/" + uniqueFileName;
+            System.out.println("Returning relative path: " + relativePath);
+            return relativePath;
 
-        } catch (IOException | ServletException e) {
+        } catch (Exception e) {
+            System.out.println("Exception in uploadCourseThumbnail: " + e.getMessage());
             e.printStackTrace();
             return null;
         }

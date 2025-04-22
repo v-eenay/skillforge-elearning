@@ -345,30 +345,8 @@
     <!-- CKEditor -->
     <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
     <script>
-        // Initialize CKEditor for course description
+        // Initialize event handlers
         document.addEventListener('DOMContentLoaded', function() {
-            ClassicEditor
-                .create(document.querySelector('#courseDescription'), {
-                    toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|', 'outdent', 'indent', '|', 'blockQuote', 'insertTable', 'undo', 'redo']
-                })
-                .then(editor => {
-                    console.log('CKEditor initialized successfully');
-                    // Update hidden textarea with editor content for form submission
-                    editor.model.document.on('change:data', () => {
-                        document.querySelector('#descriptionHidden').value = editor.getData();
-                    });
-
-                    // Set initial content if available
-                    if (document.querySelector('#descriptionHidden').value) {
-                        editor.setData(document.querySelector('#descriptionHidden').value);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error initializing CKEditor:', error);
-                    // Fallback to regular textarea if CKEditor fails to load
-                    document.querySelector('#courseDescription').style.display = 'block';
-                    document.querySelector('#courseDescription').style.height = '300px';
-                });
 
             // New Category Modal Functionality
             const newCategoryBtn = document.getElementById('newCategoryBtn');
@@ -393,14 +371,38 @@
                 }
 
                 // Collect form data
-                const formData = new FormData(newCategoryForm);
+                // Convert form data to URL-encoded string for better compatibility
+                const params = new URLSearchParams();
+                params.append('name', categoryName);
+                params.append('description', document.getElementById('categoryDescription').value);
+
+                console.log('Sending category creation request to: ${pageContext.request.contextPath}/instructor/categories/create');
+                console.log('Category name:', categoryName);
+                console.log('Category description:', document.getElementById('categoryDescription').value);
 
                 // Send AJAX request
                 fetch('${pageContext.request.contextPath}/instructor/categories/create', {
                     method: 'POST',
-                    body: formData
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: params
                 })
-                .then(response => response.json())
+                .then(response => {
+                    console.log('Response status:', response.status);
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok: ' + response.status);
+                    }
+                    return response.text().then(text => {
+                        console.log('Raw response text:', text);
+                        try {
+                            return JSON.parse(text);
+                        } catch (e) {
+                            console.error('Error parsing JSON:', e);
+                            throw new Error('Invalid JSON response: ' + text);
+                        }
+                    });
+                })
                 .then(data => {
                     if (data.success) {
                         // Show success message
@@ -413,8 +415,9 @@
                         // Select the new category
                         categorySelect.value = data.category.id;
 
-                        // Clear the form
-                        newCategoryForm.reset();
+                        // Clear the form fields manually since reset() might not work
+                        document.getElementById('categoryName').value = '';
+                        document.getElementById('categoryDescription').value = '';
 
                         // Close the modal after a short delay
                         setTimeout(() => {
@@ -427,7 +430,7 @@
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    showMessage('An error occurred. Please try again.', 'danger');
+                    showMessage('An error occurred. Please try again: ' + error.message, 'danger');
                 });
             });
 
@@ -472,6 +475,167 @@
                 document.getElementById('thumbnailFile').click();
             });
         }
+
+        // Global variable to store the CKEditor instance
+        let courseEditor;
+
+        // Initialize CKEditor and form submission handling
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get form elements
+            const courseForm = document.querySelector('form[action="${pageContext.request.contextPath}/instructor/courses/edit"]');
+            const saveDraftBtn = document.querySelector('button[value="draft"]');
+            const savePublishBtn = document.querySelector('button[value="publish"]');
+
+            // Initialize CKEditor
+            ClassicEditor
+                .create(document.querySelector('#courseDescription'), {
+                    toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|', 'outdent', 'indent', '|', 'blockQuote', 'insertTable', 'undo', 'redo']
+                })
+                .then(editor => {
+                    console.log('CKEditor initialized successfully');
+                    courseEditor = editor;
+
+                    // Update hidden textarea with editor content for form submission
+                    editor.model.document.on('change:data', () => {
+                        document.querySelector('#descriptionHidden').value = editor.getData();
+                    });
+
+                    // Set initial content if available
+                    if (document.querySelector('#descriptionHidden').value) {
+                        editor.setData(document.querySelector('#descriptionHidden').value);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error initializing CKEditor:', error);
+                    // Fallback to regular textarea if CKEditor fails to load
+                    document.querySelector('#courseDescription').style.display = 'block';
+                    document.querySelector('#courseDescription').style.height = '300px';
+                });
+
+            // Function to validate the form
+            function validateForm() {
+                console.log('Validating form...');
+
+                // Make sure the description from CKEditor is in the hidden field
+                if (courseEditor) {
+                    const editorData = courseEditor.getData();
+                    console.log('CKEditor data:', editorData);
+                    document.querySelector('#descriptionHidden').value = editorData;
+                } else {
+                    console.error('CKEditor not initialized');
+                    alert('Error: Rich text editor not initialized. Please refresh the page and try again.');
+                    return false;
+                }
+
+                // Check if title is filled
+                const title = document.getElementById('title').value.trim();
+                console.log('Title:', title);
+                if (!title) {
+                    alert('Please enter a course title');
+                    document.getElementById('title').focus();
+                    return false;
+                }
+
+                // Check if description is filled
+                const description = document.querySelector('#descriptionHidden').value.trim();
+                console.log('Description length:', description.length);
+                if (!description) {
+                    alert('Please enter a course description');
+                    courseEditor.focus();
+                    return false;
+                }
+
+                // Check if category is selected
+                const category = document.getElementById('categoryId').value;
+                console.log('Category:', category);
+                if (!category) {
+                    alert('Please select a category');
+                    document.getElementById('categoryId').focus();
+                    return false;
+                }
+
+                // Check if level is selected
+                const level = document.getElementById('level').value;
+                console.log('Level:', level);
+                if (!level) {
+                    alert('Please select a level');
+                    document.getElementById('level').focus();
+                    return false;
+                }
+
+                console.log('Form validation passed');
+                return true;
+            }
+
+            // Add event listeners to the form buttons
+            if (saveDraftBtn) {
+                saveDraftBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    console.log('Save Draft button clicked');
+                    document.getElementById('statusInactive').checked = true;
+
+                    if (validateForm()) {
+                        console.log('Form validation passed, submitting form as draft');
+                        // Show loading indicator or disable button here if needed
+                        saveDraftBtn.disabled = true;
+                        saveDraftBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Saving...';
+
+                        // Make sure the form is properly submitted
+                        try {
+                            // Log form data for debugging
+                            console.log('Form action:', courseForm.action);
+                            console.log('Form method:', courseForm.method);
+                            console.log('Form enctype:', courseForm.enctype);
+
+                            // Submit the form
+                            courseForm.submit();
+                            console.log('Form submitted successfully as draft');
+                        } catch (error) {
+                            console.error('Error submitting form:', error);
+                            saveDraftBtn.disabled = false;
+                            saveDraftBtn.innerHTML = '<i class="fas fa-save me-2"></i>Save as Draft';
+                            alert('Error submitting form: ' + error.message);
+                        }
+                    } else {
+                        console.log('Form validation failed');
+                    }
+                });
+            }
+
+            if (savePublishBtn) {
+                savePublishBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    console.log('Save and Publish button clicked');
+                    document.getElementById('statusActive').checked = true;
+
+                    if (validateForm()) {
+                        console.log('Form validation passed, submitting form');
+                        // Show loading indicator or disable button here if needed
+                        savePublishBtn.disabled = true;
+                        savePublishBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Saving...';
+
+                        // Make sure the form is properly submitted
+                        try {
+                            // Log form data for debugging
+                            console.log('Form action:', courseForm.action);
+                            console.log('Form method:', courseForm.method);
+                            console.log('Form enctype:', courseForm.enctype);
+
+                            // Submit the form
+                            courseForm.submit();
+                            console.log('Form submitted successfully');
+                        } catch (error) {
+                            console.error('Error submitting form:', error);
+                            savePublishBtn.disabled = false;
+                            savePublishBtn.innerHTML = '<i class="fas fa-check me-2"></i>Save and Publish';
+                            alert('Error submitting form: ' + error.message);
+                        }
+                    } else {
+                        console.log('Form validation failed');
+                    }
+                });
+            }
+        });
     </script>
 </body>
 </html>

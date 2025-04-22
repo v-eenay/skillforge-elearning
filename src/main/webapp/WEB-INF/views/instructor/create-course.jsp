@@ -304,7 +304,7 @@
                             </div>
                             <img id="thumbnailImage" src="" alt="Course Thumbnail Preview" style="display: none; width: 100%; height: 100%; object-fit: cover;">
                         </div>
-                        <input type="file" class="form-control" id="courseThumbnail" name="thumbnailFile" accept="image/*" required style="display: none;">
+                        <input type="file" class="form-control" id="courseThumbnail" name="thumbnailFile" accept="image/*" style="display: none;">
                         <div class="form-text">Upload a high-quality image that represents your course (16:9 ratio recommended)</div>
                     </div>
 
@@ -358,7 +358,7 @@
                     <div class="mb-3">
                         <label class="form-label">Visibility</label>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="status" id="statusDraft" value="draft" checked>
+                            <input class="form-check-input" type="radio" name="status" id="statusDraft" value="inactive" checked>
                             <label class="form-check-label" for="statusDraft">
                                 <i class="fas fa-save me-1"></i> Save as Draft
                                 <div class="form-text">Your course won't be visible to students until you publish it</div>
@@ -406,7 +406,7 @@
                 </div>
 
                 <!-- Hidden input for save action -->
-                <input type="hidden" name="saveAction" id="saveActionInput" value="draft">
+                <input type="hidden" name="saveAction" id="saveActionInput" value="inactive">
             </form>
         </div>
     </div>
@@ -429,13 +429,18 @@
             .create(document.querySelector('#courseDescription'))
             .then(editor => {
                 courseEditor = editor;
+                console.log('CKEditor initialized successfully');
                 // Update hidden textarea with editor content for form submission
                 editor.model.document.on('change:data', () => {
                     document.querySelector('#descriptionHidden').value = editor.getData();
+                    console.log('CKEditor content updated in hidden field');
                 });
+
+                // Set initial value to ensure the hidden field has content
+                document.querySelector('#descriptionHidden').value = editor.getData();
             })
             .catch(error => {
-                console.error(error);
+                console.error('Error initializing CKEditor:', error);
             });
 
         // New Category Modal Functionality
@@ -461,16 +466,40 @@
                     return;
                 }
 
-                // Collect form data
-                const formData = new FormData(newCategoryForm);
-
                 // Send AJAX request
+                console.log('Sending category creation request to: ${pageContext.request.contextPath}/instructor/categories/create');
+                console.log('Category name:', categoryName);
+                console.log('Category description:', document.getElementById('categoryDescription').value);
+
+                // Use URL-encoded string for better compatibility
+                const params = new URLSearchParams();
+                params.append('name', categoryName);
+                params.append('description', document.getElementById('categoryDescription').value);
+
                 fetch('${pageContext.request.contextPath}/instructor/categories/create', {
                     method: 'POST',
-                    body: formData
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: params
                 })
-                .then(response => response.json())
+                .then(response => {
+                    console.log('Response status:', response.status);
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok: ' + response.status);
+                    }
+                    return response.text().then(text => {
+                        console.log('Raw response text:', text);
+                        try {
+                            return JSON.parse(text);
+                        } catch (e) {
+                            console.error('Error parsing JSON:', e);
+                            throw new Error('Invalid JSON response: ' + text);
+                        }
+                    });
+                })
                 .then(data => {
+                    console.log('Parsed data:', data);
                     if (data.success) {
                         // Show success message
                         showMessage(data.message, 'success');
@@ -482,8 +511,9 @@
                         // Select the new category
                         courseCategorySelect.value = data.category.id;
 
-                        // Clear the form
-                        newCategoryForm.reset();
+                        // Clear the form fields manually since reset() might not work
+                        document.getElementById('categoryName').value = '';
+                        document.getElementById('categoryDescription').value = '';
 
                         // Close the modal after a short delay
                         setTimeout(() => {
@@ -496,7 +526,7 @@
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    showMessage('An error occurred. Please try again.', 'danger');
+                    showMessage('An error occurred. Please try again: ' + error.message, 'danger');
                 });
             });
 
@@ -603,13 +633,22 @@
 
             // Function to validate the form
             function validateForm() {
+                console.log('Validating form...');
+
                 // Make sure the description from CKEditor is in the hidden field
                 if (courseEditor) {
-                    document.querySelector('#descriptionHidden').value = courseEditor.getData();
+                    const editorData = courseEditor.getData();
+                    console.log('CKEditor data:', editorData);
+                    document.querySelector('#descriptionHidden').value = editorData;
+                } else {
+                    console.error('CKEditor not initialized');
+                    alert('Error: Rich text editor not initialized. Please refresh the page and try again.');
+                    return false;
                 }
 
                 // Check if title is filled
                 const title = document.getElementById('courseTitle').value.trim();
+                console.log('Title:', title);
                 if (!title) {
                     alert('Please enter a course title');
                     document.getElementById('courseTitle').focus();
@@ -618,6 +657,7 @@
 
                 // Check if description is filled
                 const description = document.querySelector('#descriptionHidden').value.trim();
+                console.log('Description length:', description.length);
                 if (!description) {
                     alert('Please enter a course description');
                     courseEditor.focus();
@@ -626,6 +666,7 @@
 
                 // Check if category is selected
                 const category = document.getElementById('courseCategory').value;
+                console.log('Category:', category);
                 if (!category) {
                     alert('Please select a category');
                     document.getElementById('courseCategory').focus();
@@ -634,61 +675,95 @@
 
                 // Check if level is selected
                 const level = document.getElementById('courseLevel').value;
+                console.log('Level:', level);
                 if (!level) {
                     alert('Please select a level');
                     document.getElementById('courseLevel').focus();
                     return false;
                 }
 
-                // Check if thumbnail is uploaded
+                // Check if thumbnail is uploaded (optional now since we have a default)
                 const thumbnail = document.getElementById('courseThumbnail').files;
-                if (thumbnail.length === 0) {
-                    alert('Please upload a course thumbnail');
-                    document.getElementById('thumbnailPreview').click();
-                    return false;
-                }
+                console.log('Thumbnail files:', thumbnail.length);
+                // We no longer require a thumbnail since we have a default
+                // if (thumbnail.length === 0) {
+                //     alert('Please upload a course thumbnail');
+                //     document.getElementById('thumbnailPreview').click();
+                //     return false;
+                // }
 
+                console.log('Form validation passed');
                 return true;
             }
 
             // Save as Draft button click handler
             saveDraftBtn.addEventListener('click', function() {
-                saveActionInput.value = 'draft';
+                console.log('Save Draft button clicked');
+                saveActionInput.value = 'inactive';
                 document.getElementById('statusDraft').checked = true;
 
                 if (validateForm()) {
+                    console.log('Form validation passed, submitting form as draft');
                     // Show loading indicator or disable button here if needed
                     saveDraftBtn.disabled = true;
                     saveDraftBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Saving...';
 
-                    courseForm.submit();
+                    // Make sure the form is properly submitted
+                    try {
+                        // Log form data for debugging
+                        console.log('Form action:', courseForm.action);
+                        console.log('Form method:', courseForm.method);
+                        console.log('Form enctype:', courseForm.enctype);
+
+                        // Submit the form
+                        courseForm.submit();
+                        console.log('Form submitted successfully as draft');
+                    } catch (error) {
+                        console.error('Error submitting form:', error);
+                        saveDraftBtn.disabled = false;
+                        saveDraftBtn.innerHTML = '<i class="fas fa-save me-2"></i>Save Draft';
+                        alert('Error submitting form: ' + error.message);
+                    }
+                } else {
+                    console.log('Form validation failed');
                 }
             });
 
             // Create Course button click handler
             createCourseBtn.addEventListener('click', function() {
+                console.log('Create Course button clicked');
                 saveActionInput.value = 'publish';
                 document.getElementById('statusPublish').checked = true;
 
                 if (validateForm()) {
+                    console.log('Form validation passed, submitting form');
                     // Show loading indicator or disable button here if needed
                     createCourseBtn.disabled = true;
                     createCourseBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Creating...';
 
-                    courseForm.submit();
+                    // Make sure the form is properly submitted
+                    try {
+                        // Log form data for debugging
+                        console.log('Form action:', courseForm.action);
+                        console.log('Form method:', courseForm.method);
+                        console.log('Form enctype:', courseForm.enctype);
+
+                        // Submit the form
+                        courseForm.submit();
+                        console.log('Form submitted successfully');
+                    } catch (error) {
+                        console.error('Error submitting form:', error);
+                        createCourseBtn.disabled = false;
+                        createCourseBtn.innerHTML = '<i class="fas fa-check me-2"></i>Create Course';
+                        alert('Error submitting form: ' + error.message);
+                    }
+                } else {
+                    console.log('Form validation failed');
                 }
             });
 
-            // Also handle form submission directly
-            courseForm.addEventListener('submit', function(e) {
-                // Prevent default submission to handle it ourselves
-                e.preventDefault();
-
-                if (validateForm()) {
-                    // If validation passes, submit the form
-                    this.submit();
-                }
-            });
+            // Remove the form submission event handler to avoid conflicts
+            // The buttons will handle the form submission directly
         });
     </script>
 </body>

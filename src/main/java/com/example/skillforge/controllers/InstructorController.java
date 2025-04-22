@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.Part;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -111,6 +112,60 @@ public class InstructorController extends HttpServlet {
             } catch (NumberFormatException e) {
                 response.sendRedirect(request.getContextPath() + "/instructor/courses/");
             }
+        } else if (pathInfo.equals("/toggle-status")) {
+            // Handle course publish/unpublish
+            System.out.println("Processing toggle-status request via GET");
+            try {
+                // Get course ID
+                String courseIdParam = request.getParameter("id");
+                System.out.println("Course ID parameter: " + courseIdParam);
+                int courseId = Integer.parseInt(courseIdParam);
+
+                // Get the course from the database
+                CourseModel course = CourseDAO.getCourseById(courseId);
+
+                // Check if course exists and belongs to the current instructor
+                if (course == null || course.getCreatedBy() != user.getUserId()) {
+                    response.sendRedirect(request.getContextPath() + "/instructor/courses/");
+                    return;
+                }
+
+                // Toggle the status
+                CourseModel.Status newStatus = (course.getStatus() == CourseModel.Status.active)
+                    ? CourseModel.Status.inactive
+                    : CourseModel.Status.active;
+
+                course.setStatus(newStatus);
+                course.setUpdatedAt(LocalDateTime.now());
+
+                // Update course in database
+                boolean updated = CourseDAO.updateCourse(course);
+
+                if (updated) {
+                    // Course updated successfully
+                    String statusMessage = (newStatus == CourseModel.Status.active)
+                        ? "Course published successfully!"
+                        : "Course unpublished successfully!";
+                    session.setAttribute("message", statusMessage);
+                } else {
+                    // Course update failed
+                    session.setAttribute("error", "Failed to update course status. Please try again.");
+                }
+
+                // Redirect back to the referring page or course list
+                String referer = request.getHeader("Referer");
+                if (referer != null && !referer.isEmpty()) {
+                    response.sendRedirect(referer);
+                } else {
+                    response.sendRedirect(request.getContextPath() + "/instructor/courses/");
+                }
+            } catch (Exception e) {
+                // Handle exceptions
+                System.out.println("Exception during course status update: " + e.getMessage());
+                e.printStackTrace();
+                session.setAttribute("error", "An error occurred: " + e.getMessage());
+                response.sendRedirect(request.getContextPath() + "/instructor/courses/");
+            }
         } else {
             // Handle 404
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
@@ -133,17 +188,38 @@ public class InstructorController extends HttpServlet {
         if (pathInfo != null && pathInfo.equals("/create")) {
             // Handle course creation form submission
             try {
+                System.out.println("Processing course creation form submission");
+
                 // Get form data
                 String title = request.getParameter("title");
+                System.out.println("Title: " + title);
+
                 String description = request.getParameter("description");
-                int categoryId = Integer.parseInt(request.getParameter("categoryId"));
+                System.out.println("Description length: " + (description != null ? description.length() : "null"));
+
+                String categoryIdStr = request.getParameter("categoryId");
+                System.out.println("Category ID string: " + categoryIdStr);
+                int categoryId = Integer.parseInt(categoryIdStr);
+
                 String level = request.getParameter("level");
+                System.out.println("Level: " + level);
+
                 String status = request.getParameter("status"); // draft or active
+                System.out.println("Status: " + status);
+
                 String saveAction = request.getParameter("saveAction"); // draft or publish
+                System.out.println("Save Action: " + saveAction);
+
+                // If status is null, default to "inactive"
+                if (status == null) {
+                    status = "inactive";
+                    System.out.println("Status was null, defaulting to inactive");
+                }
 
                 // If saveAction is publish, override status to active
                 if ("publish".equals(saveAction)) {
                     status = "active";
+                    System.out.println("Status overridden to active");
                 }
 
                 // Optional fields
@@ -154,29 +230,87 @@ public class InstructorController extends HttpServlet {
                 String tags = request.getParameter("tags");
 
                 // Handle thumbnail upload
-                String thumbnailPath = FileUploadUtil.uploadCourseThumbnail(request, "thumbnailFile");
+                System.out.println("Processing thumbnail upload");
+                Part thumbnailPart = request.getPart("thumbnailFile");
+                System.out.println("Thumbnail part: " + (thumbnailPart != null ? "found" : "null"));
+                if (thumbnailPart != null) {
+                    System.out.println("Thumbnail size: " + thumbnailPart.getSize());
+                    System.out.println("Thumbnail filename: " + thumbnailPart.getSubmittedFileName());
+                }
+
+                String thumbnailPath = null;
+                try {
+                    thumbnailPath = FileUploadUtil.uploadCourseThumbnail(request, "thumbnailFile");
+                    System.out.println("Thumbnail path: " + thumbnailPath);
+                } catch (Exception e) {
+                    System.out.println("Exception during thumbnail upload: " + e.getMessage());
+                    e.printStackTrace();
+                }
+
+                // If thumbnail upload fails, use a default thumbnail
+                if (thumbnailPath == null) {
+                    System.out.println("Using default thumbnail");
+                    thumbnailPath = "/assets/images/default-course-thumbnail.jpg";
+                }
 
                 // Create course model
+                System.out.println("Creating course model");
                 CourseModel course = new CourseModel();
                 course.setTitle(title);
                 course.setDescription(description);
                 course.setCategoryId(categoryId);
                 course.setLevel(level);
                 course.setThumbnail(thumbnailPath);
-                course.setStatus(CourseModel.Status.valueOf(status));
+                // Convert status string to enum safely
+                try {
+                    course.setStatus(CourseModel.Status.valueOf(status));
+                    System.out.println("Status set to: " + status);
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Invalid status value: " + status + ", defaulting to inactive");
+                    course.setStatus(CourseModel.Status.inactive);
+                }
                 course.setCreatedBy(user.getUserId());
                 course.setCreatedAt(LocalDateTime.now());
                 course.setUpdatedAt(LocalDateTime.now());
 
+                // Set optional fields if provided
+                if (promoVideo != null && !promoVideo.isEmpty()) {
+                    course.setPromoVideo(promoVideo);
+                }
+
+                if (durationStr != null && !durationStr.isEmpty()) {
+                    course.setDuration(durationStr);
+                }
+
+                if (priceStr != null && !priceStr.isEmpty()) {
+                    try {
+                        course.setPrice(Double.parseDouble(priceStr));
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid price format: " + priceStr);
+                    }
+                }
+
+                if (prerequisites != null && !prerequisites.isEmpty()) {
+                    course.setPrerequisites(prerequisites);
+                }
+
+                if (tags != null && !tags.isEmpty()) {
+                    course.setTags(tags);
+                }
+
                 // Insert course into database
+                System.out.println("Inserting course into database");
                 int courseId = CourseDAO.insertCourse(course);
+                System.out.println("Course ID after insertion: " + courseId);
 
                 if (courseId > 0) {
                     // Course created successfully
+                    System.out.println("Course created successfully");
                     session.setAttribute("message", "Course created successfully!");
                     response.sendRedirect(request.getContextPath() + "/instructor/courses/");
                 } else {
                     // Course creation failed
+                    System.out.println("Course creation failed");
                     request.setAttribute("error", "Failed to create course. Please try again.");
                     List<CategoryModel> categories = CategoryDAO.getAllCategories();
                     request.setAttribute("categories", categories);
@@ -184,6 +318,8 @@ public class InstructorController extends HttpServlet {
                 }
             } catch (Exception e) {
                 // Handle exceptions
+                System.out.println("Exception during course creation: " + e.getMessage());
+                e.printStackTrace();
                 request.setAttribute("error", "An error occurred: " + e.getMessage());
                 List<CategoryModel> categories = CategoryDAO.getAllCategories();
                 request.setAttribute("categories", categories);
@@ -238,7 +374,13 @@ public class InstructorController extends HttpServlet {
                 course.setCategoryId(categoryId);
                 course.setLevel(level);
                 course.setThumbnail(thumbnailPath);
-                course.setStatus(CourseModel.Status.valueOf(status));
+                // Convert status string to enum safely
+                try {
+                    course.setStatus(CourseModel.Status.valueOf(status));
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Invalid status value: " + status + ", defaulting to inactive");
+                    course.setStatus(CourseModel.Status.inactive);
+                }
                 course.setUpdatedAt(LocalDateTime.now());
 
                 // Update course in database
@@ -259,6 +401,60 @@ public class InstructorController extends HttpServlet {
             } catch (Exception e) {
                 // Handle exceptions
                 request.setAttribute("error", "An error occurred: " + e.getMessage());
+                response.sendRedirect(request.getContextPath() + "/instructor/courses/");
+            }
+        } else if (pathInfo != null && pathInfo.equals("/toggle-status")) {
+            // Handle course publish/unpublish
+            System.out.println("Processing toggle-status request via POST");
+            try {
+                // Get course ID
+                String courseIdParam = request.getParameter("id");
+                System.out.println("Course ID parameter (POST): " + courseIdParam);
+                int courseId = Integer.parseInt(courseIdParam);
+
+                // Get the course from the database
+                CourseModel course = CourseDAO.getCourseById(courseId);
+
+                // Check if course exists and belongs to the current instructor
+                if (course == null || course.getCreatedBy() != user.getUserId()) {
+                    response.sendRedirect(request.getContextPath() + "/instructor/courses/");
+                    return;
+                }
+
+                // Toggle the status
+                CourseModel.Status newStatus = (course.getStatus() == CourseModel.Status.active)
+                    ? CourseModel.Status.inactive
+                    : CourseModel.Status.active;
+
+                course.setStatus(newStatus);
+                course.setUpdatedAt(LocalDateTime.now());
+
+                // Update course in database
+                boolean updated = CourseDAO.updateCourse(course);
+
+                if (updated) {
+                    // Course updated successfully
+                    String statusMessage = (newStatus == CourseModel.Status.active)
+                        ? "Course published successfully!"
+                        : "Course unpublished successfully!";
+                    session.setAttribute("message", statusMessage);
+                } else {
+                    // Course update failed
+                    session.setAttribute("error", "Failed to update course status. Please try again.");
+                }
+
+                // Redirect back to the referring page or course list
+                String referer = request.getHeader("Referer");
+                if (referer != null && !referer.isEmpty()) {
+                    response.sendRedirect(referer);
+                } else {
+                    response.sendRedirect(request.getContextPath() + "/instructor/courses/");
+                }
+            } catch (Exception e) {
+                // Handle exceptions
+                System.out.println("Exception during course status update: " + e.getMessage());
+                e.printStackTrace();
+                session.setAttribute("error", "An error occurred: " + e.getMessage());
                 response.sendRedirect(request.getContextPath() + "/instructor/courses/");
             }
         } else {
