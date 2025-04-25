@@ -128,10 +128,41 @@ body {
 }
 
 /* Footer Styles */
+footer {
+    background-color: #1e2a3a;
+    color: #fff;
+    margin-top: 0;
+    padding: 3rem 0 1rem;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
 footer a {
     text-decoration: none;
+    color: rgba(255, 255, 255, 0.8);
 }
 
 footer a:hover {
     text-decoration: underline;
+    color: #fff;
+}
+
+footer h5 {
+    font-weight: 600;
+    margin-bottom: 1.25rem;
+    color: #fff;
+}
+
+footer .btn-outline-light {
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+footer .btn-outline-light:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+footer hr {
+    border-color: rgba(255, 255, 255, 0.1);
 }

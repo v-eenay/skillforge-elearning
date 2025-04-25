@@ -28,9 +28,12 @@
             </div>
             <div class="col-md-4">
                 <div class="dashboard-actions">
-                    <button class="btn btn-outline-primary">
+                    <a href="${pageContext.request.contextPath}/instructor/messages" class="btn btn-outline-primary">
                         <i class="fas fa-envelope"></i> Messages <span class="badge bg-danger">5</span>
-                    </button>
+                    </a>
+                    <a href="${pageContext.request.contextPath}/instructor/courses/" class="btn btn-outline-primary">
+                        <i class="fas fa-book"></i> My Courses
+                    </a>
                     <a href="${pageContext.request.contextPath}/instructor/profile" class="btn btn-outline-primary">
                         <i class="fas fa-user"></i> My Profile
                     </a>
@@ -117,14 +120,16 @@
                         <c:otherwise>
                             <c:forEach items="${courses}" var="course" varStatus="loop" begin="0" end="3">
                                 <div class="d-flex ${!loop.last ? 'mb-3 p-3 border-bottom' : 'p-3'} course-item" data-status="${course.status}" data-created="${course.createdAt}" data-students="0">
-                                    <c:choose>
-                                        <c:when test="${not empty course.thumbnail}">
-                                            <img src="${pageContext.request.contextPath}${course.thumbnail}" class="me-3" alt="${course.title}" style="object-fit: cover; width: 100px; height: 70px;">
-                                        </c:when>
-                                        <c:otherwise>
-                                            <img src="https://placebeard.it/100/70?image=${course.courseId % 10 + 45}" class="me-3" alt="${course.title}" style="object-fit: cover;">
-                                        </c:otherwise>
-                                    </c:choose>
+                                    <div class="course-image-container">
+                                        <c:choose>
+                                            <c:when test="${not empty course.thumbnail}">
+                                                <img src="${pageContext.request.contextPath}${course.thumbnail}" class="course-thumbnail" alt="${course.title}">
+                                            </c:when>
+                                            <c:otherwise>
+                                                <img src="https://placebeard.it/140/90?image=${course.courseId % 10 + 45}" class="course-thumbnail" alt="${course.title}">
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </div>
                                     <div class="flex-grow-1">
                                         <div class="d-flex justify-content-between align-items-start">
                                             <div>
@@ -145,9 +150,9 @@
                                                     <small class="text-muted">Created: ${course.createdAt}</small>
                                                 </div>
                                             </div>
-                                            <div>
-                                                <a href="${pageContext.request.contextPath}/instructor/courses/view?id=${course.courseId}" class="btn btn-sm btn-outline-secondary me-1">View</a>
-                                                <a href="${pageContext.request.contextPath}/instructor/courses/edit?id=${course.courseId}" class="btn btn-sm btn-outline-primary me-1">Edit</a>
+                                            <div class="course-action-buttons">
+                                                <a href="${pageContext.request.contextPath}/instructor/courses/view?id=${course.courseId}" class="btn btn-sm btn-outline-secondary">View</a>
+                                                <a href="${pageContext.request.contextPath}/instructor/courses/edit?id=${course.courseId}" class="btn btn-sm btn-outline-primary">Edit</a>
                                                 <c:choose>
                                                     <c:when test="${course.status == 'active'}">
                                                         <button class="btn btn-sm btn-outline-secondary">Statistics</button>
