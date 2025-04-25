@@ -14,6 +14,7 @@
     <link href="${pageContext.request.contextPath}/assets/css/header-icons.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/assets/css/modern-header.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/assets/css/modern-footer.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/assets/css/modern-profile.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/assets/css/dashboard.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/assets/css/messages.css" rel="stylesheet">
 </head>
