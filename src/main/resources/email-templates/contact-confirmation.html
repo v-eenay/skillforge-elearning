@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You for Contacting SkillForge</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+        .email-header {
+            background-color: #0d6efd;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .logo {
+            margin-bottom: 15px;
+        }
+        .logo-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+        }
+        .logo-highlight {
+            color: #ffffff;
+        }
+        .email-body {
+            padding: 30px;
+        }
+        .email-footer {
+            background-color: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #6c757d;
+        }
+        h1 {
+            color: #0d6efd;
+            margin-top: 0;
+        }
+        .message-box {
+            background-color: #f8f9fa;
+            border-left: 4px solid #0d6efd;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        .button {
+            display: inline-block;
+            background-color: #0d6efd;
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 50px;
+            margin-top: 25px;
+            font-weight: 600;
+            font-size: 16px;
+            box-shadow: 0 4px 10px rgba(13, 110, 253, 0.3);
+            transition: all 0.3s ease;
+        }
+        .button:hover {
+            background-color: #0b5ed7;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(13, 110, 253, 0.4);
+        }
+        .social-links {
+            margin-top: 20px;
+        }
+        .social-links a {
+            display: inline-block;
+            margin: 0 10px;
+            color: #0d6efd;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="email-header">
+            <div class="logo">
+                <img src="https://raw.githubusercontent.com/v-eenay/skillforge-elearning/main/src/main/webapp/assets/images/skillforge-logo-email.svg" alt="SkillForge" width="200" height="60" style="max-width: 100%;">
+            </div>
+            <h2>Thank You for Contacting Us!</h2>
+        </div>
+
+        <div class="email-body">
+            <h1>Hello {{name}},</h1>
+
+            <p>Thank you for reaching out to SkillForge! 🎉 We've received your message and our team will get back to you as soon as possible.</p>
+
+            <div class="message-box">
+                <h3 style="margin-top: 0; color: #0d6efd;">Your Message Details</h3>
+                <p><strong>Subject:</strong> {{subject}}</p>
+                <p><strong>Your Message:</strong></p>
+                <p>{{message}}</p>
+                <p style="margin-bottom: 0; color: #6c757d; font-style: italic;">Sent on: {{date}}</p>
+            </div>
+
+            <p>While you wait for our response, feel free to explore our courses and resources on our platform. We offer a wide range of courses in programming, design, business, and more!</p>
+
+            <center>
+                <a href="https://skillforge.com/courses" class="button">Explore Our Courses</a>
+            </center>
+
+            <p>If you have any urgent inquiries, please don't hesitate to contact us directly at <a href="mailto:support@skillforge.com" style="color: #0d6efd; text-decoration: none; font-weight: 500;">support@skillforge.com</a>.</p>
+
+            <p>Best regards,<br><strong>The SkillForge Team</strong></p>
+        </div>
+
+        <div class="email-footer">
+            <p>&copy; 2023 SkillForge. All rights reserved.</p>
+            <div class="social-links">
+                <a href="https://facebook.com/skillforge">Facebook</a> |
+                <a href="https://twitter.com/skillforge">Twitter</a> |
+                <a href="https://instagram.com/skillforge">Instagram</a> |
+                <a href="https://linkedin.com/company/skillforge">LinkedIn</a>
+            </div>
+            <p>Itahari International College, Koshi Haraicha 56705</p>
+        </div>
+    </div>
+</body>
+</html>

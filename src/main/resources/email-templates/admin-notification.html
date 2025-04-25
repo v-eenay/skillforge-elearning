@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Contact Form Submission</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+        .email-header {
+            background-color: #0d6efd;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .logo {
+            margin-bottom: 15px;
+        }
+        .logo-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+        }
+        .logo-highlight {
+            color: #ffffff;
+        }
+        .email-body {
+            padding: 30px;
+        }
+        .email-footer {
+            background-color: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #6c757d;
+        }
+        h1 {
+            color: #0d6efd;
+            margin-top: 0;
+        }
+        .message-box {
+            background-color: #f8f9fa;
+            border-left: 4px solid #0d6efd;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .info-table th {
+            text-align: left;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .info-table td {
+            padding: 10px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .button {
+            display: inline-block;
+            background-color: #0d6efd;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+        .user-badge {
+            display: inline-block;
+            background-color: #28a745;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+        .guest-badge {
+            display: inline-block;
+            background-color: #6c757d;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="email-header">
+            <div class="logo">
+                <img src="https://raw.githubusercontent.com/v-eenay/skillforge-elearning/main/src/main/webapp/assets/images/skillforge-logo-email.svg" alt="SkillForge" width="200" height="60" style="max-width: 100%;">
+            </div>
+            <h2>New Contact Form Submission</h2>
+        </div>
+
+        <div class="email-body">
+            <h1>New Message Received</h1>
+
+            <p>A new contact form submission has been received from the SkillForge website.</p>
+
+            <table class="info-table">
+                <tr>
+                    <th>Name:</th>
+                    <td>{{name}} {{userBadge}}</td>
+                </tr>
+                <tr>
+                    <th>Email:</th>
+                    <td><a href="mailto:{{email}}">{{email}}</a></td>
+                </tr>
+                <tr>
+                    <th>Subject:</th>
+                    <td>{{subject}}</td>
+                </tr>
+                <tr>
+                    <th>Date:</th>
+                    <td>{{date}}</td>
+                </tr>
+            </table>
+
+            <div class="message-box">
+                <p><strong>Message:</strong></p>
+                <p>{{message}}</p>
+            </div>
+
+            <center>
+                <a href="https://skillforge.com/admin/contacts" class="button">View in Admin Panel</a>
+            </center>
+
+            <p>Please respond to this inquiry as soon as possible.</p>
+        </div>
+
+        <div class="email-footer">
+            <p>&copy; 2023 SkillForge Admin System</p>
+            <p>This is an automated message. Please do not reply directly to this email.</p>
+        </div>
+    </div>
+</body>
+</html>

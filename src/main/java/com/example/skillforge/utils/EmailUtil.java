@@ -4,9 +4,16 @@ import com.example.skillforge.models.user.ContactModel;
 
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.internet.MimeMultipart;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -77,6 +84,7 @@ public class EmailUtil {
      */
     private static boolean isValidEmailAddress(String email) {
         if (email == null || email.trim().isEmpty()) {
+            LOGGER.warning("Email address is null or empty");
             return false;
         }
 
@@ -88,6 +96,7 @@ public class EmailUtil {
             return false;
         }
 
+        LOGGER.info("Email address is valid: " + email);
         return true;
     }
 
@@ -124,6 +133,76 @@ public class EmailUtil {
     }
 
     /**
+     * Read an HTML template from the resources directory
+     * @param templatePath The path to the template file
+     * @return The template content as a string, or null if the template could not be read
+     */
+    private static String readHtmlTemplate(String templatePath) {
+        try (InputStream inputStream = EmailUtil.class.getClassLoader().getResourceAsStream(templatePath)) {
+            if (inputStream == null) {
+                LOGGER.severe("Could not find template file: " + templatePath);
+                return null;
+            }
+
+            StringBuilder content = new StringBuilder();
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    content.append(line).append("\n");
+                }
+            }
+            return content.toString();
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "Error reading template file: " + templatePath, e);
+            return null;
+        }
+    }
+
+    /**
+     * Replace placeholders in a template with actual values
+     * @param template The template string
+     * @param placeholders The placeholders to replace (key-value pairs)
+     * @return The template with placeholders replaced
+     */
+    private static String replacePlaceholders(String template, Properties placeholders) {
+        if (template == null) {
+            return null;
+        }
+
+        String result = template;
+        for (String key : placeholders.stringPropertyNames()) {
+            String placeholder = "{{" + key + "}}";
+            String value = placeholders.getProperty(key);
+            result = result.replace(placeholder, value);
+        }
+        return result;
+    }
+
+    /**
+     * Create a mail session with the configured SMTP settings
+     * @return The mail session
+     */
+    private static Session createMailSession() {
+        Properties properties = new Properties();
+        properties.put("mail.smtp.host", smtpHost);
+        properties.put("mail.smtp.port", smtpPort);
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.smtp.ssl.protocols", "TLSv1.2");
+        properties.put("mail.smtp.ssl.trust", "*");
+        properties.put("mail.debug", "true"); // Enable debug mode
+
+        Session session = Session.getInstance(properties, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(smtpUsername, smtpPassword);
+            }
+        });
+        session.setDebug(true); // Enable session debugging
+        return session;
+    }
+
+    /**
      * Send a contact form notification email to the admin
      * @param contact The contact form submission
      * @return true if the email was sent successfully, false otherwise
@@ -138,24 +217,8 @@ public class EmailUtil {
         LOGGER.info("Using SMTP settings - Host: " + smtpHost + ", Port: " + smtpPort + ", Username: " + smtpUsername);
 
         try {
-            // Set up mail server properties
-            Properties properties = new Properties();
-            properties.put("mail.smtp.host", smtpHost);
-            properties.put("mail.smtp.port", smtpPort);
-            properties.put("mail.smtp.auth", "true");
-            properties.put("mail.smtp.starttls.enable", "true");
-            properties.put("mail.smtp.ssl.protocols", "TLSv1.2");
-            properties.put("mail.smtp.ssl.trust", "*");
-            properties.put("mail.debug", "true"); // Enable debug mode
-
-            // Create a mail session with authentication and debug enabled
-            Session session = Session.getInstance(properties, new Authenticator() {
-                @Override
-                protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(smtpUsername, smtpPassword);
-                }
-            });
-            session.setDebug(true); // Enable session debugging
+            // Create mail session
+            Session session = createMailSession();
 
             // Validate email addresses
             if (!isValidEmailAddress(fromEmail)) {
@@ -174,22 +237,58 @@ public class EmailUtil {
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(adminEmail));
             message.setSubject("New Contact Form Submission: " + contact.getSubject());
 
-            // Build the email body
-            StringBuilder body = new StringBuilder();
-            body.append("A new contact form submission has been received:\n\n");
-            body.append("Name: ").append(contact.getName()).append("\n");
-            body.append("Email: ").append(contact.getEmail()).append("\n");
-            body.append("Subject: ").append(contact.getSubject()).append("\n");
-            body.append("Message: ").append(contact.getMessage()).append("\n\n");
+            // Read the HTML template
+            String template = readHtmlTemplate("email-templates/admin-notification.html");
+            if (template == null) {
+                // Fallback to plain text email if template is not found
+                LOGGER.warning("HTML template not found, falling back to plain text email");
 
-            if (contact.getUserId() != null) {
-                body.append("This message was submitted by a logged-in user (UserID: ")
-                        .append(contact.getUserId()).append(")");
+                // Build the plain text email body
+                StringBuilder body = new StringBuilder();
+                body.append("A new contact form submission has been received:\n\n");
+                body.append("Name: ").append(contact.getName()).append("\n");
+                body.append("Email: ").append(contact.getEmail()).append("\n");
+                body.append("Subject: ").append(contact.getSubject()).append("\n");
+                body.append("Message: ").append(contact.getMessage()).append("\n\n");
+
+                if (contact.getUserId() != null) {
+                    body.append("This message was submitted by a logged-in user (UserID: ")
+                            .append(contact.getUserId()).append(")");
+                } else {
+                    body.append("This message was submitted by a guest user.");
+                }
+
+                message.setText(body.toString());
             } else {
-                body.append("This message was submitted by a guest user.");
-            }
+                // Replace placeholders in the template
+                Properties placeholders = new Properties();
+                placeholders.setProperty("name", contact.getName());
+                placeholders.setProperty("email", contact.getEmail());
+                placeholders.setProperty("subject", contact.getSubject() != null ? contact.getSubject() : "No Subject");
+                placeholders.setProperty("message", contact.getMessage());
 
-            message.setText(body.toString());
+                // Format the current date
+                SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM d, yyyy 'at' h:mm a");
+                placeholders.setProperty("date", dateFormat.format(new Date()));
+
+                // Add user badge if the user is logged in
+                if (contact.getUserId() != null) {
+                    placeholders.setProperty("userBadge", "<span class=\"user-badge\">Registered User</span>");
+                } else {
+                    placeholders.setProperty("userBadge", "<span class=\"guest-badge\">Guest</span>");
+                }
+
+                String htmlContent = replacePlaceholders(template, placeholders);
+
+                // Set the HTML content
+                MimeBodyPart htmlPart = new MimeBodyPart();
+                htmlPart.setContent(htmlContent, "text/html; charset=utf-8");
+
+                Multipart multipart = new MimeMultipart();
+                multipart.addBodyPart(htmlPart);
+
+                message.setContent(multipart);
+            }
 
             LOGGER.info("Email message prepared, attempting to send...");
             LOGGER.info("From: " + fromEmail + ", To: " + adminEmail);
@@ -223,6 +322,140 @@ public class EmailUtil {
     }
 
     /**
+     * Get the admin email address
+     * @return The admin email address
+     */
+    public static String getAdminEmail() {
+        return adminEmail;
+    }
+
+    /**
+     * Check if we're using Mailtrap demo service
+     * @return true if using Mailtrap demo, false otherwise
+     */
+    public static boolean isUsingMailtrapDemo() {
+        return smtpHost != null &&
+               (smtpHost.contains("mailtrap.io") ||
+                smtpHost.contains("mailtrap.com") ||
+                fromEmail.contains("demomailtrap"));
+    }
+
+    /**
+     * Check if the recipient email is allowed for Mailtrap demo
+     * If using Mailtrap demo, only the account owner's email can receive emails
+     * @param recipientEmail The recipient email to check
+     * @return true if the recipient is allowed, false otherwise
+     */
+    private static boolean isAllowedRecipient(String recipientEmail) {
+        if (!isUsingMailtrapDemo()) {
+            // If not using Mailtrap demo, all recipients are allowed
+            return true;
+        }
+
+        // In Mailtrap demo, only the account owner (usually the admin email) can receive emails
+        return recipientEmail.equals(smtpUsername) ||
+               recipientEmail.equals(adminEmail) ||
+               recipientEmail.equals("koiralavinay@gmail.com");
+    }
+
+    /**
+     * Test the email configuration by sending a test email
+     * @param toEmail The email address to send the test email to
+     * @return true if the email was sent successfully, false otherwise
+     */
+    public static boolean testEmailConfiguration(String toEmail) {
+        if (!emailEnabled) {
+            LOGGER.info("Email is disabled. Skipping test email.");
+            return false;
+        }
+
+        if (!isValidEmailAddress(toEmail)) {
+            LOGGER.severe("Invalid recipient email address: " + toEmail);
+            return false;
+        }
+
+        // Check if we're using Mailtrap demo and if the recipient is allowed
+        if (isUsingMailtrapDemo() && !isAllowedRecipient(toEmail)) {
+            LOGGER.warning("Using Mailtrap demo which only allows sending to the account owner. " +
+                          "Cannot send test email to " + toEmail +
+                          " as it's not the account owner's email. Try sending to " + adminEmail + " instead.");
+            return false;
+        }
+
+        LOGGER.info("Attempting to send test email to " + toEmail);
+        LOGGER.info("Using SMTP settings - Host: " + smtpHost + ", Port: " + smtpPort + ", Username: " + smtpUsername);
+        LOGGER.info("Email enabled: " + emailEnabled);
+        LOGGER.info("From email: " + fromEmail);
+        LOGGER.info("Using Mailtrap demo: " + isUsingMailtrapDemo());
+
+        try {
+            // Validate sender email
+            if (!isValidEmailAddress(fromEmail)) {
+                LOGGER.severe("Invalid sender email address: " + fromEmail);
+                return false;
+            }
+
+            // Create mail session
+            Session session = createMailSession();
+
+            // Create the email message
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(fromEmail));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail));
+            message.setSubject("SkillForge Email Test");
+
+            // Build a simple HTML email
+            StringBuilder htmlBody = new StringBuilder();
+            htmlBody.append("<html><body>");
+            htmlBody.append("<h1>SkillForge Email Test</h1>");
+            htmlBody.append("<p>This is a test email to verify that the email configuration is working correctly.</p>");
+            htmlBody.append("<p>If you received this email, it means that the email configuration is working!</p>");
+            htmlBody.append("<p>SMTP Host: ").append(smtpHost).append("</p>");
+            htmlBody.append("<p>SMTP Port: ").append(smtpPort).append("</p>");
+            htmlBody.append("<p>From Email: ").append(fromEmail).append("</p>");
+            htmlBody.append("<p>To Email: ").append(toEmail).append("</p>");
+            htmlBody.append("</body></html>");
+
+            // Set the HTML content
+            MimeBodyPart htmlPart = new MimeBodyPart();
+            htmlPart.setContent(htmlBody.toString(), "text/html; charset=utf-8");
+
+            Multipart multipart = new MimeMultipart();
+            multipart.addBodyPart(htmlPart);
+
+            message.setContent(multipart);
+
+            LOGGER.info("Test email message prepared, attempting to send...");
+            LOGGER.info("From: " + fromEmail + ", To: " + toEmail);
+
+            try {
+                // Send the message
+                Transport.send(message);
+                LOGGER.info("Test email sent successfully to " + toEmail);
+                return true;
+            } catch (MessagingException e) {
+                // Log more details about the error
+                LOGGER.severe("Failed to send test email: " + e.getMessage());
+                if (e instanceof jakarta.mail.SendFailedException) {
+                    jakarta.mail.SendFailedException sfe = (jakarta.mail.SendFailedException) e;
+                    if (sfe.getInvalidAddresses() != null) {
+                        for (jakarta.mail.Address address : sfe.getInvalidAddresses()) {
+                            LOGGER.severe("Invalid address: " + address);
+                        }
+                    }
+                }
+                throw e; // Re-throw to be caught by the outer catch block
+            }
+        } catch (MessagingException e) {
+            LOGGER.log(Level.SEVERE, "Error sending test email: " + e.getMessage(), e);
+            if (e.getCause() != null) {
+                LOGGER.log(Level.SEVERE, "Cause: " + e.getCause().getMessage());
+            }
+            return false;
+        }
+    }
+
+    /**
      * Send a confirmation email to the user who submitted the contact form
      * @param contact The contact form submission
      * @return true if the email was sent successfully, false otherwise
@@ -233,41 +466,34 @@ public class EmailUtil {
             return false;
         }
 
+        if (!isValidEmailAddress(contact.getEmail())) {
+            LOGGER.severe("Invalid recipient email address: " + contact.getEmail());
+            return false;
+        }
+
+        // Check if we're using Mailtrap demo and if the recipient is allowed
+        if (isUsingMailtrapDemo() && !isAllowedRecipient(contact.getEmail())) {
+            LOGGER.warning("Using Mailtrap demo which only allows sending to the account owner. " +
+                          "Skipping confirmation email to " + contact.getEmail() +
+                          " as it's not the account owner's email.");
+            return false;
+        }
+
         LOGGER.info("Attempting to send contact confirmation email to " + contact.getEmail());
+        LOGGER.info("Using SMTP settings - Host: " + smtpHost + ", Port: " + smtpPort + ", Username: " + smtpUsername);
+        LOGGER.info("Email enabled: " + emailEnabled);
+        LOGGER.info("From email: " + fromEmail);
+        LOGGER.info("Using Mailtrap demo: " + isUsingMailtrapDemo());
 
         try {
-            // Set up mail server properties
-            Properties properties = new Properties();
-            properties.put("mail.smtp.host", smtpHost);
-            properties.put("mail.smtp.port", smtpPort);
-            properties.put("mail.smtp.auth", "true");
-            properties.put("mail.smtp.starttls.enable", "true");
-            properties.put("mail.smtp.ssl.protocols", "TLSv1.2");
-            properties.put("mail.smtp.ssl.trust", "*");
-            properties.put("mail.debug", "true"); // Enable debug mode
-
-            // Log SMTP settings for debugging
-            LOGGER.info("SMTP Settings - Host: " + smtpHost + ", Port: " + smtpPort + ", Username: " + smtpUsername);
-
-            // Create a mail session with authentication and debug enabled
-            Session session = Session.getInstance(properties, new Authenticator() {
-                @Override
-                protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(smtpUsername, smtpPassword);
-                }
-            });
-            session.setDebug(true); // Enable session debugging
-
-            // Validate email addresses
+            // Validate sender email
             if (!isValidEmailAddress(fromEmail)) {
                 LOGGER.severe("Invalid sender email address: " + fromEmail);
                 return false;
             }
 
-            if (!isValidEmailAddress(contact.getEmail())) {
-                LOGGER.severe("Invalid recipient email address: " + contact.getEmail());
-                return false;
-            }
+            // Create mail session
+            Session session = createMailSession();
 
             // Create the email message
             Message message = new MimeMessage(session);
@@ -275,17 +501,45 @@ public class EmailUtil {
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(contact.getEmail()));
             message.setSubject("Thank you for contacting SkillForge");
 
-            // Build the email body
-            StringBuilder body = new StringBuilder();
-            body.append("Dear ").append(contact.getName()).append(",\n\n");
-            body.append("Thank you for contacting SkillForge. We have received your message and will get back to you as soon as possible.\n\n");
-            body.append("Here's a copy of your message:\n\n");
-            body.append("Subject: ").append(contact.getSubject()).append("\n");
-            body.append("Message: ").append(contact.getMessage()).append("\n\n");
-            body.append("Best regards,\n");
-            body.append("The SkillForge Team");
+            // Read the HTML template
+            String template = readHtmlTemplate("email-templates/contact-confirmation.html");
+            if (template == null) {
+                // Fallback to plain text email if template is not found
+                LOGGER.warning("HTML template not found, falling back to plain text email");
 
-            message.setText(body.toString());
+                // Build the plain text email body
+                StringBuilder body = new StringBuilder();
+                body.append("Dear ").append(contact.getName()).append(",\n\n");
+                body.append("Thank you for contacting SkillForge. We have received your message and will get back to you as soon as possible.\n\n");
+                body.append("Here's a summary of your message:\n\n");
+                body.append("Subject: ").append(contact.getSubject()).append("\n");
+                body.append("Message: ").append(contact.getMessage()).append("\n\n");
+                body.append("Best regards,\n");
+                body.append("The SkillForge Team");
+
+                message.setText(body.toString());
+            } else {
+                // Replace placeholders in the template
+                Properties placeholders = new Properties();
+                placeholders.setProperty("name", contact.getName());
+                placeholders.setProperty("subject", contact.getSubject() != null ? contact.getSubject() : "No Subject");
+                placeholders.setProperty("message", contact.getMessage());
+
+                // Format the current date
+                SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM d, yyyy 'at' h:mm a");
+                placeholders.setProperty("date", dateFormat.format(new Date()));
+
+                String htmlContent = replacePlaceholders(template, placeholders);
+
+                // Set the HTML content
+                MimeBodyPart htmlPart = new MimeBodyPart();
+                htmlPart.setContent(htmlContent, "text/html; charset=utf-8");
+
+                Multipart multipart = new MimeMultipart();
+                multipart.addBodyPart(htmlPart);
+
+                message.setContent(multipart);
+            }
 
             LOGGER.info("Confirmation email message prepared, attempting to send...");
             LOGGER.info("From: " + fromEmail + ", To: " + contact.getEmail());
@@ -297,7 +551,7 @@ public class EmailUtil {
                 return true;
             } catch (MessagingException e) {
                 // Log more details about the error
-                LOGGER.severe("Failed to send email: " + e.getMessage());
+                LOGGER.severe("Failed to send confirmation email: " + e.getMessage());
                 if (e instanceof jakarta.mail.SendFailedException) {
                     jakarta.mail.SendFailedException sfe = (jakarta.mail.SendFailedException) e;
                     if (sfe.getInvalidAddresses() != null) {
@@ -308,7 +562,6 @@ public class EmailUtil {
                 }
                 throw e; // Re-throw to be caught by the outer catch block
             }
-
         } catch (MessagingException e) {
             LOGGER.log(Level.SEVERE, "Error sending contact confirmation email: " + e.getMessage(), e);
             if (e.getCause() != null) {

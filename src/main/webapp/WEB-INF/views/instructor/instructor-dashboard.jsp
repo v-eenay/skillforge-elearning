@@ -28,15 +28,6 @@
             </div>
             <div class="col-md-4">
                 <div class="dashboard-actions">
-                    <a href="${pageContext.request.contextPath}/instructor/messages" class="btn btn-outline-primary">
-                        <i class="fas fa-envelope"></i> Messages <span class="badge bg-danger">5</span>
-                    </a>
-                    <a href="${pageContext.request.contextPath}/instructor/courses/" class="btn btn-outline-primary">
-                        <i class="fas fa-book"></i> My Courses
-                    </a>
-                    <a href="${pageContext.request.contextPath}/instructor/profile" class="btn btn-outline-primary">
-                        <i class="fas fa-user"></i> My Profile
-                    </a>
                     <a href="${pageContext.request.contextPath}/instructor/courses/create" class="btn btn-primary">
                         <i class="fas fa-plus-circle"></i> Create Course
                     </a>

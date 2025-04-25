@@ -9,11 +9,8 @@
             </div>
             <div class="col-md-4">
                 <div class="dashboard-actions">
-                    <button class="btn btn-outline-primary">
-                        <i class="fas fa-envelope"></i> Messages <span class="badge bg-danger">2</span>
-                    </button>
-                    <a href="${pageContext.request.contextPath}/student/profile" class="btn btn-primary">
-                        <i class="fas fa-user"></i> My Profile
+                    <a href="${pageContext.request.contextPath}/courses" class="btn btn-primary">
+                        <i class="fas fa-search"></i> Browse Courses
                     </a>
                 </div>
             </div>
