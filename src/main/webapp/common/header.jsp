@@ -45,7 +45,7 @@
                                     <div class="header-icons">
                                         <% if ("admin".equals(userRole)) { %>
                                             <!-- Admin Icons -->
-                                            <a href="${pageContext.request.contextPath}/admin/dashboard" class="header-icon-link">
+                                            <a href="${pageContext.request.contextPath}/admin/dashboard" class="header-icon-link active">
                                                 <i class="fas fa-tachometer-alt"></i>
                                                 <span class="icon-tooltip">Dashboard</span>
                                             </a>
@@ -60,7 +60,7 @@
                                             </a>
                                         <% } else if ("instructor".equals(userRole)) { %>
                                             <!-- Instructor Icons -->
-                                            <a href="${pageContext.request.contextPath}/instructor/dashboard" class="header-icon-link">
+                                            <a href="${pageContext.request.contextPath}/instructor/dashboard" class="header-icon-link active">
                                                 <i class="fas fa-tachometer-alt"></i>
                                                 <span class="icon-tooltip">Dashboard</span>
                                             </a>
@@ -75,7 +75,7 @@
                                             </a>
                                         <% } else { %>
                                             <!-- Student Icons -->
-                                            <a href="${pageContext.request.contextPath}/student/dashboard" class="header-icon-link">
+                                            <a href="${pageContext.request.contextPath}/student/dashboard" class="header-icon-link active">
                                                 <i class="fas fa-tachometer-alt"></i>
                                                 <span class="icon-tooltip">Dashboard</span>
                                             </a>
