@@ -11,7 +11,7 @@
     <link href="${pageContext.request.contextPath}/assets/css/modern.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/assets/css/styles.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/assets/css/auth.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/assets/css/dropdown.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/assets/css/header-icons.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/assets/css/dashboard.css" rel="stylesheet">
 </head>
 <body>
@@ -35,39 +35,76 @@
                                 <li class="nav-item ms-3"><a href="${pageContext.request.contextPath}/auth/login" class="btn btn-outline-primary btn-sm rounded-pill">Login</a></li>
                                 <li class="nav-item ms-2"><a href="${pageContext.request.contextPath}/auth/register" class="btn btn-primary btn-sm rounded-pill">Sign Up</a></li>
                             <% } else { %>
-                                <li class="nav-item ms-3">
-                                    <div class="profile-dropdown" id="profileDropdownContainer">
-                                        <a class="profile-dropdown-toggle" href="#" id="profileDropdownToggle">
-                                            <%
-                                                com.example.skillforge.models.user.UserModel headerUser = (com.example.skillforge.models.user.UserModel) session.getAttribute("user");
-                                                String profileImage = headerUser.getProfileImage();
-                                                String userName = headerUser.getUserName();
-                                                String firstLetter = headerUser.getName().substring(0, 1);
-                                            %>
+                                <%
+                                    com.example.skillforge.models.user.UserModel headerUser = (com.example.skillforge.models.user.UserModel) session.getAttribute("user");
+                                    String profileImage = headerUser.getProfileImage();
+                                    String userName = headerUser.getUserName();
+                                    String userRole = (String) session.getAttribute("userRole");
+                                %>
+                                <li class="nav-item">
+                                    <div class="header-icons">
+                                        <% if ("admin".equals(userRole)) { %>
+                                            <!-- Admin Icons -->
+                                            <a href="${pageContext.request.contextPath}/admin/dashboard" class="header-icon-link">
+                                                <i class="fas fa-tachometer-alt"></i>
+                                                <span class="icon-tooltip">Dashboard</span>
+                                            </a>
+                                            <a href="${pageContext.request.contextPath}/admin/users" class="header-icon-link">
+                                                <i class="fas fa-users"></i>
+                                                <span class="icon-tooltip">Manage Users</span>
+                                            </a>
+                                            <a href="${pageContext.request.contextPath}/admin/messages" class="header-icon-link">
+                                                <i class="fas fa-envelope"></i>
+                                                <span class="badge">3</span>
+                                                <span class="icon-tooltip">Messages</span>
+                                            </a>
+                                        <% } else if ("instructor".equals(userRole)) { %>
+                                            <!-- Instructor Icons -->
+                                            <a href="${pageContext.request.contextPath}/instructor/dashboard" class="header-icon-link">
+                                                <i class="fas fa-tachometer-alt"></i>
+                                                <span class="icon-tooltip">Dashboard</span>
+                                            </a>
+                                            <a href="${pageContext.request.contextPath}/instructor/courses/" class="header-icon-link">
+                                                <i class="fas fa-book"></i>
+                                                <span class="icon-tooltip">My Courses</span>
+                                            </a>
+                                            <a href="${pageContext.request.contextPath}/instructor/messages" class="header-icon-link">
+                                                <i class="fas fa-envelope"></i>
+                                                <span class="badge">5</span>
+                                                <span class="icon-tooltip">Messages</span>
+                                            </a>
+                                        <% } else { %>
+                                            <!-- Student Icons -->
+                                            <a href="${pageContext.request.contextPath}/student/dashboard" class="header-icon-link">
+                                                <i class="fas fa-tachometer-alt"></i>
+                                                <span class="icon-tooltip">Dashboard</span>
+                                            </a>
+                                            <a href="${pageContext.request.contextPath}/student/courses" class="header-icon-link">
+                                                <i class="fas fa-book"></i>
+                                                <span class="icon-tooltip">My Courses</span>
+                                            </a>
+                                            <a href="${pageContext.request.contextPath}/student/messages" class="header-icon-link">
+                                                <i class="fas fa-envelope"></i>
+                                                <span class="badge">2</span>
+                                                <span class="icon-tooltip">Messages</span>
+                                            </a>
+                                        <% } %>
+
+                                        <!-- Profile Icon (for all users) -->
+                                        <a href="${pageContext.request.contextPath}/<%= userRole %>/profile" class="header-icon-link">
                                             <% if (profileImage != null && !profileImage.isEmpty()) { %>
-                                                <img src="${pageContext.request.contextPath}<%= profileImage.startsWith("/") ? "" : "/" %><%= profileImage %>" alt="Profile" class="profile-image" onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/assets/images/default-profile.svg';">
+                                                <img src="${pageContext.request.contextPath}<%= profileImage.startsWith("/") ? "" : "/" %><%= profileImage %>" alt="Profile" class="user-avatar" onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/assets/images/default-profile.svg';">
                                             <% } else { %>
-                                                <img src="${pageContext.request.contextPath}/assets/images/default-profile.svg" alt="Default Profile" class="profile-image">
+                                                <img src="${pageContext.request.contextPath}/assets/images/default-profile.svg" alt="Default Profile" class="user-avatar">
                                             <% } %>
-                                            <span class="profile-name"><%= userName %></span>
-                                            <i class="fas fa-chevron-down dropdown-icon"></i>
+                                            <span class="icon-tooltip">Profile</span>
                                         </a>
-                                        <div class="profile-dropdown-menu" id="profileDropdownMenu">
-                                            <% String userRole = (String) session.getAttribute("userRole"); %>
-                                            <% if ("admin".equals(userRole)) { %>
-                                                <a class="profile-dropdown-item" href="${pageContext.request.contextPath}/admin/dashboard"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
-                                                <a class="profile-dropdown-item" href="${pageContext.request.contextPath}/admin/users"><i class="fas fa-users"></i>Manage Users</a>
-                                            <% } else if ("instructor".equals(userRole)) { %>
-                                                <a class="profile-dropdown-item" href="${pageContext.request.contextPath}/instructor/dashboard"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
-                                                <a class="profile-dropdown-item" href="${pageContext.request.contextPath}/instructor/courses/"><i class="fas fa-book"></i>My Courses</a>
-                                                <a class="profile-dropdown-item" href="${pageContext.request.contextPath}/instructor/profile"><i class="fas fa-user"></i>My Profile</a>
-                                            <% } else { %>
-                                                <a class="profile-dropdown-item" href="${pageContext.request.contextPath}/student/dashboard"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
-                                                <a class="profile-dropdown-item" href="${pageContext.request.contextPath}/student/profile"><i class="fas fa-user"></i>My Profile</a>
-                                            <% } %>
-                                            <div class="profile-dropdown-divider"></div>
-                                            <a class="profile-dropdown-item danger" href="${pageContext.request.contextPath}/auth/logout"><i class="fas fa-sign-out-alt"></i>Logout</a>
-                                        </div>
+
+                                        <!-- Logout Icon (for all users) -->
+                                        <a href="${pageContext.request.contextPath}/auth/logout" class="header-icon-link">
+                                            <i class="fas fa-sign-out-alt"></i>
+                                            <span class="icon-tooltip">Logout</span>
+                                        </a>
                                     </div>
                                 </li>
                             <% } %>
@@ -79,5 +116,4 @@
     </header>
     <!-- Load Bootstrap JS early to avoid conflicts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/js/dropdown.js"></script>
     <main>
