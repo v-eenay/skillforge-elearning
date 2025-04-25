@@ -19,7 +19,9 @@
         <div class="container">
             <div class="row align-items-center w-100">
                 <div class="col-md-4">
-                    <h1 class="mb-0"><a href="${pageContext.request.contextPath}/" class="text-decoration-none text-gradient fw-bold">SkillForge</a></h1>
+                    <a href="${pageContext.request.contextPath}/" class="navbar-brand">
+                        <img src="${pageContext.request.contextPath}/assets/images/logo.svg" alt="SkillForge Logo" height="30">
+                    </a>
                 </div>
                 <div class="col-md-8">
                     <nav class="d-flex justify-content-end">
@@ -43,11 +45,9 @@
                                                 String firstLetter = headerUser.getName().substring(0, 1);
                                             %>
                                             <% if (profileImage != null && !profileImage.isEmpty()) { %>
-                                                <img src="${pageContext.request.contextPath}<%= profileImage %>" alt="Profile" class="profile-image">
+                                                <img src="${pageContext.request.contextPath}<%= profileImage %>" alt="Profile" class="profile-image" onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/assets/images/default-profile.svg';">
                                             <% } else { %>
-                                                <div class="profile-avatar">
-                                                    <%= firstLetter %>
-                                                </div>
+                                                <img src="${pageContext.request.contextPath}/assets/images/default-profile.svg" alt="Default Profile" class="profile-image">
                                             <% } %>
                                             <span class="profile-name"><%= userName %></span>
                                             <i class="fas fa-chevron-down dropdown-icon"></i>

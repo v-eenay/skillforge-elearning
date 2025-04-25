@@ -27,9 +27,9 @@
 </section>
 
 <!-- Category Tabs -->
-<section class="py-3 border-bottom sticky-top bg-white shadow-sm" style="top: 70px; z-index: 1020;"> <%-- Adjusted top value based on header height --%>
-    <div class="container">
-        <ul class="nav nav-pills justify-content-center flex-nowrap overflow-auto">
+<section class="py-3 border-bottom bg-white shadow-sm sticky-top" style="top: 70px; z-index: 1020;"> <%-- Adjusted top value based on header height --%>
+    <div class="container category-tabs-container">
+        <nav class="nav nav-pills justify-content-start"> <%-- Changed justify-content-center to justify-content-start for scroll --%>
             <li class="nav-item">
                 <a class="nav-link ${categoryId == 0 ? 'active' : ''}" href="${pageContext.request.contextPath}/courses?search=${searchTerm}&sort=${sortBy}">All Categories</a>
             </li>
@@ -38,7 +38,7 @@
                     <a class="nav-link ${categoryId == category.categoryId ? 'active' : ''}" href="${pageContext.request.contextPath}/courses?category=${category.categoryId}&search=${searchTerm}&sort=${sortBy}">${category.name}</a>
                 </li>
             </c:forEach>
-        </ul>
+        </nav> <%-- Changed ul to nav --%>
     </div>
 </section>
 
@@ -91,16 +91,19 @@
                                 <div class="position-relative">
                                     <a href="${pageContext.request.contextPath}/courses/view?id=${course.courseId}">
                                         <c:choose>
-                                            <c:when test="${not empty course.thumbnail}">
-                                                <%-- Assuming thumbnail path starts with '/' or is relative to context root --%>
-                                                <c:set var="imageUrl" value="${pageContext.request.contextPath}${course.thumbnail.startsWith('/') ? '' : '/'}${course.thumbnail}"/>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <c:set var="imageUrl" value="https://placehold.co/500x300/E0E0E0/grey?text=No+Image+Available"/>
-                                            </c:otherwise>
-                                        </c:choose>
-                                        <img src="${imageUrl}"
-                                             class="card-img-top" alt="${course.title}" style="height: 200px; object-fit: cover;" onerror="this.onerror=null; this.src='https://placehold.co/500x300/E0E0E0/grey?text=Image+Error';">
+                                            <c:choose>
+                                                <c:when test="${not empty course.thumbnail}">
+                                                    <%-- Assuming thumbnail path starts with '/' or is relative to context root --%>
+                                                    <c:set var="imageUrl" value="${pageContext.request.contextPath}${course.thumbnail.startsWith('/') ? '' : '/'}${course.thumbnail}"/>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <%-- Use placebeard.it as primary fallback --%>
+                                                    <c:set var="imageUrl" value="https://placebeard.it/500/300?image=${course.courseId % 10 + 1}"/>
+                                                </c:otherwise>
+                                            </c:choose>
+                                            <img src="${imageUrl}"
+                                                 class="card-img-top" alt="${course.title}" style="height: 200px; object-fit: cover;"
+                                                 onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/assets/images/default-course-thumbnail.svg';">
                                     </a>
                                     <%-- Add badges if needed, e.g., Bestseller, New --%>
                                     <%-- <span class="badge bg-primary position-absolute top-0 end-0 m-3">Bestseller</span> --%>

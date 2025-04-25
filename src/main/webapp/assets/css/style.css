@@ -249,6 +249,30 @@ footer .social-icons a:hover {
 /* Courses Page Specific Styles */
 
 /* Category Tabs Enhancement */
+.category-tabs-container {
+    overflow-x: auto; /* Enable horizontal scrolling */
+    white-space: nowrap; /* Prevent items from wrapping */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    scrollbar-width: thin; /* Firefox scrollbar */
+    scrollbar-color: var(--primary-color) #f8f9fa; /* Firefox scrollbar */
+}
+
+/* Hide scrollbar visually but keep functionality */
+.category-tabs-container::-webkit-scrollbar {
+    height: 8px; /* Adjust height */
+}
+
+.category-tabs-container::-webkit-scrollbar-track {
+    background: #f8f9fa; /* Track color */
+    border-radius: 4px;
+}
+
+.category-tabs-container::-webkit-scrollbar-thumb {
+    background-color: var(--primary-color); /* Thumb color */
+    border-radius: 4px;
+    border: 2px solid #f8f9fa; /* Creates padding around thumb */
+}
+
 .sticky-top {
     /* Ensure it stays below the potentially fixed header */
     top: 70px; /* Adjust based on actual header height */

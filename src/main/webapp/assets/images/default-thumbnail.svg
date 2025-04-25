@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 300" width="500" height="300">
+  <style>
+    .bg { fill: #e9ecef; } /* Light gray background */
+    .icon { fill: #adb5bd; } /* Muted gray for icon */
+    .text { fill: #6c757d; font-family: sans-serif; font-size: 24px; text-anchor: middle; }
+  </style>
+  <rect class="bg" width="500" height="300"/>
+  <path class="icon" d="M100 100 L400 100 L400 200 L100 200 Z M150 120 L200 170 L250 140 L350 180 L350 200 L150 200 Z M300 130 A 20 20 0 1 1 300 170 A 20 20 0 0 1 300 130"/>
+  <text x="250" y="250" class="text">No Image Available</text>
+</svg>
