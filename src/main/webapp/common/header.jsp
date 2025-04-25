@@ -43,48 +43,51 @@
                                     String userRole = (String) session.getAttribute("userRole");
                                 %>
                                 <li class="nav-item">
+                                    <%
+                                        String currentURI = request.getRequestURI();
+                                    %>
                                     <div class="header-icons">
                                         <% if ("admin".equals(userRole)) { %>
                                             <!-- Admin Icons -->
-                                            <a href="${pageContext.request.contextPath}/admin/dashboard" class="header-icon-link active">
+                                            <a href="${pageContext.request.contextPath}/admin/dashboard" class="header-icon-link <%= currentURI.contains("/admin/dashboard") ? "active" : "" %>">
                                                 <i class="fas fa-tachometer-alt"></i>
                                                 <span class="icon-tooltip">Dashboard</span>
                                             </a>
-                                            <a href="${pageContext.request.contextPath}/admin/users" class="header-icon-link">
+                                            <a href="${pageContext.request.contextPath}/admin/users" class="header-icon-link <%= currentURI.contains("/admin/users") ? "active" : "" %>">
                                                 <i class="fas fa-users"></i>
                                                 <span class="icon-tooltip">Manage Users</span>
                                             </a>
-                                            <a href="${pageContext.request.contextPath}/admin/messages" class="header-icon-link">
+                                            <a href="${pageContext.request.contextPath}/admin/messages" class="header-icon-link <%= currentURI.contains("/admin/messages") ? "active" : "" %>">
                                                 <i class="fas fa-envelope"></i>
                                                 <span class="badge">3</span>
                                                 <span class="icon-tooltip">Messages</span>
                                             </a>
                                         <% } else if ("instructor".equals(userRole)) { %>
                                             <!-- Instructor Icons -->
-                                            <a href="${pageContext.request.contextPath}/instructor/dashboard" class="header-icon-link active">
+                                            <a href="${pageContext.request.contextPath}/instructor/dashboard" class="header-icon-link <%= currentURI.contains("/instructor/dashboard") ? "active" : "" %>">
                                                 <i class="fas fa-tachometer-alt"></i>
                                                 <span class="icon-tooltip">Dashboard</span>
                                             </a>
-                                            <a href="${pageContext.request.contextPath}/instructor/courses/" class="header-icon-link">
+                                            <a href="${pageContext.request.contextPath}/instructor/courses/" class="header-icon-link <%= (currentURI.contains("/instructor/courses") || currentURI.contains("/instructor/course")) ? "active" : "" %>">
                                                 <i class="fas fa-book"></i>
                                                 <span class="icon-tooltip">My Courses</span>
                                             </a>
-                                            <a href="${pageContext.request.contextPath}/instructor/messages" class="header-icon-link">
+                                            <a href="${pageContext.request.contextPath}/instructor/messages" class="header-icon-link <%= currentURI.contains("/instructor/messages") ? "active" : "" %>">
                                                 <i class="fas fa-envelope"></i>
                                                 <span class="badge">5</span>
                                                 <span class="icon-tooltip">Messages</span>
                                             </a>
                                         <% } else { %>
                                             <!-- Student Icons -->
-                                            <a href="${pageContext.request.contextPath}/student/dashboard" class="header-icon-link active">
+                                            <a href="${pageContext.request.contextPath}/student/dashboard" class="header-icon-link <%= currentURI.contains("/student/dashboard") ? "active" : "" %>">
                                                 <i class="fas fa-tachometer-alt"></i>
                                                 <span class="icon-tooltip">Dashboard</span>
                                             </a>
-                                            <a href="${pageContext.request.contextPath}/student/courses" class="header-icon-link">
+                                            <a href="${pageContext.request.contextPath}/student/courses" class="header-icon-link <%= currentURI.contains("/student/courses") ? "active" : "" %>">
                                                 <i class="fas fa-book"></i>
                                                 <span class="icon-tooltip">My Courses</span>
                                             </a>
-                                            <a href="${pageContext.request.contextPath}/student/messages" class="header-icon-link">
+                                            <a href="${pageContext.request.contextPath}/student/messages" class="header-icon-link <%= currentURI.contains("/student/messages") ? "active" : "" %>">
                                                 <i class="fas fa-envelope"></i>
                                                 <span class="badge">2</span>
                                                 <span class="icon-tooltip">Messages</span>
@@ -92,7 +95,7 @@
                                         <% } %>
 
                                         <!-- Profile Icon (for all users) -->
-                                        <a href="${pageContext.request.contextPath}/<%= userRole %>/profile" class="header-icon-link">
+                                        <a href="${pageContext.request.contextPath}/<%= userRole %>/profile" class="header-icon-link <%= currentURI.contains("/profile") ? "active" : "" %>">
                                             <% if (profileImage != null && !profileImage.isEmpty()) { %>
                                                 <img src="${pageContext.request.contextPath}<%= profileImage.startsWith("/") ? "" : "/" %><%= profileImage %>" alt="Profile" class="user-avatar" onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/assets/images/default-profile.svg';">
                                             <% } else { %>
