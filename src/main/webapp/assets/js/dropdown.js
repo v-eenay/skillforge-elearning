@@ -37,6 +37,19 @@
 
             // Toggle this dropdown
             dropdownContainer.classList.toggle('show');
+
+            // Add a one-time event listener to close when clicking outside
+            if (dropdownContainer.classList.contains('show')) {
+                setTimeout(() => {
+                    const closeOnClickOutside = function(event) {
+                        if (!dropdownContainer.contains(event.target)) {
+                            dropdownContainer.classList.remove('show');
+                            document.removeEventListener('click', closeOnClickOutside);
+                        }
+                    };
+                    document.addEventListener('click', closeOnClickOutside);
+                }, 0);
+            }
         });
 
         // Prevent dropdown from closing when clicking inside it
@@ -48,7 +61,7 @@
         });
     }
 
-    // Improved click-outside handler
+    // Improved click-outside handler with capture phase to ensure it runs first
     document.addEventListener('click', function(e) {
         const dropdownContainer = document.getElementById('profileDropdownContainer');
         // Check if dropdown exists and is open
@@ -58,7 +71,7 @@
                 dropdownContainer.classList.remove('show');
             }
         }
-    });
+    }, true); // Use capture phase to ensure this runs before other click handlers
 
     // Handle ESC key to close dropdown
     document.addEventListener('keydown', function(e) {
