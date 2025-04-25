@@ -102,7 +102,7 @@
                                             </c:choose>
                                             <img src="${imageUrl}"
                                                  class="card-img-top" alt="${course.title}" style="height: 200px; object-fit: cover;"
-                                                 onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/assets/images/default-course-thumbnail.svg';">
+                                                 onerror="this.onerror=null; this.src='https://placebeard.it/500/300?image=1';">
                                     </a>
                                     <%-- Add badges if needed, e.g., Bestseller, New --%>
                                     <%-- <span class="badge bg-primary position-absolute top-0 end-0 m-3">Bestseller</span> --%>
@@ -126,11 +126,11 @@
                                                 <c:set var="creatorImageUrl" value="${pageContext.request.contextPath}${course.creator.profileImage.startsWith('/') ? '' : '/'}${course.creator.profileImage}"/>
                                             </c:when>
                                             <c:otherwise>
-                                                <c:set var="creatorImageUrl" value="https://placehold.co/40x40/E0E0E0/grey?text=?"/>
+                                                <c:set var="creatorImageUrl" value="https://placebeard.it/40/40?image=${course.creator.userId % 10 + 20}"/>
                                             </c:otherwise>
                                         </c:choose>
                                         <img src="${creatorImageUrl}"
-                                             class="rounded-circle me-2" style="width: 30px; height: 30px; object-fit: cover;" alt="${course.creator.name}" onerror="this.onerror=null; this.src='https://placehold.co/40x40/E0E0E0/grey?text=?';">
+                                             class="rounded-circle me-2" style="width: 30px; height: 30px; object-fit: cover;" alt="${course.creator.name}" onerror="this.onerror=null; this.src='https://placebeard.it/40/40?image=1';">
                                         <small class="text-muted">${course.creator.name}</small>
                                     </div>
                                     <div class="d-flex justify-content-between align-items-center">

@@ -45,9 +45,9 @@
                                                 String firstLetter = headerUser.getName().substring(0, 1);
                                             %>
                                             <% if (profileImage != null && !profileImage.isEmpty()) { %>
-                                                <img src="${pageContext.request.contextPath}<%= profileImage %>" alt="Profile" class="profile-image" onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/assets/images/default-profile.svg';">
+                                                <img src="${pageContext.request.contextPath}<%= profileImage.startsWith("/") ? "" : "/" %><%= profileImage %>" alt="Profile" class="profile-image" onerror="this.onerror=null; this.src='https://placebeard.it/40/40?image=<%= headerUser.getUserId() % 10 + 1 %>';">
                                             <% } else { %>
-                                                <img src="${pageContext.request.contextPath}/assets/images/default-profile.svg" alt="Default Profile" class="profile-image">
+                                                <img src="https://placebeard.it/40/40?image=<%= headerUser.getUserId() % 10 + 1 %>" alt="Default Profile" class="profile-image">
                                             <% } %>
                                             <span class="profile-name"><%= userName %></span>
                                             <i class="fas fa-chevron-down dropdown-icon"></i>
