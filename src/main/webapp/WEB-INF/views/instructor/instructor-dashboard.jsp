@@ -40,36 +40,36 @@
         <div class="col-md-3 mb-3">
             <div class="stats-card bg-primary text-white">
                 <div class="card-body">
-                    <h5 class="card-title">Active Courses</h5>
+                    <h5 class="card-title"><i class="fas fa-book-open"></i> Active Courses</h5>
                     <h2 class="display-4">${activeCourses}</h2>
-                    <p class="card-text"><i class="fas fa-book"></i> ${totalCourses} total courses</p>
+                    <p class="card-text"><i class="fas fa-layer-group"></i> ${totalCourses} total courses</p>
                 </div>
             </div>
         </div>
         <div class="col-md-3 mb-3">
             <div class="stats-card bg-success text-white">
                 <div class="card-body">
-                    <h5 class="card-title">Total Students</h5>
+                    <h5 class="card-title"><i class="fas fa-users"></i> Total Students</h5>
                     <h2 class="display-4">247</h2>
-                    <p class="card-text"><i class="fas fa-arrow-up"></i> 12% from last month</p>
+                    <p class="card-text"><i class="fas fa-chart-line"></i> 12% from last month</p>
                 </div>
             </div>
         </div>
         <div class="col-md-3 mb-3">
             <div class="stats-card bg-info text-white">
                 <div class="card-body">
-                    <h5 class="card-title">Course Rating</h5>
+                    <h5 class="card-title"><i class="fas fa-star"></i> Course Rating</h5>
                     <h2 class="display-4">4.8</h2>
-                    <p class="card-text"><i class="fas fa-star"></i> Based on 183 reviews</p>
+                    <p class="card-text"><i class="fas fa-comment-dots"></i> Based on 183 reviews</p>
                 </div>
             </div>
         </div>
         <div class="col-md-3 mb-3">
             <div class="stats-card bg-warning text-white">
                 <div class="card-body">
-                    <h5 class="card-title">Earnings</h5>
+                    <h5 class="card-title"><i class="fas fa-coins"></i> Earnings</h5>
                     <h2 class="display-4">$3.2K</h2>
-                    <p class="card-text"><i class="fas fa-dollar-sign"></i> This month</p>
+                    <p class="card-text"><i class="fas fa-calendar-alt"></i> This month</p>
                 </div>
             </div>
         </div>
@@ -80,19 +80,25 @@
         <div class="col-md-8 mb-4">
             <div class="content-card mb-4">
                 <div class="card-header">
-                    <div class="d-flex justify-content-between align-items-center mb-2">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
                         <h5 class="mb-0">My Courses</h5>
                         <div class="filter-buttons">
-                            <button class="btn btn-sm btn-outline-secondary filter-btn" data-filter="all">All</button>
-                            <button class="btn btn-sm btn-primary filter-btn active" data-filter="published">Published</button>
-                            <button class="btn btn-sm btn-outline-secondary filter-btn" data-filter="draft">Draft</button>
+                            <button class="btn btn-outline-secondary filter-btn" data-filter="all">
+                                <i class="fas fa-th-large"></i> All
+                            </button>
+                            <button class="btn btn-primary filter-btn active" data-filter="published">
+                                <i class="fas fa-check-circle"></i> Published
+                            </button>
+                            <button class="btn btn-outline-secondary filter-btn" data-filter="draft">
+                                <i class="fas fa-pencil-alt"></i> Draft
+                            </button>
                         </div>
                     </div>
                     <div class="input-group">
-                        <input type="text" class="form-control form-control-sm" id="searchCourses" placeholder="Search courses...">
-                        <button class="btn btn-sm btn-outline-secondary" type="button">
-                            <i class="fas fa-search"></i>
-                        </button>
+                        <span class="input-group-text bg-white border-end-0">
+                            <i class="fas fa-search text-muted"></i>
+                        </span>
+                        <input type="text" class="form-control border-start-0 ps-0" id="searchCourses" placeholder="Search your courses...">
                     </div>
                 </div>
                 <div class="card-body" id="coursesContainer">
@@ -187,15 +193,17 @@
             <div class="sidebar-card mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5>Student Performance</h5>
-                    <button class="btn btn-sm btn-primary">View All</button>
+                    <button class="btn btn-sm btn-primary">
+                        <i class="fas fa-chart-bar me-1"></i> View All
+                    </button>
                 </div>
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
                             <h6>Web Development Fundamentals</h6>
                             <div class="d-flex justify-content-between align-items-center">
-                                <small><i class="fas fa-users"></i> Average Completion Rate</small>
-                                <span>78%</span>
+                                <small><i class="fas fa-graduation-cap"></i> Average Completion Rate</small>
+                                <span class="fw-bold">78%</span>
                             </div>
                             <div class="progress">
                                 <div class="progress-bar" role="progressbar" style="width: 78%" aria-valuenow="78"
@@ -205,8 +213,8 @@
                         <li class="list-group-item">
                             <h6>Advanced JavaScript Techniques</h6>
                             <div class="d-flex justify-content-between align-items-center">
-                                <small><i class="fas fa-users"></i> Average Completion Rate</small>
-                                <span>65%</span>
+                                <small><i class="fas fa-graduation-cap"></i> Average Completion Rate</small>
+                                <span class="fw-bold">65%</span>
                             </div>
                             <div class="progress">
                                 <div class="progress-bar" role="progressbar" style="width: 65%" aria-valuenow="65"
@@ -216,8 +224,8 @@
                         <li class="list-group-item">
                             <h6>Responsive Web Design Masterclass</h6>
                             <div class="d-flex justify-content-between align-items-center">
-                                <small><i class="fas fa-users"></i> Average Completion Rate</small>
-                                <span>82%</span>
+                                <small><i class="fas fa-graduation-cap"></i> Average Completion Rate</small>
+                                <span class="fw-bold">82%</span>
                             </div>
                             <div class="progress">
                                 <div class="progress-bar" role="progressbar" style="width: 82%" aria-valuenow="82"
@@ -233,22 +241,32 @@
                 <div class="card-header">
                     <h5>Earnings Overview</h5>
                 </div>
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h6><i class="fas fa-calendar-day"></i> This Month</h6>
-                        <h5 class="text-success mb-0">$3,240</h5>
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <h6 class="mb-1"><i class="fas fa-calendar-day text-primary me-2"></i> This Month</h6>
+                            <small class="text-muted">May 1 - May 31, 2023</small>
+                        </div>
+                        <h5 class="text-success mb-0 fw-bold">$3,240</h5>
                     </div>
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h6><i class="fas fa-calendar-week"></i> Last Month</h6>
-                        <h5 class="mb-0">$2,890</h5>
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <h6 class="mb-1"><i class="fas fa-calendar-week text-info me-2"></i> Last Month</h6>
+                            <small class="text-muted">Apr 1 - Apr 30, 2023</small>
+                        </div>
+                        <h5 class="mb-0 fw-bold">$2,890</h5>
                     </div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h6><i class="fas fa-calendar"></i> Year to Date</h6>
-                        <h5 class="mb-0">$18,650</h5>
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <h6 class="mb-1"><i class="fas fa-calendar text-warning me-2"></i> Year to Date</h6>
+                            <small class="text-muted">Jan 1 - May 31, 2023</small>
+                        </div>
+                        <h5 class="mb-0 fw-bold">$18,650</h5>
                     </div>
-                    <hr>
-                    <div class="d-grid">
-                        <button class="btn btn-outline-primary"><i class="fas fa-chart-line"></i> View Earnings Report</button>
+                    <div class="d-grid mt-2">
+                        <button class="btn btn-primary">
+                            <i class="fas fa-chart-line me-2"></i> View Earnings Report
+                        </button>
                     </div>
                 </div>
             </div>
@@ -257,42 +275,53 @@
             <div class="sidebar-card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5>Recent Reviews</h5>
-                    <button class="btn btn-sm btn-primary">View All</button>
+                    <button class="btn btn-sm btn-primary">
+                        <i class="fas fa-comments me-1"></i> View All
+                    </button>
                 </div>
                 <div class="card-body">
                     <div class="list-group list-group-flush">
                         <div class="list-group-item">
-                            <div class="d-flex justify-content-between align-items-center mb-1">
-                                <h6><i class="fas fa-user"></i> Rajesh Sharma</h6>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h6 class="mb-0"><i class="fas fa-user-circle text-primary me-2"></i> Rajesh Sharma</h6>
                                 <div>
                                     <span class="text-warning"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span>
-                                    <small class="ms-1">5.0</small>
+                                    <small class="ms-1 fw-bold">5.0</small>
                                 </div>
                             </div>
-                            <p>"Excellent course! The instructor explains complex concepts in a very understandable way."</p>
-                            <small><i class="fas fa-book"></i> Web Development Fundamentals <i class="fas fa-circle"></i> 2 days ago</small>
+                            <p class="mb-1 fst-italic">"Excellent course! The instructor explains complex concepts in a very understandable way."</p>
+                            <div class="d-flex align-items-center">
+                                <span class="badge bg-primary me-2">Web Development</span>
+                                <small class="text-muted"><i class="fas fa-clock me-1"></i> 2 days ago</small>
+                            </div>
                         </div>
                         <div class="list-group-item">
-                            <div class="d-flex justify-content-between align-items-center mb-1">
-                                <h6><i class="fas fa-user"></i> Sunita Rai</h6>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h6 class="mb-0"><i class="fas fa-user-circle text-info me-2"></i> Sunita Rai</h6>
                                 <div>
                                     <span class="text-warning"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></span>
-                                    <small class="ms-1">4.0</small>
+                                    <small class="ms-1 fw-bold">4.0</small>
                                 </div>
                             </div>
-                            <p>"Great content but would love more practical examples. Overall very helpful."</p>
-                            <small><i class="fas fa-book"></i> Advanced JavaScript Techniques <i class="fas fa-circle"></i> 1 week ago</small>
+                            <p class="mb-1 fst-italic">"Great content but would love more practical examples. Overall very helpful."</p>
+                            <div class="d-flex align-items-center">
+                                <span class="badge bg-info me-2">JavaScript</span>
+                                <small class="text-muted"><i class="fas fa-clock me-1"></i> 1 week ago</small>
+                            </div>
                         </div>
                         <div class="list-group-item">
-                            <div class="d-flex justify-content-between align-items-center mb-1">
-                                <h6><i class="fas fa-user"></i> Amit Kumar</h6>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h6 class="mb-0"><i class="fas fa-user-circle text-success me-2"></i> Amit Kumar</h6>
                                 <div>
                                     <span class="text-warning"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span>
-                                    <small class="ms-1">5.0</small>
+                                    <small class="ms-1 fw-bold">5.0</small>
                                 </div>
                             </div>
-                            <p>"This course transformed my understanding of responsive design. Highly recommended!"</p>
-                            <small><i class="fas fa-book"></i> Responsive Web Design Masterclass <i class="fas fa-circle"></i> 2 weeks ago</small>
+                            <p class="mb-1 fst-italic">"This course transformed my understanding of responsive design. Highly recommended!"</p>
+                            <div class="d-flex align-items-center">
+                                <span class="badge bg-success me-2">Web Design</span>
+                                <small class="text-muted"><i class="fas fa-clock me-1"></i> 2 weeks ago</small>
+                            </div>
                         </div>
                     </div>
                 </div>
