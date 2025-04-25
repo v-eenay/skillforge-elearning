@@ -140,16 +140,38 @@
 
     <!-- Header JavaScript -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Scroll effect for header
+        // Use a more efficient way to handle scroll events with requestAnimationFrame
+        let scrollTimeout;
+        let lastKnownScrollPosition = 0;
+        let ticking = false;
+
+        function handleScroll(scrollPos) {
+            const header = document.querySelector('.modern-header');
+            if (scrollPos > 10) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        }
+
+        // Wait for the page to fully load before adding event listeners
+        window.addEventListener('load', function() {
+            // Initial check for scroll position
+            handleScroll(window.scrollY);
+
+            // Throttled scroll event
             window.addEventListener('scroll', function() {
-                const header = document.querySelector('.modern-header');
-                if (window.scrollY > 10) {
-                    header.classList.add('scrolled');
-                } else {
-                    header.classList.remove('scrolled');
+                lastKnownScrollPosition = window.scrollY;
+
+                if (!ticking) {
+                    window.requestAnimationFrame(function() {
+                        handleScroll(lastKnownScrollPosition);
+                        ticking = false;
+                    });
+
+                    ticking = true;
                 }
-            });
+            }, { passive: true });
 
             // Mobile menu toggle
             const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
