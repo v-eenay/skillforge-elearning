@@ -41,7 +41,7 @@
                         <span class="badge bg-primary me-2">${course.category.name}</span>
                         <span class="badge bg-secondary me-3">${course.level}</span>
                         <span class="text-muted me-3"><i class="fas fa-users me-1"></i> ${enrollmentCount} students enrolled</span>
-                        <span class="text-muted"><i class="fas fa-calendar me-1"></i> Created <fmt:formatDate value="${course.createdAt}" pattern="MMM dd, yyyy" /></span>
+                        <span class="text-muted"><i class="fas fa-calendar me-1"></i> Created ${course.createdAt.toLocalDate()}</span>
                     </div>
                     <div class="d-flex flex-wrap gap-2">
                         <c:choose>
