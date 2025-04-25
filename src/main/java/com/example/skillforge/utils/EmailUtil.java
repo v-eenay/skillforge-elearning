@@ -84,6 +84,7 @@ public class EmailUtil {
      */
     private static boolean isValidEmailAddress(String email) {
         if (email == null || email.trim().isEmpty()) {
+            LOGGER.warning("Email address is null or empty");
             return false;
         }
 
@@ -95,6 +96,7 @@ public class EmailUtil {
             return false;
         }
 
+        LOGGER.info("Email address is valid: " + email);
         return true;
     }
 
@@ -336,6 +338,8 @@ public class EmailUtil {
         }
 
         LOGGER.info("Attempting to send contact confirmation email to " + contact.getEmail());
+        LOGGER.info("Using SMTP settings - Host: " + smtpHost + ", Port: " + smtpPort + ", Username: " + smtpUsername);
+        LOGGER.info("Email enabled: " + emailEnabled);
 
         try {
             // Create mail session
@@ -386,10 +390,24 @@ public class EmailUtil {
             LOGGER.info("Confirmation email message prepared, attempting to send...");
             LOGGER.info("From: " + fromEmail + ", To: " + contact.getEmail());
 
-            // Send the message
-            Transport.send(message);
-            LOGGER.info("Contact confirmation email sent successfully to " + contact.getEmail());
-            return true;
+            try {
+                // Send the message
+                Transport.send(message);
+                LOGGER.info("Contact confirmation email sent successfully to " + contact.getEmail());
+                return true;
+            } catch (MessagingException e) {
+                // Log more details about the error
+                LOGGER.severe("Failed to send confirmation email: " + e.getMessage());
+                if (e instanceof jakarta.mail.SendFailedException) {
+                    jakarta.mail.SendFailedException sfe = (jakarta.mail.SendFailedException) e;
+                    if (sfe.getInvalidAddresses() != null) {
+                        for (jakarta.mail.Address address : sfe.getInvalidAddresses()) {
+                            LOGGER.severe("Invalid address: " + address);
+                        }
+                    }
+                }
+                throw e; // Re-throw to be caught by the outer catch block
+            }
         } catch (MessagingException e) {
             LOGGER.log(Level.SEVERE, "Error sending contact confirmation email: " + e.getMessage(), e);
             if (e.getCause() != null) {

@@ -58,9 +58,11 @@ public class ContactServlet extends HttpServlet {
 
             // Send confirmation email to the user
             boolean emailSent = EmailUtil.sendContactConfirmation(contact);
+            getServletContext().log("User confirmation email sent: " + emailSent + " to " + contact.getEmail());
 
             // Send notification email to admin
             boolean adminEmailSent = EmailUtil.sendContactNotification(contact);
+            getServletContext().log("Admin notification email sent: " + adminEmailSent);
 
             if (emailSent) {
                 // Add a success message
