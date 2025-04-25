@@ -70,7 +70,7 @@
                                 <img src="${pageContext.request.contextPath}${course.thumbnail}" alt="${course.title}" class="img-fluid rounded">
                             </c:when>
                             <c:otherwise>
-                                <img src="https://placebeard.it/800/400?image=${course.courseId % 10 + 1}" alt="${course.title}" class="img-fluid rounded">
+                                <img src="https://placebeard.it/800/400?image=${course.courseId % 10 + 1}" alt="${course.title}" class="img-fluid rounded" onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/assets/images/default-course-thumbnail.svg';">
                             </c:otherwise>
                         </c:choose>
                     </div>

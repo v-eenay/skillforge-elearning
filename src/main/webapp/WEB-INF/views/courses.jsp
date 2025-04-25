@@ -10,403 +10,203 @@
                 <h1 class="display-5 fw-bold mb-3">Explore Our Courses</h1>
                 <p class="lead mb-4">Discover a wide range of courses designed to help you master new skills, advance your career, and achieve your goals.</p>
                 <div class="d-flex gap-2">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search courses..." aria-label="Search courses">
-                        <button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
-                    </div>
+                    <%-- Updated Search Form --%>
+                    <form action="${pageContext.request.contextPath}/courses" method="get" class="input-group">
+                        <input type="hidden" name="category" value="${categoryId}">
+                        <input type="hidden" name="sort" value="${sortBy}">
+                        <input type="text" name="search" class="form-control" placeholder="Search courses..." aria-label="Search courses" value="${searchTerm}">
+                        <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
+                    </form>
                 </div>
             </div>
             <div class="col-lg-6 text-center">
-                <img src="https://placebeard.it/600/400?image=8" alt="Courses" class="img-fluid rounded-4 shadow">
+                <img src="${pageContext.request.contextPath}/assets/images/course_hero.webp" alt="Courses" class="img-fluid rounded-4 shadow" style="max-height: 400px; object-fit: cover;">
             </div>
         </div>
     </div>
 </section>
 
-<!-- Course Categories -->
-<section class="py-5">
-    <div class="container">
-        <h2 class="text-center fw-bold mb-5">Browse by Category</h2>
-        <div class="row g-4 justify-content-center">
-            <div class="col-6 col-md-4 col-lg-2">
-                <div class="card border-0 shadow-sm h-100 text-center">
-                    <div class="card-body p-4">
-                        <div class="rounded-circle bg-primary bg-opacity-10 p-3 d-inline-flex mb-3">
-                            <i class="fas fa-laptop-code text-primary fa-2x"></i>
-                        </div>
-                        <h5 class="fw-bold">Web Development</h5>
-                        <p class="small text-muted mb-0">24 Courses</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 col-md-4 col-lg-2">
-                <div class="card border-0 shadow-sm h-100 text-center">
-                    <div class="card-body p-4">
-                        <div class="rounded-circle bg-success bg-opacity-10 p-3 d-inline-flex mb-3">
-                            <i class="fas fa-mobile-alt text-success fa-2x"></i>
-                        </div>
-                        <h5 class="fw-bold">Mobile Apps</h5>
-                        <p class="small text-muted mb-0">18 Courses</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 col-md-4 col-lg-2">
-                <div class="card border-0 shadow-sm h-100 text-center">
-                    <div class="card-body p-4">
-                        <div class="rounded-circle bg-info bg-opacity-10 p-3 d-inline-flex mb-3">
-                            <i class="fas fa-database text-info fa-2x"></i>
-                        </div>
-                        <h5 class="fw-bold">Data Science</h5>
-                        <p class="small text-muted mb-0">16 Courses</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 col-md-4 col-lg-2">
-                <div class="card border-0 shadow-sm h-100 text-center">
-                    <div class="card-body p-4">
-                        <div class="rounded-circle bg-warning bg-opacity-10 p-3 d-inline-flex mb-3">
-                            <i class="fas fa-paint-brush text-warning fa-2x"></i>
-                        </div>
-                        <h5 class="fw-bold">UI/UX Design</h5>
-                        <p class="small text-muted mb-0">12 Courses</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 col-md-4 col-lg-2">
-                <div class="card border-0 shadow-sm h-100 text-center">
-                    <div class="card-body p-4">
-                        <div class="rounded-circle bg-danger bg-opacity-10 p-3 d-inline-flex mb-3">
-                            <i class="fas fa-shield-alt text-danger fa-2x"></i>
-                        </div>
-                        <h5 class="fw-bold">Cybersecurity</h5>
-                        <p class="small text-muted mb-0">9 Courses</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 col-md-4 col-lg-2">
-                <div class="card border-0 shadow-sm h-100 text-center">
-                    <div class="card-body p-4">
-                        <div class="rounded-circle bg-secondary bg-opacity-10 p-3 d-inline-flex mb-3">
-                            <i class="fas fa-robot text-secondary fa-2x"></i>
-                        </div>
-                        <h5 class="fw-bold">AI & ML</h5>
-                        <p class="small text-muted mb-0">14 Courses</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+<!-- Category Tabs -->
+<section class="py-3 border-bottom bg-white shadow-sm sticky-top" style="top: 70px; z-index: 1020;"> <%-- Adjusted top value based on header height --%>
+    <div class="container category-tabs-container">
+        <nav class="nav nav-pills justify-content-start"> <%-- Changed justify-content-center to justify-content-start for scroll --%>
+            <li class="nav-item">
+                <a class="nav-link ${categoryId == 0 ? 'active' : ''}" href="${pageContext.request.contextPath}/courses?search=${searchTerm}&sort=${sortBy}">All Categories</a>
+            </li>
+            <c:forEach var="category" items="${categories}">
+                <li class="nav-item">
+                    <a class="nav-link ${categoryId == category.categoryId ? 'active' : ''}" href="${pageContext.request.contextPath}/courses?category=${category.categoryId}&search=${searchTerm}&sort=${sortBy}">${category.name}</a>
+                </li>
+            </c:forEach>
+        </nav> <%-- Changed ul to nav --%>
     </div>
 </section>
 
-<!-- Featured Courses -->
-<section class="py-5 bg-light">
+<!-- Courses List -->
+<section class="py-5 bg-light courses-list">
     <div class="container">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="fw-bold mb-0">Featured Courses</h2>
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4">
+            <h2 class="fw-bold mb-3 mb-md-0">
+                <c:choose>
+                    <c:when test="${not empty selectedCategory}">
+                        ${selectedCategory.name} Courses (${totalCourses})
+                    </c:when>
+                    <c:when test="${not empty searchTerm}">
+                        Search Results for "${searchTerm}" (${totalCourses})
+                    </c:when>
+                    <c:otherwise>
+                        All Courses (${totalCourses})
+                    </c:otherwise>
+                </c:choose>
+            </h2>
             <div class="dropdown">
                 <button class="btn btn-outline-primary dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    Sort by: Popular
+                    Sort by:
+                    <c:choose>
+                        <c:when test="${sortBy == 'newest'}">Newest</c:when>
+                        <c:when test="${sortBy == 'oldest'}">Oldest</c:when>
+                        <c:when test="${sortBy == 'az'}">A-Z</c:when>
+                        <c:when test="${sortBy == 'za'}">Z-A</c:when>
+                        <c:when test="${sortBy == 'popular'}">Popular</c:when> <%-- Add logic if implemented --%>
+                        <c:otherwise>Newest</c:otherwise>
+                    </c:choose>
                 </button>
-                <ul class="dropdown-menu" aria-labelledby="sortDropdown">
-                    <li><a class="dropdown-item" href="#">Popular</a></li>
-                    <li><a class="dropdown-item" href="#">Newest</a></li>
-                    <li><a class="dropdown-item" href="#">Price: Low to High</a></li>
-                    <li><a class="dropdown-item" href="#">Price: High to Low</a></li>
-                    <li><a class="dropdown-item" href="#">Rating</a></li>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="sortDropdown">
+                    <li><a class="dropdown-item ${sortBy == 'newest' ? 'active' : ''}" href="${pageContext.request.contextPath}/courses?category=${categoryId}&search=${searchTerm}&sort=newest&page=${currentPage}">Newest</a></li>
+                    <li><a class="dropdown-item ${sortBy == 'oldest' ? 'active' : ''}" href="${pageContext.request.contextPath}/courses?category=${categoryId}&search=${searchTerm}&sort=oldest&page=${currentPage}">Oldest</a></li>
+                    <li><a class="dropdown-item ${sortBy == 'az' ? 'active' : ''}" href="${pageContext.request.contextPath}/courses?category=${categoryId}&search=${searchTerm}&sort=az&page=${currentPage}">A-Z</a></li>
+                    <li><a class="dropdown-item ${sortBy == 'za' ? 'active' : ''}" href="${pageContext.request.contextPath}/courses?category=${categoryId}&search=${searchTerm}&sort=za&page=${currentPage}">Z-A</a></li>
+                    <%-- Add Popularity sort option if implemented --%>
+                    <%-- <li><a class="dropdown-item ${sortBy == 'popular' ? 'active' : ''}" href="${pageContext.request.contextPath}/courses?category=${categoryId}&search=${searchTerm}&sort=popular&page=${currentPage}">Popular</a></li> --%>
                 </ul>
             </div>
         </div>
-        <div class="row g-4">
-            <!-- Course 1 -->
-            <div class="col-md-6 col-lg-4">
-                <div class="card border-0 shadow-sm h-100">
-                    <div class="position-relative">
-                        <img src="https://placebeard.it/500/300?image=9" class="card-img-top" alt="Web Development Course">
-                        <span class="badge bg-primary position-absolute top-0 end-0 m-3">Bestseller</span>
-                    </div>
-                    <div class="card-body p-4">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="badge bg-light text-dark">Web Development</span>
-                            <div class="text-warning">
-                                <i class="fas fa-star"></i>
-                                <span class="ms-1">4.9 (2,405)</span>
-                            </div>
-                        </div>
-                        <h5 class="fw-bold mb-3">Full-Stack Web Development Bootcamp</h5>
-                        <p class="text-muted">Master HTML, CSS, JavaScript, React, Node.js and more to become a complete web developer.</p>
-                        <div class="d-flex align-items-center mb-3">
-                            <img src="https://placebeard.it/40/40?image=15" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;" alt="Instructor">
-                            <span>Santosh Parajuli</span>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <span class="fw-bold fs-5">$89.99</span>
-                                <span class="text-muted text-decoration-line-through ms-2">$129.99</span>
-                            </div>
-                            <a href="#" class="btn btn-outline-primary">Learn More</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Course 2 -->
-            <div class="col-md-6 col-lg-4">
-                <div class="card border-0 shadow-sm h-100">
-                    <div class="position-relative">
-                        <img src="https://placebeard.it/500/300?image=10" class="card-img-top" alt="Data Science Course">
-                        <span class="badge bg-success position-absolute top-0 end-0 m-3">New</span>
-                    </div>
-                    <div class="card-body p-4">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="badge bg-light text-dark">Data Science</span>
-                            <div class="text-warning">
-                                <i class="fas fa-star"></i>
-                                <span class="ms-1">4.7 (1,208)</span>
+        <c:choose>
+            <c:when test="${not empty courses}">
+                <div class="row g-4">
+                    <c:forEach var="course" items="${courses}">
+                        <div class="col-md-6 col-lg-4 d-flex align-items-stretch">
+                            <div class="card border-0 shadow-sm h-100 w-100">
+                                <div class="position-relative">
+                                    <a href="${pageContext.request.contextPath}/courses/view?id=${course.courseId}">
+                                        <c:choose>
+                                            <c:choose>
+                                                <c:when test="${not empty course.thumbnail}">
+                                                    <%-- Assuming thumbnail path starts with '/' or is relative to context root --%>
+                                                    <c:set var="imageUrl" value="${pageContext.request.contextPath}${course.thumbnail.startsWith('/') ? '' : '/'}${course.thumbnail}"/>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <%-- Use placebeard.it as primary fallback --%>
+                                                    <c:set var="imageUrl" value="https://placebeard.it/500/300?image=${course.courseId % 10 + 1}"/>
+                                                </c:otherwise>
+                                            </c:choose>
+                                            <img src="${imageUrl}"
+                                                 class="card-img-top" alt="${course.title}" style="height: 200px; object-fit: cover;"
+                                                 onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/assets/images/default-course-thumbnail.svg';">
+                                    </a>
+                                    <%-- Add badges if needed, e.g., Bestseller, New --%>
+                                    <%-- <span class="badge bg-primary position-absolute top-0 end-0 m-3">Bestseller</span> --%>
+                                </div>
+                                <div class="card-body p-4 d-flex flex-column">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <span class="badge bg-light text-dark">${course.category.name}</span>
+                                        <%-- Add rating if available --%>
+                                        <%-- <div class="text-warning">
+                                            <i class="fas fa-star"></i>
+                                            <span class="ms-1">4.9 (2,405)</span>
+                                        </div> --%>
+                                    </div>
+                                    <h5 class="fw-bold mb-2 card-title">
+                                        <a href="${pageContext.request.contextPath}/courses/view?id=${course.courseId}" class="text-decoration-none text-dark stretched-link">${course.title}</a>
+                                    </h5>
+                                    <p class="text-muted small mb-3 flex-grow-1">${course.description.length() > 100 ? course.description.substring(0, 100).concat('...') : course.description}</p>
+                                    <div class="d-flex align-items-center mb-3 mt-auto pt-3 border-top instructor-info">
+                                        <c:choose>
+                                            <c:when test="${not empty course.creator.profileImage}">
+                                                <c:set var="creatorImageUrl" value="${pageContext.request.contextPath}${course.creator.profileImage.startsWith('/') ? '' : '/'}${course.creator.profileImage}"/>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <c:set var="creatorImageUrl" value="https://placehold.co/40x40/E0E0E0/grey?text=?"/>
+                                            </c:otherwise>
+                                        </c:choose>
+                                        <img src="${creatorImageUrl}"
+                                             class="rounded-circle me-2" style="width: 30px; height: 30px; object-fit: cover;" alt="${course.creator.name}" onerror="this.onerror=null; this.src='https://placehold.co/40x40/E0E0E0/grey?text=?';">
+                                        <small class="text-muted">${course.creator.name}</small>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <span class="fw-bold fs-6 text-capitalize">${course.level}</span>
+                                            <%-- Add price if applicable --%>
+                                            <%-- <span class="text-muted text-decoration-line-through ms-2">$129.99</span> --%>
+                                        </div>
+                                        <%-- Keep the Learn More button pointing to the details page --%>
+                                        <%-- <a href="${pageContext.request.contextPath}/courses/view?id=${course.courseId}" class="btn btn-sm btn-outline-primary">Learn More</a> --%>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <h5 class="fw-bold mb-3">Data Science & Analytics Masterclass</h5>
-                        <p class="text-muted">Learn Python, R, SQL, and statistical analysis to extract insights from complex datasets.</p>
-                        <div class="d-flex align-items-center mb-3">
-                            <img src="https://placebeard.it/40/40?image=16" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;" alt="Instructor">
-                            <span>Sujan Subedi</span>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <span class="fw-bold fs-5">$99.99</span>
-                                <span class="text-muted text-decoration-line-through ms-2">$149.99</span>
-                            </div>
-                            <a href="#" class="btn btn-outline-primary">Learn More</a>
-                        </div>
-                    </div>
+                    </c:forEach>
                 </div>
-            </div>
-
-            <!-- Course 3 -->
-            <div class="col-md-6 col-lg-4">
-                <div class="card border-0 shadow-sm h-100">
-                    <div class="position-relative">
-                        <img src="https://placebeard.it/500/300?image=11" class="card-img-top" alt="UI/UX Design Course">
-                    </div>
-                    <div class="card-body p-4">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="badge bg-light text-dark">UI/UX Design</span>
-                            <div class="text-warning">
-                                <i class="fas fa-star"></i>
-                                <span class="ms-1">4.8 (956)</span>
-                            </div>
-                        </div>
-                        <h5 class="fw-bold mb-3">UI/UX Design: From Beginner to Professional</h5>
-                        <p class="text-muted">Learn to create beautiful, user-friendly interfaces that engage and delight users.</p>
-                        <div class="d-flex align-items-center mb-3">
-                            <img src="https://placebeard.it/40/40?image=17" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;" alt="Instructor">
-                            <span>Delish Khadka</span>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <span class="fw-bold fs-5">$79.99</span>
-                                <span class="text-muted text-decoration-line-through ms-2">$119.99</span>
-                            </div>
-                            <a href="#" class="btn btn-outline-primary">Learn More</a>
-                        </div>
-                    </div>
+            </c:when>
+            <c:otherwise>
+                <div class="text-center py-5">
+                    <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                    <p class="lead">No courses found matching your criteria.</p>
+                    <c:if test="${categoryId != 0 || not empty searchTerm}">
+                        <a href="${pageContext.request.contextPath}/courses" class="btn btn-primary mt-3">View All Courses</a>
+                    </c:if>
                 </div>
-            </div>
-
-            <!-- Course 4 -->
-            <div class="col-md-6 col-lg-4">
-                <div class="card border-0 shadow-sm h-100">
-                    <div class="position-relative">
-                        <img src="https://placebeard.it/500/300?image=12" class="card-img-top" alt="Mobile Development Course">
-                    </div>
-                    <div class="card-body p-4">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="badge bg-light text-dark">Mobile Development</span>
-                            <div class="text-warning">
-                                <i class="fas fa-star"></i>
-                                <span class="ms-1">4.6 (782)</span>
-                            </div>
-                        </div>
-                        <h5 class="fw-bold mb-3">Flutter & Dart: Build iOS and Android Apps</h5>
-                        <p class="text-muted">Create beautiful, natively compiled applications for mobile from a single codebase.</p>
-                        <div class="d-flex align-items-center mb-3">
-                            <img src="https://placebeard.it/40/40?image=18" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;" alt="Instructor">
-                            <span>Sagar Tandan</span>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <span class="fw-bold fs-5">$94.99</span>
-                                <span class="text-muted text-decoration-line-through ms-2">$139.99</span>
-                            </div>
-                            <a href="#" class="btn btn-outline-primary">Learn More</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Course 5 -->
-            <div class="col-md-6 col-lg-4">
-                <div class="card border-0 shadow-sm h-100">
-                    <div class="position-relative">
-                        <img src="https://placebeard.it/500/300?image=13" class="card-img-top" alt="Cybersecurity Course">
-                        <span class="badge bg-danger position-absolute top-0 end-0 m-3">Hot</span>
-                    </div>
-                    <div class="card-body p-4">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="badge bg-light text-dark">Cybersecurity</span>
-                            <div class="text-warning">
-                                <i class="fas fa-star"></i>
-                                <span class="ms-1">4.9 (605)</span>
-                            </div>
-                        </div>
-                        <h5 class="fw-bold mb-3">Ethical Hacking & Cybersecurity Fundamentals</h5>
-                        <p class="text-muted">Learn to protect systems and networks from cyber threats and vulnerabilities.</p>
-                        <div class="d-flex align-items-center mb-3">
-                            <img src="https://placebeard.it/40/40?image=19" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;" alt="Instructor">
-                            <span>Romy Khatri</span>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <span class="fw-bold fs-5">$109.99</span>
-                                <span class="text-muted text-decoration-line-through ms-2">$159.99</span>
-                            </div>
-                            <a href="#" class="btn btn-outline-primary">Learn More</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Course 6 -->
-            <div class="col-md-6 col-lg-4">
-                <div class="card border-0 shadow-sm h-100">
-                    <div class="position-relative">
-                        <img src="https://placebeard.it/500/300?image=14" class="card-img-top" alt="AI Course">
-                    </div>
-                    <div class="card-body p-4">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="badge bg-light text-dark">AI & Machine Learning</span>
-                            <div class="text-warning">
-                                <i class="fas fa-star"></i>
-                                <span class="ms-1">4.7 (423)</span>
-                            </div>
-                        </div>
-                        <h5 class="fw-bold mb-3">Machine Learning & AI: Python & TensorFlow</h5>
-                        <p class="text-muted">Build intelligent systems and models using Python, TensorFlow, and other ML frameworks.</p>
-                        <div class="d-flex align-items-center mb-3">
-                            <img src="https://placebeard.it/40/40?image=20" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;" alt="Instructor">
-                            <span>Nikesh Regmi</span>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <span class="fw-bold fs-5">$119.99</span>
-                                <span class="text-muted text-decoration-line-through ms-2">$169.99</span>
-                            </div>
-                            <a href="#" class="btn btn-outline-primary">Learn More</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+            </c:otherwise>
+        </c:choose>
 
         <!-- Pagination -->
-        <div class="d-flex justify-content-center mt-5">
-            <nav aria-label="Course pagination">
-                <ul class="pagination">
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
+        <c:if test="${totalPages > 1}">
+            <nav aria-label="Course pagination" class="mt-5">
+                <ul class="pagination justify-content-center">
+                    <%-- Previous Page --%>
+                    <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
+                        <a class="page-link" href="${pageContext.request.contextPath}/courses?category=${categoryId}&search=${searchTerm}&sort=${sortBy}&page=${currentPage - 1}" tabindex="-1" aria-disabled="${currentPage == 1}">Previous</a>
                     </li>
-                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
+
+                    <%-- Page Numbers --%>
+                    <%-- Determine pagination range --%>
+                    <c:set var="startPage" value="${currentPage - 2 > 0 ? currentPage - 2 : 1}"/>
+                    <c:set var="endPage" value="${startPage + 4 < totalPages ? startPage + 4 : totalPages}"/>
+                    <c:if test="${endPage - startPage < 4 && totalPages > 4}">
+                        <c:set var="startPage" value="${totalPages - 4 > 0 ? totalPages - 4 : 1}"/>
+                    </c:if>
+
+                    <%-- Ellipsis at the beginning --%>
+                    <c:if test="${startPage > 1}">
+                        <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/courses?category=${categoryId}&search=${searchTerm}&sort=${sortBy}&page=1">1</a></li>
+                        <c:if test="${startPage > 2}">
+                            <li class="page-item disabled"><span class="page-link">...</span></li>
+                        </c:if>
+                    </c:if>
+
+                    <%-- Actual page numbers --%>
+                    <c:forEach var="i" begin="${startPage}" end="${endPage}">
+                        <li class="page-item ${currentPage == i ? 'active' : ''}" ${currentPage == i ? 'aria-current="page"' : ''}>
+                            <a class="page-link" href="${pageContext.request.contextPath}/courses?category=${categoryId}&search=${searchTerm}&sort=${sortBy}&page=${i}">${i}</a>
+                        </li>
+                    </c:forEach>
+
+                    <%-- Ellipsis at the end --%>
+                    <c:if test="${endPage < totalPages}">
+                        <c:if test="${endPage < totalPages - 1}">
+                            <li class="page-item disabled"><span class="page-link">...</span></li>
+                        </c:if>
+                        <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/courses?category=${categoryId}&search=${searchTerm}&sort=${sortBy}&page=${totalPages}">${totalPages}</a></li>
+                    </c:if>
+
+                    <%-- Next Page --%>
+                    <li class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
+                        <a class="page-link" href="${pageContext.request.contextPath}/courses?category=${categoryId}&search=${searchTerm}&sort=${sortBy}&page=${currentPage + 1}" aria-disabled="${currentPage == totalPages}">Next</a>
                     </li>
                 </ul>
             </nav>
-        </div>
-    </div>
-</section>
-
-<!-- Testimonials -->
-<section class="py-5">
-    <div class="container">
-        <h2 class="text-center fw-bold mb-5">What Our Students Say</h2>
-        <div class="row g-4">
-            <div class="col-md-4">
-                <div class="card border-0 shadow-sm h-100 p-4">
-                    <div class="d-flex mb-3">
-                        <img src="https://placebeard.it/60/60?image=21" class="rounded-circle me-3" style="width: 60px; height: 60px; object-fit: cover;" alt="Student">
-                        <div>
-                            <h5 class="fw-bold mb-1">Rajesh Sharma</h5>
-                            <p class="text-muted mb-0">Web Developer</p>
-                        </div>
-                    </div>
-                    <div class="text-warning mb-3">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <p class="fst-italic mb-0">"The Full-Stack Web Development course completely transformed my career. Within 3 months of completion, I landed my dream job as a developer."</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card border-0 shadow-sm h-100 p-4">
-                    <div class="d-flex mb-3">
-                        <img src="https://placebeard.it/60/60?image=22" class="rounded-circle me-3" style="width: 60px; height: 60px; object-fit: cover;" alt="Student">
-                        <div>
-                            <h5 class="fw-bold mb-1">Priya Patel</h5>
-                            <p class="text-muted mb-0">Data Analyst</p>
-                        </div>
-                    </div>
-                    <div class="text-warning mb-3">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <p class="fst-italic mb-0">"The Data Science course provided me with practical skills that I use daily in my job. The instructors were knowledgeable and the projects were challenging but rewarding."</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card border-0 shadow-sm h-100 p-4">
-                    <div class="d-flex mb-3">
-                        <img src="https://placebeard.it/60/60?image=23" class="rounded-circle me-3" style="width: 60px; height: 60px; object-fit: cover;" alt="Student">
-                        <div>
-                            <h5 class="fw-bold mb-1">Amit Kumar</h5>
-                            <p class="text-muted mb-0">UI/UX Designer</p>
-                        </div>
-                    </div>
-                    <div class="text-warning mb-3">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <p class="fst-italic mb-0">"The UI/UX Design course helped me transition from graphic design to UX design. The curriculum was comprehensive and the feedback from instructors was invaluable."</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- CTA Section -->
-<section class="py-5 bg-primary text-white">
-    <div class="container text-center">
-        <h2 class="fw-bold mb-3">Ready to Start Learning?</h2>
-        <p class="lead mb-4">Join thousands of students who are already advancing their careers with SkillForge.</p>
-        <div class="d-flex justify-content-center gap-3">
-            <a href="#" class="btn btn-light btn-lg px-4">Browse All Courses</a>
-            <c:if test="${empty sessionScope.user}">
-                <a href="${pageContext.request.contextPath}/auth/register" class="btn btn-outline-light btn-lg px-4">Sign Up Now</a>
-            </c:if>
-        </div>
+        </c:if>
     </div>
 </section>
 

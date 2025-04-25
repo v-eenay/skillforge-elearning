@@ -206,6 +206,10 @@
                             <div><i class="fas fa-database"></i> Database Setup</div>
                             <i class="fas fa-chevron-right text-muted"></i>
                         </a>
+                        <a href="${pageContext.request.contextPath}/admin/initialize-categories" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            <div><i class="fas fa-tags"></i> Initialize Categories</div>
+                            <i class="fas fa-chevron-right text-muted"></i>
+                        </a>
                     </div>
                 </div>
             </div>

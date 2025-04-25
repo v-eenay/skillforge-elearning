@@ -289,10 +289,10 @@
                         <div class="course-thumbnail">
                             <c:choose>
                                 <c:when test="${not empty course.thumbnail}">
-                                    <img src="${pageContext.request.contextPath}${course.thumbnail}" alt="${course.title}">
+                                    <img src="${pageContext.request.contextPath}${course.thumbnail}" alt="${course.title}" onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/assets/images/default-course-thumbnail.svg';">
                                 </c:when>
                                 <c:otherwise>
-                                    <img src="https://placebeard.it/300/180?image=${course.courseId % 10 + 1}" alt="${course.title}">
+                                    <img src="https://placebeard.it/300/180?image=${course.courseId % 10 + 1}" alt="${course.title}" onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/assets/images/default-course-thumbnail.svg';">
                                 </c:otherwise>
                             </c:choose>
                             <span class="course-status status-${course.status.toString().toLowerCase()}">

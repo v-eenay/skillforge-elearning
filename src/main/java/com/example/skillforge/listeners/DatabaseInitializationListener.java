@@ -1,5 +1,6 @@
 package com.example.skillforge.listeners;
 
+import com.example.skillforge.utils.CategoryInitializer;
 import com.example.skillforge.utils.DatabaseSetupUtil;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
@@ -26,6 +27,14 @@ public class DatabaseInitializationListener implements ServletContextListener {
             boolean success = DatabaseSetupUtil.initializeDatabase();
             if (success) {
                 LOGGER.info("Database and tables initialized successfully");
+
+                // Initialize default categories
+                try {
+                    CategoryInitializer.initializeDefaultCategories();
+                    LOGGER.info("Default categories initialized successfully");
+                } catch (Exception e) {
+                    LOGGER.log(Level.WARNING, "Error initializing default categories, but continuing startup", e);
+                }
             } else {
                 LOGGER.warning("Failed to initialize database and tables, but continuing startup");
             }

@@ -254,7 +254,138 @@ public class CourseDAO {
     }
     
     /**
-     * Map a ResultSet to a CourseModel with category and creator information
+     * Get paginated, filtered, and sorted courses with category and creator information
+     * @param categoryId The category ID to filter by (0 for all categories)
+     * @param searchTerm The search term to filter by (null or empty for no search)
+     * @param sortBy The sorting criteria ("newest", "oldest", "az", "za")
+     * @param page The current page number (1-based)
+     * @param pageSize The number of courses per page
+     * @return A list of courses for the specified page and filters
+     */
+    public static List<CourseModel> getPaginatedCourses(int categoryId, String searchTerm, String sortBy, int page, int pageSize) {
+        List<CourseModel> courses = new ArrayList<>();
+        StringBuilder sqlBuilder = new StringBuilder(
+            "SELECT c.*, cat.Name as CategoryName, cat.Description as CategoryDescription, " +
+            "u.Name as CreatorName, u.UserName as CreatorUserName, u.ProfileImage as CreatorProfileImage " +
+            "FROM Course c " +
+            "JOIN Category cat ON c.CategoryID = cat.CategoryID " +
+            "JOIN User u ON c.CreatedBy = u.UserID "
+        );
+        List<Object> params = new ArrayList<>();
+
+        // Filtering
+        List<String> conditions = new ArrayList<>();
+        conditions.add("c.Status = 'active'"); // Only show active courses
+        if (categoryId > 0) {
+            conditions.add("c.CategoryID = ?");
+            params.add(categoryId);
+        }
+        if (searchTerm != null && !searchTerm.trim().isEmpty()) {
+            conditions.add("(c.Title LIKE ? OR c.Description LIKE ?)");
+            String likeTerm = "%" + searchTerm.trim() + "%";
+            params.add(likeTerm);
+            params.add(likeTerm);
+        }
+
+        if (!conditions.isEmpty()) {
+            sqlBuilder.append(" WHERE ").append(String.join(" AND ", conditions));
+        }
+
+        // Sorting
+        String orderByClause = " ORDER BY ";
+        switch (sortBy != null ? sortBy.toLowerCase() : "newest") {
+            case "oldest":
+                orderByClause += "c.CreatedAt ASC";
+                break;
+            case "az":
+                orderByClause += "c.Title ASC";
+                break;
+            case "za":
+                orderByClause += "c.Title DESC";
+                break;
+            // case "popular": // Add logic if popularity is implemented (e.g., based on enrollments)
+            //     orderByClause += "enrollmentCount DESC"; // Placeholder
+            //     break;
+            case "newest":
+            default:
+                orderByClause += "c.CreatedAt DESC";
+                break;
+        }
+        sqlBuilder.append(orderByClause);
+
+        // Pagination
+        sqlBuilder.append(" LIMIT ? OFFSET ?");
+        params.add(pageSize);
+        params.add((page - 1) * pageSize);
+
+        LOGGER.fine("Executing paginated course query: " + sqlBuilder.toString() + " with params: " + params);
+
+        try (Connection connection = DBConnectionUtil.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sqlBuilder.toString())) {
+
+            for (int i = 0; i < params.size(); i++) {
+                preparedStatement.setObject(i + 1, params.get(i));
+            }
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                courses.add(mapResultSetToCourseModel(resultSet));
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error getting paginated courses", e);
+        }
+        return courses;
+    }
+
+    /**
+     * Count the total number of courses matching the filters
+     * @param categoryId The category ID to filter by (0 for all categories)
+     * @param searchTerm The search term to filter by (null or empty for no search)
+     * @return The total count of matching courses
+     */
+    public static int countCourses(int categoryId, String searchTerm) {
+        StringBuilder sqlBuilder = new StringBuilder("SELECT COUNT(*) FROM Course c");
+        List<Object> params = new ArrayList<>();
+
+        // Filtering
+        List<String> conditions = new ArrayList<>();
+        conditions.add("c.Status = 'active'"); // Only count active courses
+        if (categoryId > 0) {
+            conditions.add("c.CategoryID = ?");
+            params.add(categoryId);
+        }
+        if (searchTerm != null && !searchTerm.trim().isEmpty()) {
+            conditions.add("(c.Title LIKE ? OR c.Description LIKE ?)");
+            String likeTerm = "%" + searchTerm.trim() + "%";
+            params.add(likeTerm);
+            params.add(likeTerm);
+        }
+
+        if (!conditions.isEmpty()) {
+            sqlBuilder.append(" WHERE ").append(String.join(" AND ", conditions));
+        }
+
+        LOGGER.fine("Executing count course query: " + sqlBuilder.toString() + " with params: " + params);
+
+        try (Connection connection = DBConnectionUtil.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sqlBuilder.toString())) {
+
+            for (int i = 0; i < params.size(); i++) {
+                preparedStatement.setObject(i + 1, params.get(i));
+            }
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error counting courses", e);
+        }
+        return 0;
+    }
+
+    /**
+     * Map a ResultSet to a CourseModel, including category and creator details
      * @param resultSet The ResultSet to map
      * @return A CourseModel populated with data from the ResultSet
      * @throws SQLException If there is an error accessing the ResultSet
