@@ -1,0 +1,781 @@
+/* Modern Home Page Styles */
+
+/* Hero Section */
+.modern-hero {
+    padding: 6rem 0;
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    position: relative;
+    overflow: hidden;
+    color: white;
+}
+
+.modern-hero::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+    border-radius: 50%;
+    z-index: 0;
+}
+
+.modern-hero::after {
+    content: '';
+    position: absolute;
+    bottom: -100px;
+    left: -100px;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+    border-radius: 50%;
+    z-index: 0;
+}
+
+.modern-hero .container {
+    position: relative;
+    z-index: 1;
+}
+
+.modern-hero h1 {
+    font-weight: 800;
+    font-size: 3.5rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.modern-hero p {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+    max-width: 90%;
+    animation: fadeInUp 0.8s ease-out 0.2s forwards;
+    opacity: 0;
+    animation-fill-mode: forwards;
+}
+
+.modern-hero .btn {
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    border-radius: 0.75rem;
+    font-size: 1.1rem;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    animation: fadeInUp 0.8s ease-out 0.4s forwards;
+    opacity: 0;
+    animation-fill-mode: forwards;
+}
+
+.modern-hero .btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+}
+
+.modern-hero .hero-image {
+    animation: fadeInRight 1s ease-out 0.2s forwards;
+    opacity: 0;
+    animation-fill-mode: forwards;
+    transform: perspective(1000px) rotateY(-10deg);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    border-radius: 1rem;
+    transition: all 0.5s ease;
+}
+
+.modern-hero .hero-image:hover {
+    transform: perspective(1000px) rotateY(0deg);
+}
+
+/* Featured Courses Section */
+.featured-courses {
+    padding: 6rem 0;
+    background-color: #f8fafc;
+    position: relative;
+}
+
+.featured-courses h2 {
+    font-weight: 800;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    color: #1e293b;
+}
+
+.featured-courses .section-subtitle {
+    text-align: center;
+    color: #64748b;
+    font-size: 1.1rem;
+    margin-bottom: 3rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.course-card {
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    margin-bottom: 2rem;
+    background-color: white;
+    height: 100%;
+    border: none;
+}
+
+.course-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+.course-card .card-img-top {
+    height: 200px;
+    object-fit: cover;
+    transition: all 0.4s ease;
+}
+
+.course-card:hover .card-img-top {
+    transform: scale(1.05);
+}
+
+.course-card .card-body {
+    padding: 1.5rem;
+}
+
+.course-card .card-title {
+    font-weight: 700;
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+    color: #1e293b;
+}
+
+.course-card .card-text {
+    color: #64748b;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.course-card .course-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.course-card .course-category {
+    display: inline-block;
+    padding: 0.35rem 0.75rem;
+    border-radius: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    background-color: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+}
+
+.course-card .course-rating {
+    display: flex;
+    align-items: center;
+    font-size: 0.85rem;
+    color: #64748b;
+}
+
+.course-card .course-rating i {
+    color: #f59e0b;
+    margin-right: 0.25rem;
+}
+
+.course-card .course-price {
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: #1e293b;
+}
+
+.course-card .btn {
+    padding: 0.5rem 1.25rem;
+    font-weight: 600;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.course-card .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.view-all-btn {
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    border-radius: 0.75rem;
+    font-size: 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    margin-top: 2rem;
+}
+
+.view-all-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Top Instructor Section */
+.top-instructor {
+    padding: 6rem 0;
+    background-color: white;
+    position: relative;
+}
+
+.top-instructor h2 {
+    font-weight: 800;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    color: #1e293b;
+}
+
+.top-instructor .section-subtitle {
+    text-align: center;
+    color: #64748b;
+    font-size: 1.1rem;
+    margin-bottom: 3rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.instructor-profile {
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    background-color: white;
+    padding: 3rem 2rem;
+    text-align: center;
+    position: relative;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.instructor-profile:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+.instructor-profile::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(to right, #3b82f6, #2563eb);
+}
+
+.instructor-profile img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 1.5rem;
+    border: 5px solid white;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s ease;
+}
+
+.instructor-profile:hover img {
+    transform: scale(1.05);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+.instructor-profile h5 {
+    font-weight: 700;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #1e293b;
+}
+
+.instructor-profile .instructor-specialty {
+    color: #3b82f6;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+}
+
+.instructor-profile .instructor-bio {
+    color: #64748b;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.instructor-profile .badge {
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    font-size: 0.85rem;
+    border-radius: 0.5rem;
+    background: linear-gradient(to right, #3b82f6, #2563eb);
+    box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+}
+
+.instructor-profile .social-links {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.instructor-profile .social-link {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #f1f5f9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #64748b;
+    transition: all 0.3s ease;
+}
+
+.instructor-profile .social-link:hover {
+    background-color: #3b82f6;
+    color: white;
+    transform: translateY(-3px);
+}
+
+/* Instructors Grid Section */
+.instructors-grid {
+    padding: 6rem 0;
+    background-color: #f8fafc;
+    position: relative;
+}
+
+.instructors-grid h2 {
+    font-weight: 800;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    color: #1e293b;
+}
+
+.instructors-grid .section-subtitle {
+    text-align: center;
+    color: #64748b;
+    font-size: 1.1rem;
+    margin-bottom: 3rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.instructor-card {
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    background-color: white;
+    text-align: center;
+    height: 100%;
+    border: none;
+}
+
+.instructor-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+.instructor-card img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin: 2rem auto 1rem;
+    border: 4px solid white;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s ease;
+}
+
+.instructor-card:hover img {
+    transform: scale(1.05);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+.instructor-card .card-body {
+    padding: 1.5rem;
+}
+
+.instructor-card .card-title {
+    font-weight: 700;
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: #1e293b;
+}
+
+.instructor-card .instructor-specialty {
+    color: #3b82f6;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    font-size: 0.9rem;
+}
+
+.instructor-card .instructor-bio {
+    color: #64748b;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+/* Top Student Section */
+.top-student {
+    padding: 6rem 0;
+    background-color: white;
+    position: relative;
+}
+
+.top-student h2 {
+    font-weight: 800;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    color: #1e293b;
+}
+
+.top-student .section-subtitle {
+    text-align: center;
+    color: #64748b;
+    font-size: 1.1rem;
+    margin-bottom: 3rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.student-profile {
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    background-color: white;
+    padding: 3rem 2rem;
+    text-align: center;
+    position: relative;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.student-profile:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+.student-profile::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(to right, #10b981, #059669);
+}
+
+.student-profile img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 1.5rem;
+    border: 5px solid white;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s ease;
+}
+
+.student-profile:hover img {
+    transform: scale(1.05);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+.student-profile h5 {
+    font-weight: 700;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #1e293b;
+}
+
+.student-profile .student-specialty {
+    color: #10b981;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+}
+
+.student-profile .student-bio {
+    color: #64748b;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.student-profile .badge {
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    font-size: 0.85rem;
+    border-radius: 0.5rem;
+    background: linear-gradient(to right, #10b981, #059669);
+    box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+}
+
+/* Testimonials Section */
+.testimonials {
+    padding: 6rem 0;
+    background-color: #f8fafc;
+    position: relative;
+}
+
+.testimonials h2 {
+    font-weight: 800;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    color: #1e293b;
+}
+
+.testimonials .section-subtitle {
+    text-align: center;
+    color: #64748b;
+    font-size: 1.1rem;
+    margin-bottom: 3rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.testimonial-card {
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    background-color: white;
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+    height: 100%;
+    border: none;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+.testimonial-card::before {
+    content: '\201C';
+    font-family: Georgia, serif;
+    font-size: 5rem;
+    color: rgba(59, 130, 246, 0.1);
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    line-height: 1;
+}
+
+.testimonial-card img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin: 0 auto 1.5rem;
+    border: 3px solid white;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s ease;
+}
+
+.testimonial-card:hover img {
+    transform: scale(1.05);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+.testimonial-card .testimonial-text {
+    color: #64748b;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    line-height: 1.7;
+    font-style: italic;
+    position: relative;
+    z-index: 1;
+}
+
+.testimonial-card .testimonial-author {
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+    color: #1e293b;
+}
+
+.testimonial-card .testimonial-role {
+    color: #64748b;
+    font-size: 0.9rem;
+}
+
+/* CTA Section */
+.modern-cta {
+    padding: 6rem 0;
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    position: relative;
+    overflow: hidden;
+    color: white;
+    text-align: center;
+}
+
+.modern-cta::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+    border-radius: 50%;
+    z-index: 0;
+}
+
+.modern-cta::after {
+    content: '';
+    position: absolute;
+    bottom: -100px;
+    left: -100px;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+    border-radius: 50%;
+    z-index: 0;
+}
+
+.modern-cta .container {
+    position: relative;
+    z-index: 1;
+}
+
+.modern-cta h2 {
+    font-weight: 800;
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+    animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.modern-cta p {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    animation: fadeInUp 0.8s ease-out 0.2s forwards;
+    opacity: 0;
+    animation-fill-mode: forwards;
+}
+
+.modern-cta .btn {
+    padding: 1rem 2.5rem;
+    font-weight: 600;
+    border-radius: 0.75rem;
+    font-size: 1.1rem;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    animation: fadeInUp 0.8s ease-out 0.4s forwards;
+    opacity: 0;
+    animation-fill-mode: forwards;
+}
+
+.modern-cta .btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px) perspective(1000px) rotateY(-10deg);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0) perspective(1000px) rotateY(-10deg);
+    }
+}
+
+/* Responsive Styles */
+@media (max-width: 991.98px) {
+    .modern-hero h1 {
+        font-size: 2.75rem;
+    }
+
+    .modern-hero p {
+        font-size: 1.1rem;
+    }
+
+    .featured-courses h2,
+    .top-instructor h2,
+    .instructors-grid h2,
+    .top-student h2,
+    .testimonials h2,
+    .modern-cta h2 {
+        font-size: 2.25rem;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .modern-hero {
+        padding: 4rem 0;
+    }
+
+    .modern-hero h1 {
+        font-size: 2.25rem;
+    }
+
+    .modern-hero p {
+        font-size: 1rem;
+        max-width: 100%;
+    }
+
+    .modern-hero .btn {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .featured-courses,
+    .top-instructor,
+    .instructors-grid,
+    .top-student,
+    .testimonials,
+    .modern-cta {
+        padding: 4rem 0;
+    }
+
+    .featured-courses h2,
+    .top-instructor h2,
+    .instructors-grid h2,
+    .top-student h2,
+    .testimonials h2,
+    .modern-cta h2 {
+        font-size: 2rem;
+    }
+
+    .modern-cta p {
+        font-size: 1.1rem;
+    }
+
+    .modern-cta .btn {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+    }
+}
