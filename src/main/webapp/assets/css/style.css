@@ -244,3 +244,117 @@ footer .social-icons a:hover {
 ::-webkit-scrollbar-thumb:hover {
     background: #a8a8a8;
 }
+
+
+/* Courses Page Specific Styles */
+
+/* Category Tabs Enhancement */
+.sticky-top {
+    /* Ensure it stays below the potentially fixed header */
+    top: 70px; /* Adjust based on actual header height */
+    background-color: rgba(255, 255, 255, 0.95); /* Slightly transparent white */
+    backdrop-filter: blur(5px);
+    z-index: 1020;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.nav-pills .nav-item {
+    margin-right: 0.5rem; /* Add some space between tabs */
+}
+
+.nav-pills .nav-link {
+    border-radius: 50px; /* Pill shape */
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    color: var(--secondary-color);
+    background-color: transparent;
+    border: 1px solid transparent;
+    transition: all 0.3s ease;
+    white-space: nowrap; /* Prevent wrapping */
+}
+
+.nav-pills .nav-link:hover {
+    color: var(--primary-color);
+    background-color: rgba(78, 115, 223, 0.1);
+}
+
+.nav-pills .nav-link.active {
+    color: #fff;
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    box-shadow: 0 2px 5px rgba(78, 115, 223, 0.3);
+}
+
+/* Course Card Enhancements */
+.courses-list .card {
+    /* Inherits general card styles, add specifics if needed */
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Ensure cards in a row have same height */
+}
+
+.courses-list .card-img-top {
+    border-bottom: 1px solid #eee;
+}
+
+.courses-list .card-body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Allows body to fill space */
+    padding: 1.25rem;
+}
+
+.courses-list .card-title a {
+    color: var(--dark-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.courses-list .card-title a:hover {
+    color: var(--primary-color);
+}
+
+.courses-list .card-text {
+    flex-grow: 1; /* Pushes instructor info down */
+    margin-bottom: 1rem;
+}
+
+.courses-list .instructor-info {
+    margin-top: auto; /* Pushes to the bottom */
+    padding-top: 0.75rem;
+    border-top: 1px solid #eee;
+    font-size: 0.875rem;
+}
+
+.courses-list .instructor-info img {
+    width: 24px;
+    height: 24px;
+}
+
+/* Pagination Styles */
+.pagination .page-link {
+    color: var(--primary-color);
+    border-radius: 0.25rem; /* Slightly rounded corners */
+    margin: 0 0.2rem;
+    border: 1px solid #dee2e6;
+}
+
+.pagination .page-link:hover {
+    background-color: #e9ecef;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+}
+
+.pagination .page-item.disabled .page-link {
+    color: #6c757d;
+    background-color: #fff;
+    border-color: #dee2e6;
+}
+
+
+/* ... existing code ... */

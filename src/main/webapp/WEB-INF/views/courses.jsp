@@ -43,7 +43,7 @@
 </section>
 
 <!-- Courses List -->
-<section class="py-5 bg-light">
+<section class="py-5 bg-light courses-list">
     <div class="container">
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4">
             <h2 class="fw-bold mb-3 mb-md-0">
@@ -90,8 +90,17 @@
                             <div class="card border-0 shadow-sm h-100 w-100">
                                 <div class="position-relative">
                                     <a href="${pageContext.request.contextPath}/courses/view?id=${course.courseId}">
-                                        <img src="${not empty course.thumbnail ? pageContext.request.contextPath.concat(course.thumbnail) : 'https://placehold.co/500x300/E0E0E0/grey?text=No+Image'}"
-                                             class="card-img-top" alt="${course.title}" style="height: 200px; object-fit: cover;">
+                                        <c:choose>
+                                            <c:when test="${not empty course.thumbnail}">
+                                                <%-- Assuming thumbnail path starts with '/' or is relative to context root --%>
+                                                <c:set var="imageUrl" value="${pageContext.request.contextPath}${course.thumbnail.startsWith('/') ? '' : '/'}${course.thumbnail}"/>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <c:set var="imageUrl" value="https://placehold.co/500x300/E0E0E0/grey?text=No+Image+Available"/>
+                                            </c:otherwise>
+                                        </c:choose>
+                                        <img src="${imageUrl}"
+                                             class="card-img-top" alt="${course.title}" style="height: 200px; object-fit: cover;" onerror="this.onerror=null; this.src='https://placehold.co/500x300/E0E0E0/grey?text=Image+Error';">
                                     </a>
                                     <%-- Add badges if needed, e.g., Bestseller, New --%>
                                     <%-- <span class="badge bg-primary position-absolute top-0 end-0 m-3">Bestseller</span> --%>
@@ -109,10 +118,18 @@
                                         <a href="${pageContext.request.contextPath}/courses/view?id=${course.courseId}" class="text-decoration-none text-dark stretched-link">${course.title}</a>
                                     </h5>
                                     <p class="text-muted small mb-3 flex-grow-1">${course.description.length() > 100 ? course.description.substring(0, 100).concat('...') : course.description}</p>
-                                    <div class="d-flex align-items-center mb-3 mt-auto">
-                                        <img src="${not empty course.creator.profileImage ? pageContext.request.contextPath.concat(course.creator.profileImage) : 'https://placehold.co/40x40/E0E0E0/grey?text=?'}"
-                                             class="rounded-circle me-2" style="width: 30px; height: 30px; object-fit: cover;" alt="${course.creator.name}">
-                                        <small>${course.creator.name}</small>
+                                    <div class="d-flex align-items-center mb-3 mt-auto pt-3 border-top instructor-info">
+                                        <c:choose>
+                                            <c:when test="${not empty course.creator.profileImage}">
+                                                <c:set var="creatorImageUrl" value="${pageContext.request.contextPath}${course.creator.profileImage.startsWith('/') ? '' : '/'}${course.creator.profileImage}"/>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <c:set var="creatorImageUrl" value="https://placehold.co/40x40/E0E0E0/grey?text=?"/>
+                                            </c:otherwise>
+                                        </c:choose>
+                                        <img src="${creatorImageUrl}"
+                                             class="rounded-circle me-2" style="width: 30px; height: 30px; object-fit: cover;" alt="${course.creator.name}" onerror="this.onerror=null; this.src='https://placehold.co/40x40/E0E0E0/grey?text=?';">
+                                        <small class="text-muted">${course.creator.name}</small>
                                     </div>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div>

@@ -50,6 +50,7 @@ public class CoursesServlet extends HttpServlet {
                     categoryId = Integer.parseInt(categoryParam);
                 } catch (NumberFormatException e) {
                     // Ignore and use default
+                    categoryId = 0; // Reset to default if invalid
                 }
             }
 
@@ -61,77 +62,36 @@ public class CoursesServlet extends HttpServlet {
                     }
                 } catch (NumberFormatException e) {
                     // Ignore and use default
+                    currentPage = 1; // Reset to default if invalid
                 }
             }
 
             if (sortParam != null && !sortParam.isEmpty()) {
-                sortBy = sortParam;
-            }
-
-            // Get courses based on filters
-            List<CourseModel> allCourses;
-            if (categoryId > 0) {
-                allCourses = CourseDAO.getCoursesByCategory(categoryId);
-                // Set the selected category for the UI
-                for (CategoryModel category : categories) {
-                    if (category.getCategoryId() == categoryId) {
-                        request.setAttribute("selectedCategory", category);
-                        break;
-                    }
+                // Validate sortBy parameter to prevent potential issues
+                List<String> validSorts = List.of("newest", "oldest", "az", "za", "popular");
+                if (validSorts.contains(sortParam.toLowerCase())) {
+                    sortBy = sortParam.toLowerCase();
                 }
-            } else {
-                allCourses = CourseDAO.getAllCourses();
             }
 
-            // Filter by search term if provided
-            if (searchParam != null && !searchParam.isEmpty()) {
-                String searchTerm = searchParam.toLowerCase();
-                allCourses.removeIf(course ->
-                    !course.getTitle().toLowerCase().contains(searchTerm) &&
-                    !course.getDescription().toLowerCase().contains(searchTerm) &&
-                    !course.getCategory().getName().toLowerCase().contains(searchTerm));
-                request.setAttribute("searchTerm", searchParam);
-            }
-
-            // Filter out inactive courses
-            allCourses.removeIf(course -> course.getStatus() != CourseModel.Status.active);
-
-            // Sort courses
-            switch (sortBy) {
-                case "oldest":
-                    allCourses.sort((c1, c2) -> c1.getCreatedAt().compareTo(c2.getCreatedAt()));
-                    break;
-                case "az":
-                    allCourses.sort((c1, c2) -> c1.getTitle().compareToIgnoreCase(c2.getTitle()));
-                    break;
-                case "za":
-                    allCourses.sort((c1, c2) -> c2.getTitle().compareToIgnoreCase(c1.getTitle()));
-                    break;
-                case "popular":
-                    // Sort by enrollment count (would need to implement this)
-                    // For now, just use newest as default
-                default: // "newest"
-                    allCourses.sort((c1, c2) -> c2.getCreatedAt().compareTo(c1.getCreatedAt()));
-                    break;
-            }
-
-            // Calculate pagination
-            int totalCourses = allCourses.size();
+            // Get total count of courses matching filters (for pagination)
+            int totalCourses = CourseDAO.countCourses(categoryId, searchParam);
             int totalPages = (int) Math.ceil((double) totalCourses / COURSES_PER_PAGE);
 
+            // Adjust currentPage if it's out of bounds after filtering
             if (currentPage > totalPages && totalPages > 0) {
                 currentPage = totalPages;
+            } else if (currentPage < 1) {
+                currentPage = 1;
             }
 
-            // Get courses for current page
-            int startIndex = (currentPage - 1) * COURSES_PER_PAGE;
-            int endIndex = Math.min(startIndex + COURSES_PER_PAGE, totalCourses);
+            // Get courses for the current page using the new DAO method
+            List<CourseModel> paginatedCourses = CourseDAO.getPaginatedCourses(categoryId, searchParam, sortBy, currentPage, COURSES_PER_PAGE);
 
-            List<CourseModel> paginatedCourses;
-            if (startIndex < totalCourses) {
-                paginatedCourses = allCourses.subList(startIndex, endIndex);
-            } else {
-                paginatedCourses = List.of(); // Empty list
+            // Set the selected category for the UI if applicable
+            if (categoryId > 0) {
+                CategoryModel selectedCategory = CategoryDAO.getCategoryById(categoryId);
+                request.setAttribute("selectedCategory", selectedCategory);
             }
 
             // Set attributes for the view
@@ -141,6 +101,7 @@ public class CoursesServlet extends HttpServlet {
             request.setAttribute("totalCourses", totalCourses);
             request.setAttribute("sortBy", sortBy);
             request.setAttribute("categoryId", categoryId);
+            request.setAttribute("searchTerm", searchParam != null ? searchParam : ""); // Ensure searchTerm is not null
 
             // Forward to courses list page
             request.getRequestDispatcher("/WEB-INF/views/courses.jsp").forward(request, response);
