@@ -304,7 +304,7 @@
                             </div>
                             <img id="thumbnailImage" src="" alt="Course Thumbnail Preview" style="display: none; width: 100%; height: 100%; object-fit: cover;">
                         </div>
-                        <input type="file" class="form-control" id="courseThumbnail" name="thumbnailFile" accept="image/*" style="display: none;">
+                        <input type="file" class="form-control" id="courseThumbnail" name="thumbnailFile" accept="image/*">
                         <div class="form-text">Upload a high-quality image that represents your course (16:9 ratio recommended)</div>
                     </div>
 
@@ -559,10 +559,17 @@
                 return;
             }
 
+            // Hide the file input initially but keep it accessible
+            thumbnailInput.style.position = 'absolute';
+            thumbnailInput.style.clip = 'rect(0,0,0,0)';
+            thumbnailInput.style.pointerEvents = 'none';
+
             // Handle file selection
             thumbnailInput.addEventListener('change', function(e) {
+                console.log('File input change event triggered');
                 const file = e.target.files[0];
                 if (file) {
+                    console.log('File selected:', file.name, file.type, file.size);
                     if (!file.type.startsWith('image/')) {
                         alert('Please select an image file');
                         return;
@@ -570,9 +577,14 @@
 
                     const reader = new FileReader();
                     reader.onload = function(event) {
+                        console.log('File read complete');
                         thumbnailImage.src = event.target.result;
                         thumbnailImage.style.display = 'block';
                         uploadPlaceholder.style.display = 'none';
+                    };
+                    reader.onerror = function(error) {
+                        console.error('Error reading file:', error);
+                        alert('Error reading the image file. Please try another file.');
                     };
                     reader.readAsDataURL(file);
                 }
@@ -602,12 +614,17 @@
 
             // Handle file drop
             thumbnailPreview.addEventListener('drop', function(e) {
+                console.log('File dropped');
                 const dt = e.dataTransfer;
                 const files = dt.files;
 
                 if (files.length) {
+                    console.log('Dropped file:', files[0].name, files[0].type, files[0].size);
                     if (files[0].type.startsWith('image/')) {
-                        thumbnailInput.files = files;
+                        // Create a new FileList object
+                        const dataTransfer = new DataTransfer();
+                        dataTransfer.items.add(files[0]);
+                        thumbnailInput.files = dataTransfer.files;
 
                         // Manually trigger the change event
                         const event = new Event('change', { bubbles: true });
@@ -620,6 +637,7 @@
 
             // Click on preview to trigger file input
             thumbnailPreview.addEventListener('click', function() {
+                console.log('Thumbnail preview clicked');
                 thumbnailInput.click();
             });
         }
