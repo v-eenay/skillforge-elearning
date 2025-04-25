@@ -20,7 +20,7 @@
                 </div>
             </div>
             <div class="col-lg-6 text-center">
-                <img src="${pageContext.request.contextPath}/assets/images/course_hero.webp" alt="Courses" class="img-fluid rounded-4 shadow" style="max-height: 400px; object-fit: cover;" onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/assets/images/default-thumbnail.svg';">
+                <img src="${pageContext.request.contextPath}/assets/images/courses_hero.svg" alt="SkillForge Courses" class="img-fluid rounded-4 shadow" style="max-height: 400px; object-fit: contain;">
             </div>
         </div>
     </div>
@@ -97,12 +97,12 @@
                                                 </c:when>
                                                 <c:otherwise>
                                                     <%-- Use default course thumbnail --%>
-                                                    <c:set var="imageUrl" value="${pageContext.request.contextPath}/assets/images/default-course-thumbnail.svg"/>
+                                                    <c:set var="imageUrl" value="${pageContext.request.contextPath}/assets/images/course-thumbnail.svg"/>
                                                 </c:otherwise>
                                             </c:choose>
                                             <img src="${imageUrl}"
                                                  class="card-img-top" alt="${course.title}" style="height: 200px; object-fit: cover;"
-                                                 onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/assets/images/default-course-thumbnail.svg';">
+                                                 onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/assets/images/course-thumbnail.svg';">
                                     </a>
                                     <%-- Add badges if needed, e.g., Bestseller, New --%>
                                     <%-- <span class="badge bg-primary position-absolute top-0 end-0 m-3">Bestseller</span> --%>

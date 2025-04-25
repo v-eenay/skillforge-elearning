@@ -250,7 +250,7 @@ public class InstructorController extends HttpServlet {
                 // If thumbnail upload fails, use a default thumbnail
                 if (thumbnailPath == null) {
                     System.out.println("Using default thumbnail");
-                    thumbnailPath = "/assets/images/default-course-thumbnail.svg";
+                    thumbnailPath = "/assets/images/course-thumbnail.svg";
                 }
 
                 // Create course model

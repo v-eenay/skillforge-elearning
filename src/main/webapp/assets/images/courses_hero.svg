@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <!-- Styles -->
+  <style>
+    .bg { fill: #f8f9fa; }
+    .accent-1 { fill: #4e73df; }
+    .accent-2 { fill: #36b9cc; }
+    .accent-3 { fill: #1cc88a; }
+    .dark { fill: #5a5c69; }
+    .light { fill: #f8f9fa; }
+    .medium { fill: #dddfeb; }
+    .shadow { filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.1)); }
+    .text-primary { fill: #4e73df; }
+    .text-dark { fill: #5a5c69; }
+  </style>
+
+  <!-- Background -->
+  <rect class="bg" width="800" height="500" rx="20" ry="20"/>
+  
+  <!-- Decorative Elements -->
+  <circle class="accent-1" cx="700" cy="100" r="60" opacity="0.1"/>
+  <circle class="accent-2" cx="100" cy="400" r="80" opacity="0.1"/>
+  <circle class="accent-3" cx="650" cy="450" r="40" opacity="0.1"/>
+  
+  <!-- Main Course Platform Illustration -->
+  <g class="shadow">
+    <!-- Course Platform Base -->
+    <rect x="150" y="100" width="500" height="300" rx="10" ry="10" fill="#ffffff" stroke="#dddfeb" stroke-width="2"/>
+    
+    <!-- Header Bar -->
+    <rect x="150" y="100" width="500" height="50" rx="10" ry="10" fill="#4e73df"/>
+    <circle cx="180" cy="125" r="10" fill="#ffffff"/>
+    <circle cx="210" cy="125" r="10" fill="#ffffff" opacity="0.7"/>
+    <circle cx="240" cy="125" r="10" fill="#ffffff" opacity="0.4"/>
+    
+    <!-- Sidebar -->
+    <rect x="150" y="150" width="120" height="250" fill="#f8f9fa"/>
+    
+    <!-- Sidebar Menu Items -->
+    <rect x="170" y="180" width="80" height="10" rx="5" ry="5" fill="#4e73df"/>
+    <rect x="170" y="210" width="80" height="10" rx="5" ry="5" fill="#dddfeb"/>
+    <rect x="170" y="240" width="80" height="10" rx="5" ry="5" fill="#dddfeb"/>
+    <rect x="170" y="270" width="80" height="10" rx="5" ry="5" fill="#dddfeb"/>
+    <rect x="170" y="300" width="80" height="10" rx="5" ry="5" fill="#dddfeb"/>
+    <rect x="170" y="330" width="80" height="10" rx="5" ry="5" fill="#dddfeb"/>
+    
+    <!-- Main Content Area -->
+    <g>
+      <!-- Course Cards -->
+      <rect x="290" y="170" width="150" height="120" rx="5" ry="5" fill="#ffffff" stroke="#dddfeb" stroke-width="2"/>
+      <rect x="290" y="170" width="150" height="70" rx="5" ry="5" fill="#36b9cc"/>
+      <rect x="300" y="250" width="130" height="10" rx="5" ry="5" fill="#5a5c69"/>
+      <rect x="300" y="270" width="80" height="8" rx="4" ry="4" fill="#dddfeb"/>
+      
+      <rect x="460" y="170" width="150" height="120" rx="5" ry="5" fill="#ffffff" stroke="#dddfeb" stroke-width="2"/>
+      <rect x="460" y="170" width="150" height="70" rx="5" ry="5" fill="#1cc88a"/>
+      <rect x="470" y="250" width="130" height="10" rx="5" ry="5" fill="#5a5c69"/>
+      <rect x="470" y="270" width="80" height="8" rx="4" ry="4" fill="#dddfeb"/>
+      
+      <rect x="290" y="310" width="150" height="120" rx="5" ry="5" fill="#ffffff" stroke="#dddfeb" stroke-width="2"/>
+      <rect x="290" y="310" width="150" height="70" rx="5" ry="5" fill="#4e73df"/>
+      <rect x="300" y="390" width="130" height="10" rx="5" ry="5" fill="#5a5c69"/>
+      <rect x="300" y="410" width="80" height="8" rx="4" ry="4" fill="#dddfeb"/>
+      
+      <rect x="460" y="310" width="150" height="120" rx="5" ry="5" fill="#ffffff" stroke="#dddfeb" stroke-width="2"/>
+      <rect x="460" y="310" width="150" height="70" rx="5" ry="5" fill="#f6c23e"/>
+      <rect x="470" y="390" width="130" height="10" rx="5" ry="5" fill="#5a5c69"/>
+      <rect x="470" y="410" width="80" height="8" rx="4" ry="4" fill="#dddfeb"/>
+    </g>
+  </g>
+  
+  <!-- Floating Elements -->
+  <g class="shadow">
+    <!-- Graduation Cap -->
+    <path d="M50,150 L100,130 L150,150 L100,170 Z" fill="#4e73df"/>
+    <path d="M100,170 L100,200 L130,185 L130,155 Z" fill="#3a57c8"/>
+    <rect x="95" y="200" width="10" height="20" fill="#3a57c8"/>
+    <rect x="90" y="220" width="20" height="5" rx="2" ry="2" fill="#5a5c69"/>
+  </g>
+  
+  <g class="shadow">
+    <!-- Book Stack -->
+    <rect x="650" y="200" width="100" height="20" rx="2" ry="2" fill="#e74a3b"/>
+    <rect x="660" y="180" width="100" height="20" rx="2" ry="2" fill="#36b9cc"/>
+    <rect x="670" y="160" width="100" height="20" rx="2" ry="2" fill="#1cc88a"/>
+    <rect x="680" y="140" width="100" height="20" rx="2" ry="2" fill="#f6c23e"/>
+  </g>
+  
+  <!-- SkillForge Logo Text -->
+  <text x="400" y="450" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle" class="text-primary">SKILLFORGE COURSES</text>
+  <text x="400" y="480" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" class="text-dark">Learn. Grow. Succeed.</text>
+</svg>
