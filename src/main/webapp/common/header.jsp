@@ -13,6 +13,7 @@
     <link href="${pageContext.request.contextPath}/assets/css/auth.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/assets/css/header-icons.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/assets/css/dashboard.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/assets/css/messages.css" rel="stylesheet">
 </head>
 <body>
     <header class="navbar py-3 shadow-sm">
