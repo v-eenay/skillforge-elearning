@@ -147,6 +147,7 @@
     background-color: rgba(239, 68, 68, 0.1);
     color: #ef4444;
     border: 1px solid rgba(239, 68, 68, 0.2);
+    box-shadow: 0 2px 5px rgba(239, 68, 68, 0.1);
 }
 
 .profile-badge.active {
@@ -440,24 +441,133 @@
     .profile-container {
         padding: 2rem 0;
     }
-    
+
     .profile-header {
         margin-bottom: 1.5rem;
         padding-bottom: 1rem;
     }
-    
+
     .profile-header h2 {
         font-size: 1.75rem;
     }
-    
+
     .profile-content-header {
         flex-direction: column;
         align-items: flex-start;
     }
-    
+
     .profile-content-header .btn {
         margin-top: 1rem;
     }
+}
+
+/* Activity Timeline */
+.activity-timeline {
+    position: relative;
+    padding-left: 2rem;
+}
+
+.activity-timeline::before {
+    content: '';
+    position: absolute;
+    left: 0.75rem;
+    top: 0;
+    height: 100%;
+    width: 2px;
+    background: linear-gradient(to bottom, #4f46e5 0%, #e2e8f0 100%);
+    border-radius: 1px;
+}
+
+.activity-item {
+    position: relative;
+    padding-bottom: 2rem;
+    margin-bottom: 1rem;
+}
+
+.activity-item:last-child {
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+.activity-icon {
+    position: absolute;
+    left: -2rem;
+    top: 0;
+    width: 2rem;
+    height: 2rem;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #4f46e5;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 2px solid #e2e8f0;
+    z-index: 1;
+}
+
+.activity-content {
+    background-color: #f8fafc;
+    padding: 1.25rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.activity-content:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+}
+
+.activity-content h6 {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #2d3748;
+}
+
+.activity-content p {
+    color: #4a5568;
+    margin-bottom: 0.5rem;
+}
+
+.activity-time {
+    font-size: 0.85rem;
+    color: #718096;
+    display: block;
+}
+
+/* Stat Cards */
+.stat-card {
+    background-color: white;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.08);
+}
+
+.stat-icon {
+    font-size: 2rem;
+    color: #4f46e5;
+    margin-bottom: 1rem;
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 0.5rem;
+}
+
+.stat-label {
+    color: #718096;
+    font-size: 0.95rem;
 }
 
 /* Animation for profile elements */
