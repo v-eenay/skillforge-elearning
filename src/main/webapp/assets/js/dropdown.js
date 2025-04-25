@@ -14,12 +14,10 @@
             return;
         }
 
-        // Force the dropdown container to have a higher stacking context
-        dropdownContainer.style.position = 'relative';
-        dropdownContainer.style.zIndex = '99999';
-
-        // Ensure the dropdown menu has the highest z-index
-        dropdownMenu.style.zIndex = '100000';
+        // Use CSS classes for z-index instead of inline styles
+        // This prevents style conflicts and makes maintenance easier
+        dropdownContainer.classList.add('dropdown-container');
+        dropdownMenu.classList.add('dropdown-menu-layer');
 
         // Remove any existing event listeners by cloning and replacing the toggle
         const newToggle = dropdownToggle.cloneNode(true);
@@ -39,14 +37,6 @@
 
             // Toggle this dropdown
             dropdownContainer.classList.toggle('show');
-
-            // Force a repaint to ensure the dropdown is visible
-            dropdownMenu.style.display = 'none';
-            setTimeout(function() {
-                if (dropdownContainer.classList.contains('show')) {
-                    dropdownMenu.style.display = 'block';
-                }
-            }, 0);
         });
 
         // Prevent dropdown from closing when clicking inside it
@@ -58,11 +48,25 @@
         });
     }
 
-    // Close dropdown when clicking outside
+    // Improved click-outside handler
     document.addEventListener('click', function(e) {
         const dropdownContainer = document.getElementById('profileDropdownContainer');
-        if (dropdownContainer && !dropdownContainer.contains(e.target)) {
-            dropdownContainer.classList.remove('show');
+        // Check if dropdown exists and is open
+        if (dropdownContainer && dropdownContainer.classList.contains('show')) {
+            // Check if click is outside the dropdown
+            if (!dropdownContainer.contains(e.target)) {
+                dropdownContainer.classList.remove('show');
+            }
+        }
+    });
+
+    // Handle ESC key to close dropdown
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            const dropdownContainer = document.getElementById('profileDropdownContainer');
+            if (dropdownContainer && dropdownContainer.classList.contains('show')) {
+                dropdownContainer.classList.remove('show');
+            }
         }
     });
 
