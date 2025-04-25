@@ -91,7 +91,6 @@
                                 <div class="position-relative">
                                     <a href="${pageContext.request.contextPath}/courses/view?id=${course.courseId}">
                                         <c:choose>
-                                            <c:choose>
                                                 <c:when test="${not empty course.thumbnail}">
                                                     <%-- Assuming thumbnail path starts with '/' or is relative to context root --%>
                                                     <c:set var="imageUrl" value="${pageContext.request.contextPath}${course.thumbnail.startsWith('/') ? '' : '/'}${course.thumbnail}"/>

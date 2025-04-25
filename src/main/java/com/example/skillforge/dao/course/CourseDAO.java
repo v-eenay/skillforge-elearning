@@ -17,25 +17,25 @@ import java.util.logging.Logger;
  */
 public class CourseDAO {
     private static final Logger LOGGER = Logger.getLogger(CourseDAO.class.getName());
-    
-    private static final String INSERT_COURSE_SQL = 
+
+    private static final String INSERT_COURSE_SQL =
             "INSERT INTO Course (Title, Description, CategoryID, Level, Thumbnail, Status, CreatedBy) " +
             "VALUES (?, ?, ?, ?, ?, ?, ?)";
-    private static final String SELECT_ALL_COURSES_SQL = 
+    private static final String SELECT_ALL_COURSES_SQL =
             "SELECT c.*, cat.Name as CategoryName, cat.Description as CategoryDescription, " +
             "u.Name as CreatorName, u.UserName as CreatorUserName, u.ProfileImage as CreatorProfileImage " +
             "FROM Course c " +
             "JOIN Category cat ON c.CategoryID = cat.CategoryID " +
             "JOIN User u ON c.CreatedBy = u.UserID " +
             "ORDER BY c.CreatedAt DESC";
-    private static final String SELECT_COURSE_BY_ID_SQL = 
+    private static final String SELECT_COURSE_BY_ID_SQL =
             "SELECT c.*, cat.Name as CategoryName, cat.Description as CategoryDescription, " +
             "u.Name as CreatorName, u.UserName as CreatorUserName, u.ProfileImage as CreatorProfileImage " +
             "FROM Course c " +
             "JOIN Category cat ON c.CategoryID = cat.CategoryID " +
             "JOIN User u ON c.CreatedBy = u.UserID " +
             "WHERE c.CourseID = ?";
-    private static final String SELECT_COURSES_BY_CATEGORY_SQL = 
+    private static final String SELECT_COURSES_BY_CATEGORY_SQL =
             "SELECT c.*, cat.Name as CategoryName, cat.Description as CategoryDescription, " +
             "u.Name as CreatorName, u.UserName as CreatorUserName, u.ProfileImage as CreatorProfileImage " +
             "FROM Course c " +
@@ -43,7 +43,7 @@ public class CourseDAO {
             "JOIN User u ON c.CreatedBy = u.UserID " +
             "WHERE c.CategoryID = ? " +
             "ORDER BY c.CreatedAt DESC";
-    private static final String SELECT_COURSES_BY_INSTRUCTOR_SQL = 
+    private static final String SELECT_COURSES_BY_INSTRUCTOR_SQL =
             "SELECT c.*, cat.Name as CategoryName, cat.Description as CategoryDescription, " +
             "u.Name as CreatorName, u.UserName as CreatorUserName, u.ProfileImage as CreatorProfileImage " +
             "FROM Course c " +
@@ -51,16 +51,16 @@ public class CourseDAO {
             "JOIN User u ON c.CreatedBy = u.UserID " +
             "WHERE c.CreatedBy = ? " +
             "ORDER BY c.CreatedAt DESC";
-    private static final String UPDATE_COURSE_SQL = 
+    private static final String UPDATE_COURSE_SQL =
             "UPDATE Course SET Title = ?, Description = ?, CategoryID = ?, Level = ?, " +
             "Thumbnail = ?, Status = ? WHERE CourseID = ?";
-    private static final String DELETE_COURSE_SQL = 
+    private static final String DELETE_COURSE_SQL =
             "DELETE FROM Course WHERE CourseID = ?";
-    private static final String COUNT_COURSES_SQL = 
+    private static final String COUNT_COURSES_SQL =
             "SELECT COUNT(*) FROM Course";
-    private static final String COUNT_ACTIVE_COURSES_SQL = 
+    private static final String COUNT_ACTIVE_COURSES_SQL =
             "SELECT COUNT(*) FROM Course WHERE Status = 'active'";
-    
+
     /**
      * Insert a new course
      * @param course The course to insert
@@ -68,9 +68,9 @@ public class CourseDAO {
      */
     public static int insertCourse(CourseModel course) {
         try (Connection connection = DBConnectionUtil.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_COURSE_SQL, 
+             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_COURSE_SQL,
                      PreparedStatement.RETURN_GENERATED_KEYS)) {
-            
+
             preparedStatement.setString(1, course.getTitle());
             preparedStatement.setString(2, course.getDescription());
             preparedStatement.setInt(3, course.getCategoryId());
@@ -78,7 +78,7 @@ public class CourseDAO {
             preparedStatement.setString(5, course.getThumbnail());
             preparedStatement.setString(6, course.getStatus().toString());
             preparedStatement.setInt(7, course.getCreatedBy());
-            
+
             int affectedRows = preparedStatement.executeUpdate();
             if (affectedRows > 0) {
                 ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
@@ -91,7 +91,7 @@ public class CourseDAO {
         }
         return 0;
     }
-    
+
     /**
      * Get all courses with category and creator information
      * @return A list of all courses
@@ -100,7 +100,7 @@ public class CourseDAO {
         List<CourseModel> courses = new ArrayList<>();
         try (Connection connection = DBConnectionUtil.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_COURSES_SQL)) {
-            
+
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 courses.add(mapResultSetToCourseModel(resultSet));
@@ -110,7 +110,7 @@ public class CourseDAO {
         }
         return courses;
     }
-    
+
     /**
      * Get a course by ID with category and creator information
      * @param courseId The ID of the course
@@ -119,7 +119,7 @@ public class CourseDAO {
     public static CourseModel getCourseById(int courseId) {
         try (Connection connection = DBConnectionUtil.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_COURSE_BY_ID_SQL)) {
-            
+
             preparedStatement.setInt(1, courseId);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -130,7 +130,7 @@ public class CourseDAO {
         }
         return null;
     }
-    
+
     /**
      * Get courses by category
      * @param categoryId The ID of the category
@@ -140,7 +140,7 @@ public class CourseDAO {
         List<CourseModel> courses = new ArrayList<>();
         try (Connection connection = DBConnectionUtil.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_COURSES_BY_CATEGORY_SQL)) {
-            
+
             preparedStatement.setInt(1, categoryId);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -151,7 +151,7 @@ public class CourseDAO {
         }
         return courses;
     }
-    
+
     /**
      * Get courses by instructor
      * @param instructorId The ID of the instructor
@@ -161,7 +161,7 @@ public class CourseDAO {
         List<CourseModel> courses = new ArrayList<>();
         try (Connection connection = DBConnectionUtil.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_COURSES_BY_INSTRUCTOR_SQL)) {
-            
+
             preparedStatement.setInt(1, instructorId);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -172,7 +172,7 @@ public class CourseDAO {
         }
         return courses;
     }
-    
+
     /**
      * Update a course
      * @param course The course to update
@@ -181,7 +181,7 @@ public class CourseDAO {
     public static boolean updateCourse(CourseModel course) {
         try (Connection connection = DBConnectionUtil.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_COURSE_SQL)) {
-            
+
             preparedStatement.setString(1, course.getTitle());
             preparedStatement.setString(2, course.getDescription());
             preparedStatement.setInt(3, course.getCategoryId());
@@ -189,7 +189,7 @@ public class CourseDAO {
             preparedStatement.setString(5, course.getThumbnail());
             preparedStatement.setString(6, course.getStatus().toString());
             preparedStatement.setInt(7, course.getCourseId());
-            
+
             int affectedRows = preparedStatement.executeUpdate();
             return affectedRows > 0;
         } catch (SQLException e) {
@@ -197,7 +197,7 @@ public class CourseDAO {
         }
         return false;
     }
-    
+
     /**
      * Delete a course
      * @param courseId The ID of the course to delete
@@ -206,9 +206,9 @@ public class CourseDAO {
     public static boolean deleteCourse(int courseId) {
         try (Connection connection = DBConnectionUtil.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(DELETE_COURSE_SQL)) {
-            
+
             preparedStatement.setInt(1, courseId);
-            
+
             int affectedRows = preparedStatement.executeUpdate();
             return affectedRows > 0;
         } catch (SQLException e) {
@@ -216,7 +216,7 @@ public class CourseDAO {
         }
         return false;
     }
-    
+
     /**
      * Count the total number of courses
      * @return The total number of courses
@@ -224,7 +224,7 @@ public class CourseDAO {
     public static int countCourses() {
         try (Connection connection = DBConnectionUtil.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(COUNT_COURSES_SQL)) {
-            
+
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 return resultSet.getInt(1);
@@ -234,7 +234,7 @@ public class CourseDAO {
         }
         return 0;
     }
-    
+
     /**
      * Count the number of active courses
      * @return The number of active courses
@@ -242,7 +242,7 @@ public class CourseDAO {
     public static int countActiveCourses() {
         try (Connection connection = DBConnectionUtil.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(COUNT_ACTIVE_COURSES_SQL)) {
-            
+
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 return resultSet.getInt(1);
@@ -252,7 +252,9 @@ public class CourseDAO {
         }
         return 0;
     }
-    
+
+
+
     /**
      * Get paginated, filtered, and sorted courses with category and creator information
      * @param categoryId The category ID to filter by (0 for all categories)
@@ -400,25 +402,25 @@ public class CourseDAO {
         course.setThumbnail(resultSet.getString("Thumbnail"));
         course.setStatus(CourseModel.Status.valueOf(resultSet.getString("Status")));
         course.setCreatedBy(resultSet.getInt("CreatedBy"));
-        
+
         // Handle timestamps
         Timestamp createdAtTimestamp = resultSet.getTimestamp("CreatedAt");
         if (createdAtTimestamp != null) {
             course.setCreatedAt(createdAtTimestamp.toLocalDateTime());
         }
-        
+
         Timestamp updatedAtTimestamp = resultSet.getTimestamp("UpdatedAt");
         if (updatedAtTimestamp != null) {
             course.setUpdatedAt(updatedAtTimestamp.toLocalDateTime());
         }
-        
+
         // Set category information
         CategoryModel category = new CategoryModel();
         category.setCategoryId(resultSet.getInt("CategoryID"));
         category.setName(resultSet.getString("CategoryName"));
         category.setDescription(resultSet.getString("CategoryDescription"));
         course.setCategory(category);
-        
+
         // Set creator information
         UserModel creator = new UserModel();
         creator.setUserId(resultSet.getInt("CreatedBy"));
@@ -426,7 +428,7 @@ public class CourseDAO {
         creator.setUserName(resultSet.getString("CreatorUserName"));
         creator.setProfileImage(resultSet.getString("CreatorProfileImage"));
         course.setCreator(creator);
-        
+
         return course;
     }
 }
