@@ -64,15 +64,22 @@ public class ContactServlet extends HttpServlet {
             boolean emailSent = EmailUtil.sendContactConfirmation(contact);
             getServletContext().log("User confirmation email sent: " + emailSent + " to " + contact.getEmail());
 
-            // If the user email failed but admin email succeeded, try to send a test email
-            if (!emailSent && adminEmailSent) {
-                getServletContext().log("User confirmation email failed but admin email succeeded. Trying to send a test email...");
-                boolean testEmailSent = EmailUtil.testEmailConfiguration(contact.getEmail());
-                getServletContext().log("Test email sent: " + testEmailSent + " to " + contact.getEmail());
+            // Check if we're using Mailtrap demo
+            boolean isMailtrapDemo = EmailUtil.isUsingMailtrapDemo();
+            if (isMailtrapDemo) {
+                getServletContext().log("Using Mailtrap demo which only allows sending emails to the account owner. " +
+                                       "If the user email is not the account owner, the confirmation email will not be sent.");
+
+                // If using Mailtrap demo, we'll consider the email as sent even if it wasn't
+                // This is because we can't send emails to non-account owners in the demo
+                emailSent = true;
             }
 
-            if (emailSent) {
-                // Add a success message
+            if (EmailUtil.isUsingMailtrapDemo()) {
+                // If using Mailtrap demo, don't mention the confirmation email
+                request.setAttribute("success", "Your message has been sent successfully. We'll get back to you soon!");
+            } else if (emailSent) {
+                // Add a success message with confirmation email mention
                 request.setAttribute("success", "Your message has been sent successfully. We've also sent you a confirmation email. We'll get back to you soon!");
             } else {
                 // Add a success message without mentioning the email

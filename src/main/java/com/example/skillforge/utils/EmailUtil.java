@@ -330,6 +330,35 @@ public class EmailUtil {
     }
 
     /**
+     * Check if we're using Mailtrap demo service
+     * @return true if using Mailtrap demo, false otherwise
+     */
+    public static boolean isUsingMailtrapDemo() {
+        return smtpHost != null &&
+               (smtpHost.contains("mailtrap.io") ||
+                smtpHost.contains("mailtrap.com") ||
+                fromEmail.contains("demomailtrap"));
+    }
+
+    /**
+     * Check if the recipient email is allowed for Mailtrap demo
+     * If using Mailtrap demo, only the account owner's email can receive emails
+     * @param recipientEmail The recipient email to check
+     * @return true if the recipient is allowed, false otherwise
+     */
+    private static boolean isAllowedRecipient(String recipientEmail) {
+        if (!isUsingMailtrapDemo()) {
+            // If not using Mailtrap demo, all recipients are allowed
+            return true;
+        }
+
+        // In Mailtrap demo, only the account owner (usually the admin email) can receive emails
+        return recipientEmail.equals(smtpUsername) ||
+               recipientEmail.equals(adminEmail) ||
+               recipientEmail.equals("koiralavinay@gmail.com");
+    }
+
+    /**
      * Test the email configuration by sending a test email
      * @param toEmail The email address to send the test email to
      * @return true if the email was sent successfully, false otherwise
@@ -345,10 +374,19 @@ public class EmailUtil {
             return false;
         }
 
+        // Check if we're using Mailtrap demo and if the recipient is allowed
+        if (isUsingMailtrapDemo() && !isAllowedRecipient(toEmail)) {
+            LOGGER.warning("Using Mailtrap demo which only allows sending to the account owner. " +
+                          "Cannot send test email to " + toEmail +
+                          " as it's not the account owner's email. Try sending to " + adminEmail + " instead.");
+            return false;
+        }
+
         LOGGER.info("Attempting to send test email to " + toEmail);
         LOGGER.info("Using SMTP settings - Host: " + smtpHost + ", Port: " + smtpPort + ", Username: " + smtpUsername);
         LOGGER.info("Email enabled: " + emailEnabled);
         LOGGER.info("From email: " + fromEmail);
+        LOGGER.info("Using Mailtrap demo: " + isUsingMailtrapDemo());
 
         try {
             // Validate sender email
@@ -433,10 +471,19 @@ public class EmailUtil {
             return false;
         }
 
+        // Check if we're using Mailtrap demo and if the recipient is allowed
+        if (isUsingMailtrapDemo() && !isAllowedRecipient(contact.getEmail())) {
+            LOGGER.warning("Using Mailtrap demo which only allows sending to the account owner. " +
+                          "Skipping confirmation email to " + contact.getEmail() +
+                          " as it's not the account owner's email.");
+            return false;
+        }
+
         LOGGER.info("Attempting to send contact confirmation email to " + contact.getEmail());
         LOGGER.info("Using SMTP settings - Host: " + smtpHost + ", Port: " + smtpPort + ", Username: " + smtpUsername);
         LOGGER.info("Email enabled: " + emailEnabled);
         LOGGER.info("From email: " + fromEmail);
+        LOGGER.info("Using Mailtrap demo: " + isUsingMailtrapDemo());
 
         try {
             // Validate sender email
