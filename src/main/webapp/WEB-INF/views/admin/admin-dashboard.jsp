@@ -12,23 +12,12 @@
             </div>
             <div class="col-md-4">
                 <div class="dashboard-actions">
-                    <button class="btn btn-outline-primary">
-                        <i class="fas fa-bell"></i> Notifications <span class="badge bg-danger">3</span>
-                    </button>
-                    <div class="btn-group">
-                        <a href="${pageContext.request.contextPath}/admin/users" class="btn btn-primary">
-                            <i class="fas fa-users"></i> Manage Users
-                        </a>
-                        <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                            <span class="visually-hidden">Toggle Dropdown</span>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/users"><i class="fas fa-user-cog"></i> User Management</a></li>
-                            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/contacts"><i class="fas fa-envelope"></i> Contact Messages</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/setup-database"><i class="fas fa-database"></i> Database Setup</a></li>
-                        </ul>
-                    </div>
+                    <a href="${pageContext.request.contextPath}/admin/users" class="btn btn-primary">
+                        <i class="fas fa-users"></i> Manage Users
+                    </a>
+                    <a href="${pageContext.request.contextPath}/admin/setup-database" class="btn btn-outline-primary">
+                        <i class="fas fa-database"></i> Database Setup
+                    </a>
                 </div>
             </div>
         </div>

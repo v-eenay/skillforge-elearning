@@ -48,35 +48,10 @@
             </div>
 
             <div class="card border-0 shadow-sm mt-4">
-                <div class="card-body p-4">
-                    <h5 class="fw-bold mb-3">Quick Links</h5>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item px-0 py-2 border-0">
-                            <a href="${pageContext.request.contextPath}/instructor/dashboard" class="text-decoration-none d-flex align-items-center">
-                                <i class="fas fa-tachometer-alt me-2"></i> Dashboard
-                            </a>
-                        </li>
-                        <li class="list-group-item px-0 py-2 border-0">
-                            <a href="${pageContext.request.contextPath}/instructor/courses/" class="text-decoration-none d-flex align-items-center">
-                                <i class="fas fa-book-open me-2"></i> My Courses
-                            </a>
-                        </li>
-                        <li class="list-group-item px-0 py-2 border-0">
-                            <a href="#" class="text-decoration-none d-flex align-items-center">
-                                <i class="fas fa-users me-2"></i> My Students
-                            </a>
-                        </li>
-                        <li class="list-group-item px-0 py-2 border-0">
-                            <a href="#" class="text-decoration-none d-flex align-items-center">
-                                <i class="fas fa-chart-line me-2"></i> Analytics
-                            </a>
-                        </li>
-                        <li class="list-group-item px-0 py-2 border-0">
-                            <a href="${pageContext.request.contextPath}/instructor/profile/edit" class="text-decoration-none d-flex align-items-center">
-                                <i class="fas fa-edit me-2"></i> Edit Profile
-                            </a>
-                        </li>
-                    </ul>
+                <div class="card-body p-4 text-center">
+                    <a href="${pageContext.request.contextPath}/instructor/profile/edit" class="btn btn-primary">
+                        <i class="fas fa-edit me-2"></i> Edit Profile
+                    </a>
                 </div>
             </div>
         </div>
