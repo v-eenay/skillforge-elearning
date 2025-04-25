@@ -12,10 +12,10 @@
                     <div class="mb-4">
                         <c:choose>
                             <c:when test="${not empty userProfile.profileImage}">
-                                <img src="${pageContext.request.contextPath}${userProfile.profileImage.startsWith('/') ? '' : '/'}${userProfile.profileImage}" alt="${userProfile.name}" class="rounded-circle img-fluid" style="width: 150px; height: 150px; object-fit: cover;" onerror="this.onerror=null; this.src='https://placebeard.it/150/150?image=${userProfile.userId % 10 + 1}';">
+                                <img src="${pageContext.request.contextPath}${userProfile.profileImage.startsWith('/') ? '' : '/'}${userProfile.profileImage}" alt="${userProfile.name}" class="rounded-circle img-fluid" style="width: 150px; height: 150px; object-fit: cover;" onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/assets/images/default-profile.svg';">
                             </c:when>
                             <c:otherwise>
-                                <img src="https://placebeard.it/150/150?image=${userProfile.userId % 10 + 1}" alt="${userProfile.name}" class="rounded-circle img-fluid" style="width: 150px; height: 150px; object-fit: cover;">
+                                <img src="${pageContext.request.contextPath}/assets/images/default-profile.svg" alt="${userProfile.name}" class="rounded-circle img-fluid" style="width: 150px; height: 150px; object-fit: cover;">
                             </c:otherwise>
                         </c:choose>
                     </div>

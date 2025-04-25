@@ -20,7 +20,7 @@
                 </div>
             </div>
             <div class="col-lg-6 text-center">
-                <img src="https://placebeard.it/800/400?image=2" alt="Courses" class="img-fluid rounded-4 shadow" style="max-height: 400px; object-fit: cover;" onerror="this.onerror=null; this.src='https://placebeard.it/800/400?image=1';">
+                <img src="${pageContext.request.contextPath}/assets/images/course_hero.webp" alt="Courses" class="img-fluid rounded-4 shadow" style="max-height: 400px; object-fit: cover;" onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/assets/images/default-thumbnail.svg';">
             </div>
         </div>
     </div>
@@ -96,13 +96,13 @@
                                                     <c:set var="imageUrl" value="${pageContext.request.contextPath}${course.thumbnail.startsWith('/') ? '' : '/'}${course.thumbnail}"/>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <%-- Use placebeard.it as primary fallback --%>
-                                                    <c:set var="imageUrl" value="https://placebeard.it/500/300?image=${course.courseId % 10 + 1}"/>
+                                                    <%-- Use default course thumbnail --%>
+                                                    <c:set var="imageUrl" value="${pageContext.request.contextPath}/assets/images/default-course-thumbnail.svg"/>
                                                 </c:otherwise>
                                             </c:choose>
                                             <img src="${imageUrl}"
                                                  class="card-img-top" alt="${course.title}" style="height: 200px; object-fit: cover;"
-                                                 onerror="this.onerror=null; this.src='https://placebeard.it/500/300?image=1';">
+                                                 onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/assets/images/default-course-thumbnail.svg';">
                                     </a>
                                     <%-- Add badges if needed, e.g., Bestseller, New --%>
                                     <%-- <span class="badge bg-primary position-absolute top-0 end-0 m-3">Bestseller</span> --%>
@@ -126,11 +126,11 @@
                                                 <c:set var="creatorImageUrl" value="${pageContext.request.contextPath}${course.creator.profileImage.startsWith('/') ? '' : '/'}${course.creator.profileImage}"/>
                                             </c:when>
                                             <c:otherwise>
-                                                <c:set var="creatorImageUrl" value="https://placebeard.it/40/40?image=${course.creator.userId % 10 + 20}"/>
+                                                <c:set var="creatorImageUrl" value="${pageContext.request.contextPath}/assets/images/default-profile.svg"/>
                                             </c:otherwise>
                                         </c:choose>
                                         <img src="${creatorImageUrl}"
-                                             class="rounded-circle me-2" style="width: 30px; height: 30px; object-fit: cover;" alt="${course.creator.name}" onerror="this.onerror=null; this.src='https://placebeard.it/40/40?image=1';">
+                                             class="rounded-circle me-2" style="width: 30px; height: 30px; object-fit: cover;" alt="${course.creator.name}" onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/assets/images/default-profile.svg';">
                                         <small class="text-muted">${course.creator.name}</small>
                                     </div>
                                     <div class="d-flex justify-content-between align-items-center">
