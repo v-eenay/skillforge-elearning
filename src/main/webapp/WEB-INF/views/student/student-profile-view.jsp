@@ -12,12 +12,10 @@
                     <div class="mb-4">
                         <c:choose>
                             <c:when test="${not empty userProfile.profileImage}">
-                                <img src="${pageContext.request.contextPath}${userProfile.profileImage}" alt="${userProfile.name}" class="rounded-circle img-fluid" style="width: 150px; height: 150px; object-fit: cover;">
+                                <img src="${pageContext.request.contextPath}${userProfile.profileImage.startsWith('/') ? '' : '/'}${userProfile.profileImage}" alt="${userProfile.name}" class="rounded-circle img-fluid" style="width: 150px; height: 150px; object-fit: cover;" onerror="this.onerror=null; this.src='https://placebeard.it/150/150?image=${userProfile.userId % 10 + 1}';">
                             </c:when>
                             <c:otherwise>
-                                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center mx-auto" style="width: 150px; height: 150px; font-size: 4rem;">
-                                    ${fn:substring(userProfile.name, 0, 1)}
-                                </div>
+                                <img src="https://placebeard.it/150/150?image=${userProfile.userId % 10 + 1}" alt="${userProfile.name}" class="rounded-circle img-fluid" style="width: 150px; height: 150px; object-fit: cover;">
                             </c:otherwise>
                         </c:choose>
                     </div>
@@ -44,7 +42,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="card border-0 shadow-sm mt-4">
                 <div class="card-body p-4">
                     <h5 class="fw-bold mb-3">Quick Links</h5>
@@ -73,12 +71,12 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Profile Content -->
         <div class="col-lg-8">
             <!-- Alerts -->
             <%@ include file="/common/alert-messages.jsp" %>
-            
+
             <!-- Learning Progress -->
             <div class="card border-0 shadow-sm mb-4">
                 <div class="card-header bg-white p-4 border-0 d-flex justify-content-between align-items-center">
@@ -124,7 +122,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Achievements -->
             <div class="card border-0 shadow-sm">
                 <div class="card-header bg-white p-4 border-0">

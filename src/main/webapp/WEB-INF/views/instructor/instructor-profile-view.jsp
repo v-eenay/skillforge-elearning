@@ -12,12 +12,10 @@
                     <div class="mb-4">
                         <c:choose>
                             <c:when test="${not empty userProfile.profileImage}">
-                                <img src="${pageContext.request.contextPath}${userProfile.profileImage}" alt="${userProfile.name}" class="rounded-circle img-fluid" style="width: 150px; height: 150px; object-fit: cover;">
+                                <img src="${pageContext.request.contextPath}${userProfile.profileImage.startsWith('/') ? '' : '/'}${userProfile.profileImage}" alt="${userProfile.name}" class="rounded-circle img-fluid" style="width: 150px; height: 150px; object-fit: cover;" onerror="this.onerror=null; this.src='https://placebeard.it/150/150?image=${userProfile.userId % 10 + 1}';">
                             </c:when>
                             <c:otherwise>
-                                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center mx-auto" style="width: 150px; height: 150px; font-size: 4rem;">
-                                    ${fn:substring(userProfile.name, 0, 1)}
-                                </div>
+                                <img src="https://placebeard.it/150/150?image=${userProfile.userId % 10 + 1}" alt="${userProfile.name}" class="rounded-circle img-fluid" style="width: 150px; height: 150px; object-fit: cover;">
                             </c:otherwise>
                         </c:choose>
                     </div>

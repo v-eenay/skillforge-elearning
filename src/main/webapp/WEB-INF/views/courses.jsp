@@ -20,7 +20,7 @@
                 </div>
             </div>
             <div class="col-lg-6 text-center">
-                <img src="${pageContext.request.contextPath}/assets/images/course_hero.webp" alt="Courses" class="img-fluid rounded-4 shadow" style="max-height: 400px; object-fit: cover;">
+                <img src="https://placebeard.it/800/400?image=2" alt="Courses" class="img-fluid rounded-4 shadow" style="max-height: 400px; object-fit: cover;" onerror="this.onerror=null; this.src='https://placebeard.it/800/400?image=1';">
             </div>
         </div>
     </div>
