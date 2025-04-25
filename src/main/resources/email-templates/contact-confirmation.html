@@ -55,18 +55,28 @@
         .message-box {
             background-color: #f8f9fa;
             border-left: 4px solid #0d6efd;
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 4px;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
         }
         .button {
             display: inline-block;
             background-color: #0d6efd;
             color: white;
             text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            margin-top: 20px;
+            padding: 12px 24px;
+            border-radius: 50px;
+            margin-top: 25px;
+            font-weight: 600;
+            font-size: 16px;
+            box-shadow: 0 4px 10px rgba(13, 110, 253, 0.3);
+            transition: all 0.3s ease;
+        }
+        .button:hover {
+            background-color: #0b5ed7;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(13, 110, 253, 0.4);
         }
         .social-links {
             margin-top: 20px;
@@ -91,23 +101,25 @@
         <div class="email-body">
             <h1>Hello {{name}},</h1>
 
-            <p>Thank you for reaching out to SkillForge. We've received your message and our team will get back to you as soon as possible.</p>
+            <p>Thank you for reaching out to SkillForge! 🎉 We've received your message and our team will get back to you as soon as possible.</p>
 
             <div class="message-box">
+                <h3 style="margin-top: 0; color: #0d6efd;">Your Message Details</h3>
                 <p><strong>Subject:</strong> {{subject}}</p>
                 <p><strong>Your Message:</strong></p>
                 <p>{{message}}</p>
+                <p style="margin-bottom: 0; color: #6c757d; font-style: italic;">Sent on: {{date}}</p>
             </div>
 
-            <p>While you wait for our response, feel free to explore our courses and resources on our platform.</p>
+            <p>While you wait for our response, feel free to explore our courses and resources on our platform. We offer a wide range of courses in programming, design, business, and more!</p>
 
             <center>
                 <a href="https://skillforge.com/courses" class="button">Explore Our Courses</a>
             </center>
 
-            <p>If you have any urgent inquiries, please don't hesitate to contact us directly at <a href="mailto:support@skillforge.com">support@skillforge.com</a>.</p>
+            <p>If you have any urgent inquiries, please don't hesitate to contact us directly at <a href="mailto:support@skillforge.com" style="color: #0d6efd; text-decoration: none; font-weight: 500;">support@skillforge.com</a>.</p>
 
-            <p>Best regards,<br>The SkillForge Team</p>
+            <p>Best regards,<br><strong>The SkillForge Team</strong></p>
         </div>
 
         <div class="email-footer">

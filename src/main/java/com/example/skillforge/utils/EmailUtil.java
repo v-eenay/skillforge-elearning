@@ -322,6 +322,102 @@ public class EmailUtil {
     }
 
     /**
+     * Get the admin email address
+     * @return The admin email address
+     */
+    public static String getAdminEmail() {
+        return adminEmail;
+    }
+
+    /**
+     * Test the email configuration by sending a test email
+     * @param toEmail The email address to send the test email to
+     * @return true if the email was sent successfully, false otherwise
+     */
+    public static boolean testEmailConfiguration(String toEmail) {
+        if (!emailEnabled) {
+            LOGGER.info("Email is disabled. Skipping test email.");
+            return false;
+        }
+
+        if (!isValidEmailAddress(toEmail)) {
+            LOGGER.severe("Invalid recipient email address: " + toEmail);
+            return false;
+        }
+
+        LOGGER.info("Attempting to send test email to " + toEmail);
+        LOGGER.info("Using SMTP settings - Host: " + smtpHost + ", Port: " + smtpPort + ", Username: " + smtpUsername);
+        LOGGER.info("Email enabled: " + emailEnabled);
+        LOGGER.info("From email: " + fromEmail);
+
+        try {
+            // Validate sender email
+            if (!isValidEmailAddress(fromEmail)) {
+                LOGGER.severe("Invalid sender email address: " + fromEmail);
+                return false;
+            }
+
+            // Create mail session
+            Session session = createMailSession();
+
+            // Create the email message
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(fromEmail));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail));
+            message.setSubject("SkillForge Email Test");
+
+            // Build a simple HTML email
+            StringBuilder htmlBody = new StringBuilder();
+            htmlBody.append("<html><body>");
+            htmlBody.append("<h1>SkillForge Email Test</h1>");
+            htmlBody.append("<p>This is a test email to verify that the email configuration is working correctly.</p>");
+            htmlBody.append("<p>If you received this email, it means that the email configuration is working!</p>");
+            htmlBody.append("<p>SMTP Host: ").append(smtpHost).append("</p>");
+            htmlBody.append("<p>SMTP Port: ").append(smtpPort).append("</p>");
+            htmlBody.append("<p>From Email: ").append(fromEmail).append("</p>");
+            htmlBody.append("<p>To Email: ").append(toEmail).append("</p>");
+            htmlBody.append("</body></html>");
+
+            // Set the HTML content
+            MimeBodyPart htmlPart = new MimeBodyPart();
+            htmlPart.setContent(htmlBody.toString(), "text/html; charset=utf-8");
+
+            Multipart multipart = new MimeMultipart();
+            multipart.addBodyPart(htmlPart);
+
+            message.setContent(multipart);
+
+            LOGGER.info("Test email message prepared, attempting to send...");
+            LOGGER.info("From: " + fromEmail + ", To: " + toEmail);
+
+            try {
+                // Send the message
+                Transport.send(message);
+                LOGGER.info("Test email sent successfully to " + toEmail);
+                return true;
+            } catch (MessagingException e) {
+                // Log more details about the error
+                LOGGER.severe("Failed to send test email: " + e.getMessage());
+                if (e instanceof jakarta.mail.SendFailedException) {
+                    jakarta.mail.SendFailedException sfe = (jakarta.mail.SendFailedException) e;
+                    if (sfe.getInvalidAddresses() != null) {
+                        for (jakarta.mail.Address address : sfe.getInvalidAddresses()) {
+                            LOGGER.severe("Invalid address: " + address);
+                        }
+                    }
+                }
+                throw e; // Re-throw to be caught by the outer catch block
+            }
+        } catch (MessagingException e) {
+            LOGGER.log(Level.SEVERE, "Error sending test email: " + e.getMessage(), e);
+            if (e.getCause() != null) {
+                LOGGER.log(Level.SEVERE, "Cause: " + e.getCause().getMessage());
+            }
+            return false;
+        }
+    }
+
+    /**
      * Send a confirmation email to the user who submitted the contact form
      * @param contact The contact form submission
      * @return true if the email was sent successfully, false otherwise
@@ -340,8 +436,15 @@ public class EmailUtil {
         LOGGER.info("Attempting to send contact confirmation email to " + contact.getEmail());
         LOGGER.info("Using SMTP settings - Host: " + smtpHost + ", Port: " + smtpPort + ", Username: " + smtpUsername);
         LOGGER.info("Email enabled: " + emailEnabled);
+        LOGGER.info("From email: " + fromEmail);
 
         try {
+            // Validate sender email
+            if (!isValidEmailAddress(fromEmail)) {
+                LOGGER.severe("Invalid sender email address: " + fromEmail);
+                return false;
+            }
+
             // Create mail session
             Session session = createMailSession();
 
@@ -374,6 +477,10 @@ public class EmailUtil {
                 placeholders.setProperty("name", contact.getName());
                 placeholders.setProperty("subject", contact.getSubject() != null ? contact.getSubject() : "No Subject");
                 placeholders.setProperty("message", contact.getMessage());
+
+                // Format the current date
+                SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM d, yyyy 'at' h:mm a");
+                placeholders.setProperty("date", dateFormat.format(new Date()));
 
                 String htmlContent = replacePlaceholders(template, placeholders);
 

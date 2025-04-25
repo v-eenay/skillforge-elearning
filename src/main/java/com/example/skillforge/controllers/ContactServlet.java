@@ -56,13 +56,20 @@ public class ContactServlet extends HttpServlet {
             contact.setMessage(message);
             contact.setUserId(userId);
 
+            // Send notification email to admin first
+            boolean adminEmailSent = EmailUtil.sendContactNotification(contact);
+            getServletContext().log("Admin notification email sent: " + adminEmailSent + " to " + EmailUtil.getAdminEmail());
+
             // Send confirmation email to the user
             boolean emailSent = EmailUtil.sendContactConfirmation(contact);
             getServletContext().log("User confirmation email sent: " + emailSent + " to " + contact.getEmail());
 
-            // Send notification email to admin
-            boolean adminEmailSent = EmailUtil.sendContactNotification(contact);
-            getServletContext().log("Admin notification email sent: " + adminEmailSent);
+            // If the user email failed but admin email succeeded, try to send a test email
+            if (!emailSent && adminEmailSent) {
+                getServletContext().log("User confirmation email failed but admin email succeeded. Trying to send a test email...");
+                boolean testEmailSent = EmailUtil.testEmailConfiguration(contact.getEmail());
+                getServletContext().log("Test email sent: " + testEmailSent + " to " + contact.getEmail());
+            }
 
             if (emailSent) {
                 // Add a success message
