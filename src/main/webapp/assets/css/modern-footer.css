@@ -16,16 +16,27 @@
 .modern-footer {
     margin-bottom: 0;
     margin-top: 0;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
 
 body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
 main {
     flex: 1;
+}
+
+/* Specific fix for dashboard pages */
+.dashboard-container + .modern-footer {
+    margin-top: 0;
+    position: relative;
 }
 
 /* Section Headings */
@@ -263,15 +274,15 @@ main {
     .modern-footer {
         padding: 3rem 0 1rem;
     }
-    
+
     .modern-footer h5 {
         margin-top: 2rem;
     }
-    
+
     .modern-footer .col-md-6:first-child h5 {
         margin-top: 0;
     }
-    
+
     .footer-bottom {
         margin-top: 2rem;
     }

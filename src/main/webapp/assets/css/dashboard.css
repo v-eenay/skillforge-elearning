@@ -5,9 +5,10 @@
     padding: 2.5rem 0;
     background-color: #f8f9fa;
     background-image: linear-gradient(to bottom, #f8f9fa, #f1f3f5);
-    min-height: calc(100vh - 70px);
+    min-height: calc(100vh - 70px - 300px); /* Adjusted to account for footer height */
     position: relative;
     z-index: 1; /* Ensure proper stacking context */
+    margin-bottom: 0; /* Ensure no gap at the bottom */
 }
 
 /* Dashboard Header */
