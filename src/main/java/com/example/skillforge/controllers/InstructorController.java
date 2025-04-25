@@ -250,7 +250,7 @@ public class InstructorController extends HttpServlet {
                 // If thumbnail upload fails, use a default thumbnail
                 if (thumbnailPath == null) {
                     System.out.println("Using default thumbnail");
-                    thumbnailPath = "/assets/images/default-course-thumbnail.jpg";
+                    thumbnailPath = "/assets/images/course-thumbnail.svg";
                 }
 
                 // Create course model
@@ -364,8 +364,18 @@ public class InstructorController extends HttpServlet {
 
                 // Handle thumbnail upload if a new file was provided
                 String thumbnailPath = course.getThumbnail(); // Default to existing thumbnail
-                if (request.getPart("thumbnailFile").getSize() > 0) {
-                    thumbnailPath = FileUploadUtil.uploadCourseThumbnail(request, "thumbnailFile");
+                Part thumbnailPart = request.getPart("thumbnailFile");
+                if (thumbnailPart != null && thumbnailPart.getSize() > 0) {
+                    System.out.println("New thumbnail file detected, size: " + thumbnailPart.getSize());
+                    String newThumbnailPath = FileUploadUtil.uploadCourseThumbnail(request, "thumbnailFile");
+                    if (newThumbnailPath != null) {
+                        thumbnailPath = newThumbnailPath;
+                        System.out.println("New thumbnail path: " + thumbnailPath);
+                    } else {
+                        System.out.println("Thumbnail upload failed, keeping existing thumbnail");
+                    }
+                } else {
+                    System.out.println("No new thumbnail file provided, keeping existing thumbnail: " + thumbnailPath);
                 }
 
                 // Update course model
@@ -374,6 +384,32 @@ public class InstructorController extends HttpServlet {
                 course.setCategoryId(categoryId);
                 course.setLevel(level);
                 course.setThumbnail(thumbnailPath);
+
+                // Set optional fields
+                if (promoVideo != null) {
+                    course.setPromoVideo(promoVideo);
+                }
+
+                if (durationStr != null && !durationStr.isEmpty()) {
+                    course.setDuration(durationStr);
+                }
+
+                if (priceStr != null && !priceStr.isEmpty()) {
+                    try {
+                        course.setPrice(Double.parseDouble(priceStr));
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid price format: " + priceStr);
+                    }
+                }
+
+                if (prerequisites != null) {
+                    course.setPrerequisites(prerequisites);
+                }
+
+                if (tags != null) {
+                    course.setTags(tags);
+                }
+
                 // Convert status string to enum safely
                 try {
                     course.setStatus(CourseModel.Status.valueOf(status));

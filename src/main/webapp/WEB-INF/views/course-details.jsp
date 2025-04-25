@@ -9,7 +9,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${course.title} | SkillForge</title>
-    
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -41,7 +41,7 @@
                         <span class="badge bg-primary me-2">${course.category.name}</span>
                         <span class="badge bg-secondary me-3">${course.level}</span>
                         <span class="text-muted me-3"><i class="fas fa-users me-1"></i> ${enrollmentCount} students enrolled</span>
-                        <span class="text-muted"><i class="fas fa-calendar me-1"></i> Created <fmt:formatDate value="${course.createdAt}" pattern="MMM dd, yyyy" /></span>
+                        <span class="text-muted"><i class="fas fa-calendar me-1"></i> Created ${course.createdAt.toLocalDate()}</span>
                     </div>
                     <div class="d-flex flex-wrap gap-2">
                         <c:choose>
@@ -83,10 +83,10 @@
                     <div class="card border-0 shadow-sm">
                         <c:choose>
                             <c:when test="${not empty course.thumbnail}">
-                                <img src="${pageContext.request.contextPath}${course.thumbnail}" class="card-img-top" alt="${course.title}">
+                                <img src="${pageContext.request.contextPath}${course.thumbnail.startsWith('/') ? '' : '/'}${course.thumbnail}" class="card-img-top" alt="${course.title}" onerror="this.onerror=null; this.src='https://placebeard.it/600/400?image=1';">
                             </c:when>
                             <c:otherwise>
-                                <img src="https://placebeard.it/600/400?image=${course.courseId % 10 + 1}" class="card-img-top" alt="${course.title}" onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/assets/images/default-course-thumbnail.svg';">
+                                <img src="https://placebeard.it/600/400?image=${course.courseId % 10 + 1}" class="card-img-top" alt="${course.title}" onerror="this.onerror=null; this.src='https://placebeard.it/600/400?image=1';">
                             </c:otherwise>
                         </c:choose>
                         <div class="card-body p-4">
@@ -140,12 +140,12 @@
                         </div>
                         <div class="card-body">
                             <p>${course.description}</p>
-                            
+
                             <c:if test="${not empty course.prerequisites}">
                                 <h5 class="mt-4">Prerequisites</h5>
                                 <p>${course.prerequisites}</p>
                             </c:if>
-                            
+
                             <c:if test="${not empty course.tags}">
                                 <h5 class="mt-4">Tags</h5>
                                 <div class="d-flex flex-wrap gap-2">
@@ -156,7 +156,7 @@
                             </c:if>
                         </div>
                     </div>
-                    
+
                     <!-- Course Curriculum -->
                     <div class="content-card mb-4">
                         <div class="card-header">
@@ -164,7 +164,7 @@
                         </div>
                         <div class="card-body">
                             <p class="text-muted">Enroll in this course to access the full curriculum.</p>
-                            
+
                             <!-- Sample curriculum preview -->
                             <div class="accordion" id="curriculumAccordion">
                                 <div class="accordion-item">
@@ -238,7 +238,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- Instructor Info -->
                     <div class="content-card">
                         <div class="card-header">
@@ -248,10 +248,10 @@
                             <div class="d-flex align-items-center mb-3">
                                 <c:choose>
                                     <c:when test="${not empty course.creator.profileImage}">
-                                        <img src="${pageContext.request.contextPath}${course.creator.profileImage}" alt="${course.creator.name}" class="rounded-circle me-3" width="64" height="64">
+                                        <img src="${pageContext.request.contextPath}${course.creator.profileImage.startsWith('/') ? '' : '/'}${course.creator.profileImage}" alt="${course.creator.name}" class="rounded-circle me-3" width="64" height="64" onerror="this.onerror=null; this.src='https://placebeard.it/64/64?image=1';">
                                     </c:when>
                                     <c:otherwise>
-                                        <img src="https://placebeard.it/64/64?image=${course.creator.userId % 10 + 20}" alt="${course.creator.name}" class="rounded-circle me-3" width="64" height="64">
+                                        <img src="https://placebeard.it/64/64?image=${course.creator.userId % 10 + 20}" alt="${course.creator.name}" class="rounded-circle me-3" width="64" height="64" onerror="this.onerror=null; this.src='https://placebeard.it/64/64?image=1';">
                                     </c:otherwise>
                                 </c:choose>
                                 <div>
@@ -263,7 +263,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Sidebar -->
                 <div class="col-lg-4 mt-4 mt-lg-0">
                     <!-- Related Courses -->
@@ -275,7 +275,7 @@
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item p-3">
                                     <div class="d-flex">
-                                        <img src="https://placebeard.it/80/60?image=5" class="me-3" alt="Related Course">
+                                        <img src="https://placebeard.it/80/60?image=5" class="me-3" style="width: 80px; height: 60px; object-fit: cover;" alt="Related Course" onerror="this.onerror=null; this.src='https://placebeard.it/80/60?image=1';">
                                         <div>
                                             <h6 class="mb-1">Advanced Techniques</h6>
                                             <p class="text-muted small mb-0">Take your skills to the next level</p>
@@ -284,7 +284,7 @@
                                 </li>
                                 <li class="list-group-item p-3">
                                     <div class="d-flex">
-                                        <img src="https://placebeard.it/80/60?image=6" class="me-3" alt="Related Course">
+                                        <img src="https://placebeard.it/80/60?image=6" class="me-3" style="width: 80px; height: 60px; object-fit: cover;" alt="Related Course" onerror="this.onerror=null; this.src='https://placebeard.it/80/60?image=1';">
                                         <div>
                                             <h6 class="mb-1">Practical Applications</h6>
                                             <p class="text-muted small mb-0">Real-world examples and case studies</p>
@@ -293,7 +293,7 @@
                                 </li>
                                 <li class="list-group-item p-3">
                                     <div class="d-flex">
-                                        <img src="https://placebeard.it/80/60?image=7" class="me-3" alt="Related Course">
+                                        <img src="https://placebeard.it/80/60?image=7" class="me-3" style="width: 80px; height: 60px; object-fit: cover;" alt="Related Course" onerror="this.onerror=null; this.src='https://placebeard.it/80/60?image=1';">
                                         <div>
                                             <h6 class="mb-1">Certification Preparation</h6>
                                             <p class="text-muted small mb-0">Get ready for industry certifications</p>
@@ -303,7 +303,7 @@
                             </ul>
                         </div>
                     </div>
-                    
+
                     <!-- Student Feedback -->
                     <div class="sidebar-card">
                         <div class="card-header">
@@ -321,7 +321,7 @@
                                 </div>
                                 <p class="text-muted">Course Rating</p>
                             </div>
-                            
+
                             <!-- Sample reviews -->
                             <div class="review-item mb-3 pb-3 border-bottom">
                                 <div class="d-flex justify-content-between align-items-center mb-1">
@@ -336,7 +336,7 @@
                                 </div>
                                 <p class="small mb-0">"This course exceeded my expectations. The instructor explains complex concepts in a very clear and understandable way."</p>
                             </div>
-                            
+
                             <div class="review-item">
                                 <div class="d-flex justify-content-between align-items-center mb-1">
                                     <h6 class="mb-0">Jane Smith</h6>

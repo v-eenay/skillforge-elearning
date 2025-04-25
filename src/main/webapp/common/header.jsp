@@ -15,7 +15,7 @@
     <link href="${pageContext.request.contextPath}/assets/css/dashboard.css" rel="stylesheet">
 </head>
 <body>
-    <header class="navbar py-3 shadow-sm" style="position: relative; z-index: 1; overflow: visible;">
+    <header class="navbar py-3 shadow-sm">
         <div class="container">
             <div class="row align-items-center w-100">
                 <div class="col-md-4">
@@ -35,8 +35,8 @@
                                 <li class="nav-item ms-3"><a href="${pageContext.request.contextPath}/auth/login" class="btn btn-outline-primary btn-sm rounded-pill">Login</a></li>
                                 <li class="nav-item ms-2"><a href="${pageContext.request.contextPath}/auth/register" class="btn btn-primary btn-sm rounded-pill">Sign Up</a></li>
                             <% } else { %>
-                                <li class="nav-item ms-3" style="position: relative; z-index: 99999;">
-                                    <div class="profile-dropdown" id="profileDropdownContainer" style="position: relative; z-index: 99999;">
+                                <li class="nav-item ms-3">
+                                    <div class="profile-dropdown" id="profileDropdownContainer">
                                         <a class="profile-dropdown-toggle" href="#" id="profileDropdownToggle">
                                             <%
                                                 com.example.skillforge.models.user.UserModel headerUser = (com.example.skillforge.models.user.UserModel) session.getAttribute("user");
@@ -45,14 +45,14 @@
                                                 String firstLetter = headerUser.getName().substring(0, 1);
                                             %>
                                             <% if (profileImage != null && !profileImage.isEmpty()) { %>
-                                                <img src="${pageContext.request.contextPath}<%= profileImage %>" alt="Profile" class="profile-image" onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/assets/images/default-profile.svg';">
+                                                <img src="${pageContext.request.contextPath}<%= profileImage.startsWith("/") ? "" : "/" %><%= profileImage %>" alt="Profile" class="profile-image" onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/assets/images/default-profile.svg';">
                                             <% } else { %>
                                                 <img src="${pageContext.request.contextPath}/assets/images/default-profile.svg" alt="Default Profile" class="profile-image">
                                             <% } %>
                                             <span class="profile-name"><%= userName %></span>
                                             <i class="fas fa-chevron-down dropdown-icon"></i>
                                         </a>
-                                        <div class="profile-dropdown-menu" id="profileDropdownMenu" style="z-index: 100000;">
+                                        <div class="profile-dropdown-menu" id="profileDropdownMenu">
                                             <% String userRole = (String) session.getAttribute("userRole"); %>
                                             <% if ("admin".equals(userRole)) { %>
                                                 <a class="profile-dropdown-item" href="${pageContext.request.contextPath}/admin/dashboard"><i class="fas fa-tachometer-alt"></i>Dashboard</a>

@@ -243,7 +243,7 @@
                         <div class="thumbnail-preview" id="thumbnailPreview">
                             <c:choose>
                                 <c:when test="${not empty course.thumbnail}">
-                                    <img src="${pageContext.request.contextPath}${course.thumbnail}" alt="Course Thumbnail">
+                                    <img src="${pageContext.request.contextPath}${course.thumbnail}" alt="Course Thumbnail" onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/assets/images/default-course-thumbnail.svg';">
                                     <div class="overlay">
                                         <button type="button" class="btn btn-light" id="changeThumbnailBtn">
                                             <i class="fas fa-exchange-alt me-2"></i>Change Thumbnail
@@ -258,7 +258,7 @@
                                 </c:otherwise>
                             </c:choose>
                         </div>
-                        <input type="file" class="form-control" id="thumbnailFile" name="thumbnailFile" accept="image/*" style="display: ${empty course.thumbnail ? 'block' : 'none'};">
+                        <input type="file" class="form-control" id="thumbnailFile" name="thumbnailFile" accept="image/*">
                         <small class="text-muted">Recommended size: 1280x720 pixels (16:9 ratio). Max file size: 5MB.</small>
                     </div>
 
@@ -442,38 +442,123 @@
             }
         });
 
-        // Thumbnail preview functionality
-        document.getElementById('thumbnailFile').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    const thumbnailPreview = document.getElementById('thumbnailPreview');
-                    thumbnailPreview.innerHTML = `
-                        <img src="${event.target.result}" alt="Course Thumbnail">
-                        <div class="overlay">
-                            <button type="button" class="btn btn-light" id="changeThumbnailBtn">
-                                <i class="fas fa-exchange-alt me-2"></i>Change Thumbnail
-                            </button>
-                        </div>
-                    `;
-
-                    // Add event listener to the new button
-                    document.getElementById('changeThumbnailBtn').addEventListener('click', function() {
-                        document.getElementById('thumbnailFile').click();
-                    });
-                };
-                reader.readAsDataURL(file);
-            }
+        // Initialize thumbnail preview functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            initThumbnailPreview();
         });
 
-        // Add event listener to the change thumbnail button if it exists
-        const changeThumbnailBtn = document.getElementById('changeThumbnailBtn');
-        if (changeThumbnailBtn) {
-            changeThumbnailBtn.addEventListener('click', function() {
-                document.getElementById('thumbnailFile').style.display = 'block';
-                document.getElementById('thumbnailFile').click();
+        function initThumbnailPreview() {
+            const thumbnailInput = document.getElementById('thumbnailFile');
+            const thumbnailPreview = document.getElementById('thumbnailPreview');
+            const changeThumbnailBtn = document.getElementById('changeThumbnailBtn');
+
+            if (!thumbnailInput || !thumbnailPreview) {
+                console.error('Thumbnail elements not found');
+                return;
+            }
+
+            // Hide the file input but keep it accessible
+            thumbnailInput.style.position = 'absolute';
+            thumbnailInput.style.clip = 'rect(0,0,0,0)';
+            thumbnailInput.style.pointerEvents = 'none';
+
+            // Handle file selection
+            thumbnailInput.addEventListener('change', function(e) {
+                console.log('File input change event triggered');
+                const file = e.target.files[0];
+                if (file) {
+                    console.log('File selected:', file.name, file.type, file.size);
+                    if (!file.type.startsWith('image/')) {
+                        alert('Please select an image file');
+                        return;
+                    }
+
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        console.log('File read complete');
+                        thumbnailPreview.innerHTML = `
+                            <img src="${event.target.result}" alt="Course Thumbnail">
+                            <div class="overlay">
+                                <button type="button" class="btn btn-light" id="changeThumbnailBtn">
+                                    <i class="fas fa-exchange-alt me-2"></i>Change Thumbnail
+                                </button>
+                            </div>
+                        `;
+
+                        // Add event listener to the new button
+                        document.getElementById('changeThumbnailBtn').addEventListener('click', function() {
+                            thumbnailInput.click();
+                        });
+                    };
+                    reader.onerror = function(error) {
+                        console.error('Error reading file:', error);
+                        alert('Error reading the image file. Please try another file.');
+                    };
+                    reader.readAsDataURL(file);
+                }
             });
+
+            // Add event listener to the change thumbnail button if it exists
+            if (changeThumbnailBtn) {
+                changeThumbnailBtn.addEventListener('click', function() {
+                    console.log('Change thumbnail button clicked');
+                    thumbnailInput.click();
+                });
+            }
+
+            // Make the preview clickable to select a file when no image is present
+            thumbnailPreview.addEventListener('click', function(e) {
+                // Only trigger file input if clicking on the preview area, not on the change button
+                if (!e.target.closest('#changeThumbnailBtn')) {
+                    console.log('Thumbnail preview clicked');
+                    thumbnailInput.click();
+                }
+            });
+
+            // Drag and drop functionality
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                thumbnailPreview.addEventListener(eventName, function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }, false);
+            });
+
+            // Add highlight class on drag enter/over
+            ['dragenter', 'dragover'].forEach(eventName => {
+                thumbnailPreview.addEventListener(eventName, function() {
+                    thumbnailPreview.classList.add('border-primary');
+                }, false);
+            });
+
+            // Remove highlight class on drag leave/drop
+            ['dragleave', 'drop'].forEach(eventName => {
+                thumbnailPreview.addEventListener(eventName, function() {
+                    thumbnailPreview.classList.remove('border-primary');
+                }, false);
+            });
+
+            // Handle file drop
+            thumbnailPreview.addEventListener('drop', function(e) {
+                console.log('File dropped');
+                const dt = e.dataTransfer;
+                const files = dt.files;
+
+                if (files.length) {
+                    console.log('Dropped file:', files[0].name, files[0].type, files[0].size);
+                    if (files[0].type.startsWith('image/')) {
+                        // Create a new FileList object
+                        const dataTransfer = new DataTransfer();
+                        dataTransfer.items.add(files[0]);
+                        thumbnailInput.files = dataTransfer.files;
+
+                        // Manually trigger the change event
+                        const event = new Event('change', { bubbles: true });
+                        thumbnailInput.dispatchEvent(event);
+                    } else {
+                        alert('Please drop an image file');
+                    }
+                }
+            }, false);
         }
 
         // Global variable to store the CKEditor instance

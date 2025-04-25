@@ -289,10 +289,10 @@
                         <div class="course-thumbnail">
                             <c:choose>
                                 <c:when test="${not empty course.thumbnail}">
-                                    <img src="${pageContext.request.contextPath}${course.thumbnail}" alt="${course.title}" onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/assets/images/default-course-thumbnail.svg';">
+                                    <img src="${pageContext.request.contextPath}${course.thumbnail.startsWith('/') ? '' : '/'}${course.thumbnail}" alt="${course.title}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.onerror=null; this.src='https://placebeard.it/300/180?image=1';">
                                 </c:when>
                                 <c:otherwise>
-                                    <img src="https://placebeard.it/300/180?image=${course.courseId % 10 + 1}" alt="${course.title}" onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/assets/images/default-course-thumbnail.svg';">
+                                    <img src="https://placebeard.it/300/180?image=${course.courseId % 10 + 1}" alt="${course.title}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.onerror=null; this.src='https://placebeard.it/300/180?image=1';">
                                 </c:otherwise>
                             </c:choose>
                             <span class="course-status status-${course.status.toString().toLowerCase()}">

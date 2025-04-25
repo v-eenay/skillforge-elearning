@@ -4,7 +4,7 @@
 .profile-dropdown {
     position: relative;
     display: inline-block;
-    z-index: 99999; /* Increased z-index to ensure the container is above all other elements */
+    z-index: 1050; /* Use standard Bootstrap z-index values */
 }
 
 /* Profile dropdown toggle button */
@@ -60,13 +60,13 @@
 /* Dropdown menu */
 .profile-dropdown-menu {
     position: absolute;
-    top: 100%;
+    top: calc(100% + 5px);
     right: 0;
-    z-index: 100000; /* Increased z-index to ensure it appears above all other elements */
+    z-index: 9999; /* Higher z-index to ensure it's above everything */
     display: none;
     min-width: 240px;
     padding: 0.75rem 0;
-    margin-top: 0.75rem;
+    margin-top: 0;
     font-size: 0.9rem;
     color: #212529;
     text-align: left;
@@ -92,7 +92,8 @@
     transform: rotate(45deg);
     border-top: 1px solid rgba(0, 0, 0, 0.1);
     border-left: 1px solid rgba(0, 0, 0, 0.1);
-    z-index: 0; /* Changed from -1 to 0 to ensure it's visible but below dropdown content */
+    z-index: -1; /* Set to -1 to ensure it's below dropdown content */
+    pointer-events: none; /* Ensure clicks pass through the arrow */
 }
 
 /* Dropdown menu items */
@@ -167,12 +168,22 @@
 @keyframes dropdown-animation {
     0% {
         opacity: 0;
-        transform: translateY(-10px) scale(0.95);
+        transform: translateY(-10px);
     }
     100% {
         opacity: 1;
-        transform: translateY(0) scale(1);
+        transform: translateY(0);
     }
+}
+
+/* Helper classes for JS */
+.dropdown-container {
+    position: relative;
+    z-index: 1050;
+}
+
+.dropdown-menu-layer {
+    z-index: 1060;
 }
 
 /* Responsive adjustments */
@@ -182,5 +193,14 @@
         right: 0;
         left: auto;
         width: 240px;
+        top: calc(100% + 10px);
+    }
+
+    .profile-dropdown-menu::before {
+        right: 10px;
+    }
+
+    .profile-dropdown {
+        position: static;
     }
 }

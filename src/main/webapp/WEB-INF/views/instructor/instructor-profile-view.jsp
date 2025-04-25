@@ -12,12 +12,10 @@
                     <div class="mb-4">
                         <c:choose>
                             <c:when test="${not empty userProfile.profileImage}">
-                                <img src="${pageContext.request.contextPath}${userProfile.profileImage}" alt="${userProfile.name}" class="rounded-circle img-fluid" style="width: 150px; height: 150px; object-fit: cover;">
+                                <img src="${pageContext.request.contextPath}${userProfile.profileImage.startsWith('/') ? '' : '/'}${userProfile.profileImage}" alt="${userProfile.name}" class="rounded-circle img-fluid" style="width: 150px; height: 150px; object-fit: cover;" onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/assets/images/default-profile.svg';">
                             </c:when>
                             <c:otherwise>
-                                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center mx-auto" style="width: 150px; height: 150px; font-size: 4rem;">
-                                    ${fn:substring(userProfile.name, 0, 1)}
-                                </div>
+                                <img src="${pageContext.request.contextPath}/assets/images/default-profile.svg" alt="${userProfile.name}" class="rounded-circle img-fluid" style="width: 150px; height: 150px; object-fit: cover;">
                             </c:otherwise>
                         </c:choose>
                     </div>

@@ -2,27 +2,32 @@
 
 /* Dashboard Container */
 .dashboard-container {
-    padding: 2rem 0;
+    padding: 2.5rem 0;
     background-color: #f8f9fa;
     min-height: calc(100vh - 70px);
+    position: relative;
+    z-index: 1; /* Ensure proper stacking context */
 }
 
 /* Dashboard Header */
 .dashboard-header {
-    margin-bottom: 2rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.75rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 .dashboard-header h2 {
     font-weight: 700;
     margin-bottom: 0.5rem;
     color: #2d3748;
+    font-size: 2rem;
+    letter-spacing: -0.01em;
 }
 
 .dashboard-header p {
     color: #718096;
     margin-bottom: 0;
+    font-size: 1.05rem;
 }
 
 /* Dashboard Actions */
@@ -31,6 +36,8 @@
     gap: 0.75rem;
     justify-content: flex-end;
     align-items: center;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
 }
 
 /* Button Styles */
@@ -41,10 +48,11 @@
     font-size: 0.95rem;
     border-radius: 0.5rem;
     transition: all 0.3s ease;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 1.25rem;
     line-height: 1.5;
     text-align: center;
     letter-spacing: 0.01em;
+    margin: 0.25rem 0;
 }
 
 .btn::after {
@@ -89,7 +97,7 @@
 /* Dashboard Action Buttons */
 .dashboard-actions .btn {
     padding: 0.625rem 1.25rem;
-    min-width: 120px;
+    min-width: 130px;
     height: 42px;
     display: inline-flex;
     align-items: center;
@@ -98,7 +106,7 @@
     font-size: 0.95rem;
     text-align: center;
     white-space: nowrap;
-    margin-right: 0.5rem;
+    margin: 0.25rem;
     font-weight: 600;
     letter-spacing: 0.01em;
 }
@@ -190,61 +198,87 @@
 .stats-card {
     border-radius: 1rem;
     overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.07);
     transition: all 0.3s ease;
     height: 100%;
     border: none;
+    position: relative;
 }
 
 .stats-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.12);
 }
 
 .stats-card .card-body {
-    padding: 1.5rem;
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .stats-card .card-title {
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: 600;
     margin-bottom: 0.75rem;
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(255, 255, 255, 0.95);
+    letter-spacing: 0.01em;
 }
 
 .stats-card .display-4 {
-    font-size: 2.5rem;
+    font-size: 2.75rem;
     font-weight: 700;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
 }
 
 .stats-card .card-text {
-    font-size: 0.875rem;
-    opacity: 0.9;
+    font-size: 0.9rem;
+    opacity: 0.95;
+    margin-top: auto;
 }
 
 .stats-card .card-text i {
-    margin-right: 0.25rem;
+    margin-right: 0.35rem;
+}
+
+/* Stats card colors */
+.stats-card.bg-primary {
+    background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%);
+}
+
+.stats-card.bg-success {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.stats-card.bg-info {
+    background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+}
+
+.stats-card.bg-warning {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
 }
 
 /* Content Cards */
 .content-card {
     border-radius: 1rem;
     overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
     transition: all 0.3s ease;
     border: none;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
+    background-color: white;
 }
 
 .content-card:hover {
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.09);
 }
 
 .content-card .card-header {
     background-color: white;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    padding: 1.5rem 1.75rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -254,10 +288,12 @@
     font-weight: 600;
     margin-bottom: 0;
     color: #2d3748;
+    font-size: 1.15rem;
+    letter-spacing: -0.01em;
 }
 
 .content-card .card-body {
-    padding: 1.5rem;
+    padding: 1.75rem;
 }
 
 /* Filter Buttons */
@@ -267,9 +303,9 @@
 }
 
 .filter-buttons .btn {
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 1.25rem;
     font-size: 0.9rem;
-    border-radius: 0.375rem;
+    border-radius: 0.5rem;
     min-width: 90px;
     height: 38px;
     display: inline-flex;
@@ -279,6 +315,7 @@
     white-space: nowrap;
     font-weight: 600;
     letter-spacing: 0.01em;
+    transition: all 0.2s ease;
 }
 
 .filter-buttons .btn-primary {
@@ -290,8 +327,9 @@
 .filter-buttons .btn-primary:hover {
     background-color: #4338ca;
     border-color: #4338ca;
-    box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
+    box-shadow: 0 4px 6px rgba(79, 70, 229, 0.25);
     color: white;
+    transform: translateY(-2px);
 }
 
 .filter-buttons .btn-outline-secondary {
@@ -304,14 +342,15 @@
     background-color: #f3f4f6;
     color: #4b5563;
     border-color: #d1d5db;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
 }
 
 /* Course Items */
 .course-item {
     display: flex;
-    padding: 1.25rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
     transition: all 0.2s ease;
 }
 
@@ -323,35 +362,59 @@
     background-color: #f9fafb;
 }
 
-.course-item img {
-    width: 120px;
-    height: 80px;
+.course-image-container {
+    margin-right: 1.5rem;
+    flex-shrink: 0;
+    width: 140px;
+    height: 90px;
+    overflow: hidden;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+.course-item:hover .course-image-container {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+}
+
+.course-thumbnail {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    border-radius: 0.5rem;
-    margin-right: 1.25rem;
+    transition: all 0.3s ease;
+}
+
+.course-item:hover .course-thumbnail {
+    transform: scale(1.05);
 }
 
 .course-item-content {
     flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .course-item-content h5 {
     font-weight: 600;
     margin-bottom: 0.5rem;
     color: #2d3748;
+    font-size: 1.1rem;
+    letter-spacing: -0.01em;
 }
 
 .course-item-content p {
     color: #6b7280;
     margin-bottom: 0.5rem;
-    font-size: 0.875rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
 }
 
 .course-item-meta {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    margin-top: 0.5rem;
+    gap: 1.25rem;
+    margin-top: 0.75rem;
 }
 
 .course-item-meta span {
@@ -359,25 +422,37 @@
     align-items: center;
     color: #6b7280;
     font-size: 0.875rem;
+    font-weight: 500;
 }
 
 .course-item-meta i {
-    margin-right: 0.375rem;
+    margin-right: 0.5rem;
     font-size: 0.875rem;
+    color: #4f46e5;
 }
 
 .course-item-actions {
     display: flex;
     align-items: center;
     gap: 0.75rem;
+    margin-top: 0.5rem;
 }
 
 .course-item-actions .btn {
-    padding: 0.375rem 0.75rem;
+    padding: 0.5rem 1rem;
     font-size: 0.875rem;
+    font-weight: 600;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
 }
 
 /* Course Action Buttons */
+.course-action-buttons {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
 .btn-sm {
     padding: 0.375rem 0.75rem;
     font-size: 0.85rem;
@@ -392,6 +467,11 @@
     vertical-align: middle;
     font-weight: 600;
     letter-spacing: 0.01em;
+}
+
+.course-action-buttons .btn {
+    min-width: 80px;
+    margin: 0.25rem 0;
 }
 
 .course-item-actions .btn {
@@ -453,20 +533,21 @@
 .sidebar-card {
     border-radius: 1rem;
     overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
     transition: all 0.3s ease;
     border: none;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
+    background-color: white;
 }
 
 .sidebar-card:hover {
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.09);
 }
 
 .sidebar-card .card-header {
     background-color: white;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    padding: 1.5rem 1.75rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -476,6 +557,8 @@
     font-weight: 600;
     margin-bottom: 0;
     color: #2d3748;
+    font-size: 1.15rem;
+    letter-spacing: -0.01em;
 }
 
 .sidebar-card .card-body {
@@ -487,30 +570,39 @@
     font-size: 0.85rem;
     min-width: 80px;
     height: 32px;
+    font-weight: 600;
 }
 
 .sidebar-card .d-grid .btn {
-    padding: 0.625rem 1.25rem;
-    margin-top: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    margin-top: 0.75rem;
     transition: all 0.3s ease;
-    height: 42px;
+    height: 44px;
     font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
 }
 
 .sidebar-card .d-grid .btn i {
     font-size: 1rem;
+    margin-right: 0.5rem;
 }
 
 .sidebar-card .d-grid .btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .sidebar-card .list-group-item {
-    padding: 1rem 1.5rem;
+    padding: 1.25rem 1.75rem;
     border-left: none;
     border-right: none;
-    border-color: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.06);
+    transition: background-color 0.2s ease;
+}
+
+.sidebar-card .list-group-item:hover {
+    background-color: #f9fafb;
 }
 
 .sidebar-card .list-group-item:first-child {
@@ -523,12 +615,14 @@
 
 .sidebar-card .list-group-item h6 {
     font-weight: 600;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.35rem;
     color: #2d3748;
+    font-size: 1rem;
 }
 
 .sidebar-card .list-group-item small {
     color: #6b7280;
+    font-size: 0.85rem;
 }
 
 /* Badge Styles */
@@ -585,41 +679,98 @@
 @media (max-width: 767.98px) {
     .dashboard-header {
         text-align: center;
-        margin-bottom: 1.5rem;
+        margin-bottom: 2rem;
+        padding-bottom: 1.5rem;
+    }
+
+    .dashboard-header h2 {
+        font-size: 1.75rem;
     }
 
     .dashboard-actions {
         justify-content: center;
-        margin-top: 1rem;
+        margin-top: 1.25rem;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .dashboard-actions .btn {
+        flex: 1 1 auto;
+        min-width: 120px;
     }
 
     .stats-card {
-        margin-bottom: 1rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .stats-card .display-4 {
+        font-size: 2.25rem;
     }
 
     .course-item {
         flex-direction: column;
+        padding: 1.25rem;
     }
 
-    .course-item img {
+    .course-image-container {
         width: 100%;
-        height: 150px;
+        height: 180px;
         margin-right: 0;
-        margin-bottom: 1rem;
+        margin-bottom: 1.25rem;
     }
 
     .course-item-actions {
+        margin-top: 1.25rem;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .course-item-actions .btn {
+        flex: 1;
+        margin: 0 0.25rem;
+        text-align: center;
+        justify-content: center;
+    }
+
+    .filter-buttons {
         margin-top: 1rem;
-        justify-content: flex-start;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .filter-buttons .btn {
+        flex: 1;
+    }
+
+    .content-card .card-header {
+        flex-direction: column;
+        gap: 1rem;
     }
 }
 
 @media (min-width: 768px) and (max-width: 991.98px) {
     .dashboard-actions {
         flex-wrap: wrap;
+        gap: 0.5rem;
     }
 
     .dashboard-actions .btn {
-        margin-bottom: 0.5rem;
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+
+    .course-image-container {
+        width: 120px;
+        height: 80px;
+    }
+
+    .sidebar-card .card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+
+    .sidebar-card .card-header .btn {
+        align-self: flex-start;
     }
 }
