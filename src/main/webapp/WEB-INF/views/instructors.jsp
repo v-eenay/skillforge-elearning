@@ -2,73 +2,77 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/common/header.jsp" %>
 
-<!-- Hero Section -->
-<section class="bg-light py-5">
+<%-- Link modern CSS --%>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/modern.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/modern-instructors.css">
+
+<!-- Modern Hero Section -->
+<section class="modern-hero instructors-hero">
     <div class="container">
         <div class="row align-items-center">
-            <div class="col-lg-6 mb-4 mb-lg-0">
-                <h1 class="display-5 fw-bold mb-3">Meet Our Expert Instructors</h1>
-                <p class="lead mb-4">Learn from industry professionals with years of experience in their fields. Our instructors are passionate about sharing their knowledge and helping you succeed.</p>
-                <div class="d-flex gap-2">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search instructors..." aria-label="Search instructors">
-                        <button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
-                    </div>
-                </div>
+            <div class="col-lg-6 col-md-7 mb-5 mb-md-0">
+                <h1 class="animate__animated animate__fadeInUp">Meet Our Expert Instructors</h1>
+                <p class="animate__animated animate__fadeInUp animate__delay-1s">Learn from industry professionals with years of experience in their fields. Our instructors are passionate about sharing their knowledge and helping you succeed.</p>
+                <%-- Modern Search Bar --%>
+                <form action="${pageContext.request.contextPath}/instructors" method="get" class="search-container input-group mt-4 animate__animated animate__fadeInUp animate__delay-2s">
+                    <span class="input-group-text bg-white border-0"><i class="fas fa-search text-primary"></i></span>
+                    <input type="text" name="search" class="form-control form-control-lg border-0" placeholder="Search instructors..." value="${searchTerm}">
+                    <button class="btn btn-primary" type="submit">Search</button>
+                </form>
             </div>
-            <div class="col-lg-6 text-center">
-                <img src="https://placebeard.it/600/400?image=24" alt="Instructors" class="img-fluid rounded-4 shadow">
+            <div class="col-lg-6 col-md-5 text-center animate__animated animate__fadeInRight animate__delay-1s">
+                <%-- Use a relevant SVG or image --%>
+                <img src="${pageContext.request.contextPath}/assets/images/hero-image.svg" alt="Instructors" class="img-fluid hero-image rounded-4 shadow-lg">
             </div>
         </div>
     </div>
 </section>
 
 <!-- Featured Instructor -->
-<section class="py-5">
+<section class="featured-instructor">
     <div class="container">
-        <h2 class="text-center fw-bold mb-5">Featured Instructor</h2>
+        <h2>Featured Instructor</h2>
         <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <div class="card border-0 shadow-sm">
+            <div class="col-lg-10">
+                <div class="featured-instructor-card">
                     <div class="row g-0">
-                        <div class="col-md-4 text-center py-4">
-                            <img src="https://placebeard.it/150/150?image=25" alt="Santosh Parajuli" class="rounded-circle img-fluid mb-3" style="width: 150px; height: 150px; object-fit: cover;">
-                            <div class="d-flex justify-content-center gap-2 mb-3">
-                                <a href="#" class="text-dark"><i class="fab fa-linkedin fa-lg"></i></a>
-                                <a href="#" class="text-dark"><i class="fab fa-twitter fa-lg"></i></a>
-                                <a href="#" class="text-dark"><i class="fab fa-github fa-lg"></i></a>
+                        <div class="col-md-4 instructor-image-container">
+                            <img src="https://placebeard.it/150/150?image=25" alt="Santosh Parajuli" class="instructor-image">
+                            <div class="social-links">
+                                <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                                <a href="#" class="social-link"><i class="fas fa-globe"></i></a>
                             </div>
-                            <div class="d-flex justify-content-center">
-                                <span class="badge bg-primary me-2 px-3 py-2">Top Rated</span>
+                            <div class="mt-3">
+                                <span class="instructor-badge">Top Rated</span>
                             </div>
                         </div>
                         <div class="col-md-8">
-                            <div class="card-body p-4">
-                                <h3 class="fw-bold mb-2">Santosh Parajuli</h3>
-                                <p class="text-muted mb-3">Full Stack Development Expert</p>
-                                <div class="mb-3">
-                                    <div class="d-flex align-items-center mb-2">
-                                        <div class="text-warning me-2">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                        </div>
-                                        <span>4.9 Instructor Rating</span>
+                            <div class="card-body">
+                                <h3 class="instructor-name">Santosh Parajuli</h3>
+                                <p class="instructor-title">Full Stack Development Expert</p>
+                                <div class="instructor-rating">
+                                    <div class="rating-stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
                                     </div>
-                                    <div class="d-flex gap-4">
-                                        <div>
-                                            <i class="fas fa-user-graduate me-2"></i>
-                                            <span>24,500+ Students</span>
-                                        </div>
-                                        <div>
-                                            <i class="fas fa-book me-2"></i>
-                                            <span>8 Courses</span>
-                                        </div>
+                                    <span>4.9 Instructor Rating</span>
+                                </div>
+                                <div class="instructor-stats">
+                                    <div>
+                                        <i class="fas fa-user-graduate me-2"></i>
+                                        <span>24,500+ Students</span>
+                                    </div>
+                                    <div>
+                                        <i class="fas fa-book me-2"></i>
+                                        <span>8 Courses</span>
                                     </div>
                                 </div>
-                                <p>Santosh is a seasoned software engineer with over 15 years of experience in web development. He has worked with Fortune 500 companies and startups alike, helping them build scalable and robust web applications. His teaching approach focuses on practical, real-world applications of programming concepts.</p>
+                                <p class="instructor-bio">Santosh is a seasoned software engineer with over 15 years of experience in web development. He has worked with Fortune 500 companies and startups alike, helping them build scalable and robust web applications. His teaching approach focuses on practical, real-world applications of programming concepts.</p>
                                 <a href="#" class="btn btn-primary">View Courses</a>
                             </div>
                         </div>
@@ -80,74 +84,62 @@
 </section>
 
 <!-- Instructor Categories -->
-<section class="py-5 bg-light">
+<section class="instructor-categories">
     <div class="container">
-        <h2 class="text-center fw-bold mb-5">Browse by Expertise</h2>
+        <h2>Browse by Expertise</h2>
         <div class="row g-4 justify-content-center">
             <div class="col-6 col-md-4 col-lg-2">
-                <div class="card border-0 shadow-sm h-100 text-center">
-                    <div class="card-body p-4">
-                        <div class="rounded-circle bg-primary bg-opacity-10 p-3 d-inline-flex mb-3">
-                            <i class="fas fa-laptop-code text-primary fa-2x"></i>
-                        </div>
-                        <h5 class="fw-bold">Web Development</h5>
-                        <p class="small text-muted mb-0">12 Instructors</p>
+                <div class="category-card web-dev">
+                    <div class="category-icon">
+                        <i class="fas fa-laptop-code"></i>
                     </div>
+                    <h5>Web Development</h5>
+                    <p>12 Instructors</p>
                 </div>
             </div>
             <div class="col-6 col-md-4 col-lg-2">
-                <div class="card border-0 shadow-sm h-100 text-center">
-                    <div class="card-body p-4">
-                        <div class="rounded-circle bg-success bg-opacity-10 p-3 d-inline-flex mb-3">
-                            <i class="fas fa-mobile-alt text-success fa-2x"></i>
-                        </div>
-                        <h5 class="fw-bold">Mobile Apps</h5>
-                        <p class="small text-muted mb-0">8 Instructors</p>
+                <div class="category-card mobile-dev">
+                    <div class="category-icon">
+                        <i class="fas fa-mobile-alt"></i>
                     </div>
+                    <h5>Mobile Apps</h5>
+                    <p>8 Instructors</p>
                 </div>
             </div>
             <div class="col-6 col-md-4 col-lg-2">
-                <div class="card border-0 shadow-sm h-100 text-center">
-                    <div class="card-body p-4">
-                        <div class="rounded-circle bg-info bg-opacity-10 p-3 d-inline-flex mb-3">
-                            <i class="fas fa-database text-info fa-2x"></i>
-                        </div>
-                        <h5 class="fw-bold">Data Science</h5>
-                        <p class="small text-muted mb-0">9 Instructors</p>
+                <div class="category-card data-science">
+                    <div class="category-icon">
+                        <i class="fas fa-database"></i>
                     </div>
+                    <h5>Data Science</h5>
+                    <p>9 Instructors</p>
                 </div>
             </div>
             <div class="col-6 col-md-4 col-lg-2">
-                <div class="card border-0 shadow-sm h-100 text-center">
-                    <div class="card-body p-4">
-                        <div class="rounded-circle bg-warning bg-opacity-10 p-3 d-inline-flex mb-3">
-                            <i class="fas fa-paint-brush text-warning fa-2x"></i>
-                        </div>
-                        <h5 class="fw-bold">UI/UX Design</h5>
-                        <p class="small text-muted mb-0">7 Instructors</p>
+                <div class="category-card design">
+                    <div class="category-icon">
+                        <i class="fas fa-paint-brush"></i>
                     </div>
+                    <h5>UI/UX Design</h5>
+                    <p>7 Instructors</p>
                 </div>
             </div>
             <div class="col-6 col-md-4 col-lg-2">
-                <div class="card border-0 shadow-sm h-100 text-center">
-                    <div class="card-body p-4">
-                        <div class="rounded-circle bg-danger bg-opacity-10 p-3 d-inline-flex mb-3">
-                            <i class="fas fa-shield-alt text-danger fa-2x"></i>
-                        </div>
-                        <h5 class="fw-bold">Cybersecurity</h5>
-                        <p class="small text-muted mb-0">5 Instructors</p>
+                <div class="category-card security">
+                    <div class="category-icon">
+                        <i class="fas fa-shield-alt"></i>
                     </div>
+                    <h5>Cybersecurity</h5>
+                    <p>5 Instructors</p>
                 </div>
             </div>
             <div class="col-6 col-md-4 col-lg-2">
-                <div class="card border-0 shadow-sm h-100 text-center">
-                    <div class="card-body p-4">
-                        <div class="rounded-circle bg-secondary bg-opacity-10 p-3 d-inline-flex mb-3">
-                            <i class="fas fa-robot text-secondary fa-2x"></i>
-                        </div>
-                        <h5 class="fw-bold">AI & ML</h5>
-                        <p class="small text-muted mb-0">6 Instructors</p>
+                <div class="category-card business">
+                    <div class="category-icon">
+                        <i class="fas fa-robot"></i>
                     </div>
+                    <h5>AI & ML</h5>
+                    <p>6 Instructors</p>
                 </div>
             </div>
         </div>
