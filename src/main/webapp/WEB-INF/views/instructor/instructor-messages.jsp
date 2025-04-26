@@ -2,10 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="/common/header.jsp" %>
 
-<!-- Add the modern messages CSS -->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/modern-messages.css">
-
-<div class="dashboard-container">
+<div class="messages-container">
     <div class="container">
         <!-- Success Messages -->
         <c:if test="${not empty sessionScope.message}">
@@ -306,19 +303,42 @@
                     <p>Thank you for contributing to our learning platform!</p>
                     <p>Best regards,<br>SkillForge Admin Team</p>
                 </div>
-                <hr>
-                <div class="reply-section">
-                    <h6>Reply:</h6>
-                    <textarea class="form-control" rows="3" placeholder="Type your reply here..."></textarea>
+
+                <div class="message-attachments">
+                    <h6><i class="fas fa-paperclip me-2"></i> Attachments</h6>
+                    <div>
+                        <a href="#" class="attachment-badge">
+                            <i class="fas fa-file-pdf"></i>
+                            <span class="file-name">course_approval.pdf</span>
+                            <span class="file-size">245 KB</span>
+                        </a>
+                        <a href="#" class="attachment-badge">
+                            <i class="fas fa-file-image"></i>
+                            <span class="file-name">course_badge.png</span>
+                            <span class="file-size">120 KB</span>
+                        </a>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    <i class="fas fa-times me-2"></i> Close
-                </button>
-                <button type="button" class="btn btn-primary">
-                    <i class="fas fa-reply me-2"></i> Reply
-                </button>
+                <div class="message-actions w-100 d-flex justify-content-between">
+                    <div>
+                        <button type="button" class="btn btn-outline-primary me-2">
+                            <i class="fas fa-reply me-2"></i> Reply
+                        </button>
+                        <button type="button" class="btn btn-outline-primary me-2">
+                            <i class="fas fa-reply-all me-2"></i> Reply All
+                        </button>
+                        <button type="button" class="btn btn-outline-primary">
+                            <i class="fas fa-share me-2"></i> Forward
+                        </button>
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            <i class="fas fa-times me-2"></i> Close
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

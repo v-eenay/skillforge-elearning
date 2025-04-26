@@ -10,7 +10,10 @@
             <div class="col-md-4">
                 <div class="dashboard-actions">
                     <a href="${pageContext.request.contextPath}/courses" class="btn btn-primary">
-                        <i class="fas fa-search"></i> Browse Courses
+                        <i class="fas fa-search"></i> <span>Browse Courses</span>
+                    </a>
+                    <a href="${pageContext.request.contextPath}/student/profile" class="btn btn-outline-primary">
+                        <i class="fas fa-user-circle"></i> <span>My Profile</span>
                     </a>
                 </div>
             </div>
@@ -193,49 +196,101 @@
             <!-- Recommended Courses -->
             <div class="sidebar-card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5>Recommended For You</h5>
-                    <button class="btn btn-sm btn-primary">View All</button>
+                    <h5><i class="fas fa-lightbulb me-2 text-warning"></i> Recommended For You</h5>
+                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="collapse" data-bs-target="#recommendedCoursesCollapse" aria-expanded="true">
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
                 </div>
-                <div class="card-body">
+                <div class="card-body collapse show" id="recommendedCoursesCollapse">
                     <div class="list-group list-group-flush">
-                        <a href="#" class="list-group-item list-group-item-action">
+                        <a href="#" class="list-group-item list-group-item-action p-3 border-0 shadow-sm mb-3 rounded">
                             <div class="d-flex">
-                                <img src="https://placebeard.it/70/70?image=42" class="me-3" alt="Course" style="width: 70px; height: 70px; object-fit: cover; border-radius: 8px;">
+                                <div class="position-relative me-3">
+                                    <img src="https://placebeard.it/70/70?image=42" alt="Course" style="width: 80px; height: 80px; object-fit: cover; border-radius: 10px;">
+                                    <span class="position-absolute top-0 start-0 translate-middle badge rounded-pill bg-success">
+                                        <i class="fas fa-crown"></i>
+                                    </span>
+                                </div>
                                 <div>
-                                    <h6>Advanced JavaScript</h6>
-                                    <p>Take your web development skills to the next level</p>
+                                    <h6 class="mb-1 fw-bold">Advanced JavaScript</h6>
+                                    <p class="mb-2 text-muted small">Take your web development skills to the next level</p>
                                     <div class="d-flex align-items-center">
-                                        <span class="badge bg-success me-2">Bestseller</span>
-                                        <small><i class="fas fa-star text-warning"></i> 4.8 (2,345 ratings)</small>
+                                        <div class="me-auto">
+                                            <span class="badge bg-success me-2">Bestseller</span>
+                                            <span class="text-warning">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star-half-alt"></i>
+                                            </span>
+                                            <small class="text-muted ms-1">4.8 (2,345)</small>
+                                        </div>
+                                        <span class="badge bg-primary rounded-pill">$49.99</span>
                                     </div>
                                 </div>
                             </div>
                         </a>
-                        <a href="#" class="list-group-item list-group-item-action">
+                        <a href="#" class="list-group-item list-group-item-action p-3 border-0 shadow-sm mb-3 rounded">
                             <div class="d-flex">
-                                <img src="https://placebeard.it/70/70?image=43" class="me-3" alt="Course" style="width: 70px; height: 70px; object-fit: cover; border-radius: 8px;">
+                                <div class="position-relative me-3">
+                                    <img src="https://placebeard.it/70/70?image=43" alt="Course" style="width: 80px; height: 80px; object-fit: cover; border-radius: 10px;">
+                                    <span class="position-absolute top-0 start-0 translate-middle badge rounded-pill bg-primary">
+                                        <i class="fas fa-bolt"></i>
+                                    </span>
+                                </div>
                                 <div>
-                                    <h6>Machine Learning Fundamentals</h6>
-                                    <p>Perfect next step after Data Science Essentials</p>
+                                    <h6 class="mb-1 fw-bold">Machine Learning Fundamentals</h6>
+                                    <p class="mb-2 text-muted small">Perfect next step after Data Science Essentials</p>
                                     <div class="d-flex align-items-center">
-                                        <span class="badge bg-primary me-2">New</span>
-                                        <small><i class="fas fa-star text-warning"></i> 4.9 (1,120 ratings)</small>
+                                        <div class="me-auto">
+                                            <span class="badge bg-primary me-2">New</span>
+                                            <span class="text-warning">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                            </span>
+                                            <small class="text-muted ms-1">4.9 (1,120)</small>
+                                        </div>
+                                        <span class="badge bg-primary rounded-pill">$59.99</span>
                                     </div>
                                 </div>
                             </div>
                         </a>
-                        <a href="#" class="list-group-item list-group-item-action">
+                        <a href="#" class="list-group-item list-group-item-action p-3 border-0 shadow-sm mb-3 rounded">
                             <div class="d-flex">
-                                <img src="https://placebeard.it/70/70?image=44" class="me-3" alt="Course" style="width: 70px; height: 70px; object-fit: cover; border-radius: 8px;">
+                                <div class="position-relative me-3">
+                                    <img src="https://placebeard.it/70/70?image=44" alt="Course" style="width: 80px; height: 80px; object-fit: cover; border-radius: 10px;">
+                                    <span class="position-absolute top-0 start-0 translate-middle badge rounded-pill bg-warning">
+                                        <i class="fas fa-fire"></i>
+                                    </span>
+                                </div>
                                 <div>
-                                    <h6>UI/UX Design Principles</h6>
-                                    <p>Complement your web development skills</p>
+                                    <h6 class="mb-1 fw-bold">UI/UX Design Principles</h6>
+                                    <p class="mb-2 text-muted small">Complement your web development skills</p>
                                     <div class="d-flex align-items-center">
-                                        <span class="badge bg-warning me-2">Popular</span>
-                                        <small><i class="fas fa-star text-warning"></i> 4.7 (3,210 ratings)</small>
+                                        <div class="me-auto">
+                                            <span class="badge bg-warning text-dark me-2">Popular</span>
+                                            <span class="text-warning">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star-half-alt"></i>
+                                            </span>
+                                            <small class="text-muted ms-1">4.7 (3,210)</small>
+                                        </div>
+                                        <span class="badge bg-primary rounded-pill">$44.99</span>
                                     </div>
                                 </div>
                             </div>
+                        </a>
+                    </div>
+                    <div class="text-center mt-3">
+                        <a href="${pageContext.request.contextPath}/courses" class="btn btn-sm btn-primary w-100">
+                            <i class="fas fa-th-list me-2"></i> Browse All Courses
                         </a>
                     </div>
                 </div>

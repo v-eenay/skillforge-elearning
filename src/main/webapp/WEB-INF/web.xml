@@ -84,4 +84,18 @@
         <servlet-name>AddContentBlockServlet</servlet-name>
         <url-pattern>/instructor/add-content-block</url-pattern>
     </servlet-mapping>
+
+    <!-- Admin Profile Servlet -->
+    <servlet>
+        <servlet-name>AdminProfileServlet</servlet-name>
+        <servlet-class>com.example.skillforge.controllers.admin.AdminProfileServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminProfileServlet</servlet-name>
+        <url-pattern>/admin/profile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminProfileServlet</servlet-name>
+        <url-pattern>/admin/profile/edit</url-pattern>
+    </servlet-mapping>
 </web-app>

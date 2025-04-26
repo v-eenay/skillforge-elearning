@@ -1,0 +1,853 @@
+/* Modern Instructors Page Styles */
+
+/* Instructors Hero Section */
+.instructors-hero {
+    padding: 6rem 0;
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    position: relative;
+    overflow: hidden;
+    color: white;
+}
+
+.instructors-hero::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+    border-radius: 50%;
+    z-index: 0;
+}
+
+.instructors-hero::after {
+    content: '';
+    position: absolute;
+    bottom: -100px;
+    left: -100px;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+    border-radius: 50%;
+    z-index: 0;
+}
+
+.instructors-hero .container {
+    position: relative;
+    z-index: 1;
+}
+
+.instructors-hero h1 {
+    font-weight: 800;
+    font-size: 3.5rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.instructors-hero p {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+    max-width: 90%;
+    animation: fadeInUp 0.8s ease-out 0.2s forwards;
+    opacity: 0;
+    animation-fill-mode: forwards;
+}
+
+.instructors-hero .search-container {
+    position: relative;
+    max-width: 500px;
+    animation: fadeInUp 0.8s ease-out 0.4s forwards;
+    opacity: 0;
+    animation-fill-mode: forwards;
+}
+
+.instructors-hero .search-container .form-control {
+    height: 60px;
+    border-radius: 30px;
+    padding-left: 60px;
+    padding-right: 20px;
+    font-size: 1.1rem;
+    border: none;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.instructors-hero .search-container .form-control:focus {
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    /* Removed transform: translateY(-2px); as it might conflict with input-group layout */
+}
+
+/* Remove absolute positioning and fixed size for the button */
+/* Let Bootstrap's input-group handle the layout */
+.instructors-hero .search-container .btn {
+    /* Removed position: absolute; */
+    /* Removed right, top, height, width */
+    /* Use standard button padding and Bootstrap's default radius */
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    border: none;
+    box-shadow: 0 5px 15px rgba(59, 130, 246, 0.3);
+    transition: all 0.3s ease;
+    /* Ensure text is visible */
+    color: white; 
+}
+
+.instructors-hero .search-container .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+}
+
+/* Adjust rounding for input-group elements */
+.instructors-hero .search-container .input-group-text {
+    border-top-left-radius: 30px; /* Match form-control */
+    border-bottom-left-radius: 30px; /* Match form-control */
+}
+
+.instructors-hero .search-container .form-control {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.instructors-hero .search-container .btn {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 30px; /* Match form-control */
+    border-bottom-right-radius: 30px; /* Match form-control */
+}
+
+.instructors-hero .hero-image {
+    animation: fadeInRight 1s ease-out 0.2s forwards;
+    opacity: 0;
+    animation-fill-mode: forwards;
+    transform: perspective(1000px) rotateY(-10deg);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    border-radius: 1rem;
+    transition: all 0.5s ease;
+}
+
+.instructors-hero .hero-image:hover {
+    transform: perspective(1000px) rotateY(0deg);
+}
+
+/* Featured Instructor Section */
+.featured-instructor {
+    padding: 6rem 0;
+    background-color: #f8fafc;
+    position: relative;
+}
+
+.featured-instructor h2 {
+    font-weight: 800;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    text-align: center;
+    color: #1e293b;
+}
+
+.featured-instructor-card {
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    border: none;
+}
+
+.featured-instructor-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+}
+
+.featured-instructor-card .instructor-image-container {
+    padding: 2rem;
+    text-align: center;
+    background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+}
+
+.featured-instructor-card .instructor-image {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 5px solid white;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s ease;
+}
+
+.featured-instructor-card:hover .instructor-image {
+    transform: scale(1.05);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.featured-instructor-card .social-links {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+.featured-instructor-card .social-link {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #64748b;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.featured-instructor-card .social-link:hover {
+    background-color: #3b82f6;
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.featured-instructor-card .instructor-badge {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: white;
+    font-weight: 600;
+    box-shadow: 0 4px 6px rgba(59, 130, 246, 0.3);
+    transition: all 0.3s ease;
+}
+
+.featured-instructor-card:hover .instructor-badge {
+    transform: scale(1.05);
+    box-shadow: 0 6px 10px rgba(59, 130, 246, 0.4);
+}
+
+.featured-instructor-card .card-body {
+    padding: 2rem;
+}
+
+.featured-instructor-card .instructor-name {
+    font-weight: 700;
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+    color: #1e293b;
+}
+
+.featured-instructor-card .instructor-title {
+    color: #3b82f6;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.featured-instructor-card .instructor-rating {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.featured-instructor-card .rating-stars {
+    color: #f59e0b;
+    margin-right: 0.5rem;
+}
+
+.featured-instructor-card .instructor-stats {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.featured-instructor-card .instructor-bio {
+    color: #64748b;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+}
+
+.featured-instructor-card .btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.featured-instructor-card .btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Instructor Categories Section */
+.instructor-categories {
+    padding: 6rem 0;
+    background-color: white;
+    position: relative;
+}
+
+.instructor-categories h2 {
+    font-weight: 800;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    text-align: center;
+    color: #1e293b;
+}
+
+.category-card {
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    background-color: white;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    text-align: center;
+    padding: 2rem;
+    height: 100%;
+    border: none;
+}
+
+.category-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+.category-card .category-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.category-card:hover .category-icon {
+    transform: scale(1.1);
+}
+
+.category-card .category-icon i {
+    font-size: 2rem;
+    transition: all 0.3s ease;
+}
+
+.category-card:hover .category-icon i {
+    transform: scale(1.1);
+}
+
+.category-card h5 {
+    font-weight: 700;
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: #1e293b;
+}
+
+.category-card p {
+    color: #64748b;
+    margin-bottom: 0;
+}
+
+/* Web Development */
+.category-card.web-dev .category-icon {
+    background-color: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+}
+
+.category-card.web-dev:hover .category-icon {
+    background-color: #3b82f6;
+    color: white;
+    box-shadow: 0 8px 15px rgba(59, 130, 246, 0.3);
+}
+
+/* Data Science */
+.category-card.data-science .category-icon {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+}
+
+.category-card.data-science:hover .category-icon {
+    background-color: #10b981;
+    color: white;
+    box-shadow: 0 8px 15px rgba(16, 185, 129, 0.3);
+}
+
+/* Design */
+.category-card.design .category-icon {
+    background-color: rgba(249, 115, 22, 0.1);
+    color: #f97316;
+}
+
+.category-card.design:hover .category-icon {
+    background-color: #f97316;
+    color: white;
+    box-shadow: 0 8px 15px rgba(249, 115, 22, 0.3);
+}
+
+/* Mobile Development */
+.category-card.mobile-dev .category-icon {
+    background-color: rgba(139, 92, 246, 0.1);
+    color: #8b5cf6;
+}
+
+.category-card.mobile-dev:hover .category-icon {
+    background-color: #8b5cf6;
+    color: white;
+    box-shadow: 0 8px 15px rgba(139, 92, 246, 0.3);
+}
+
+/* Cybersecurity */
+.category-card.security .category-icon {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+}
+
+.category-card.security:hover .category-icon {
+    background-color: #ef4444;
+    color: white;
+    box-shadow: 0 8px 15px rgba(239, 68, 68, 0.3);
+}
+
+/* Business */
+.category-card.business .category-icon {
+    background-color: rgba(234, 179, 8, 0.1);
+    color: #eab308;
+}
+
+.category-card.business:hover .category-icon {
+    background-color: #eab308;
+    color: white;
+    box-shadow: 0 8px 15px rgba(234, 179, 8, 0.3);
+}
+
+/* All Instructors Section */
+.all-instructors {
+    padding: 6rem 0;
+    background-color: #f8fafc;
+    position: relative;
+}
+
+.all-instructors .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+}
+
+.all-instructors h2 {
+    font-weight: 800;
+    font-size: 2.5rem;
+    margin-bottom: 0;
+    color: #1e293b;
+}
+
+.all-instructors .sort-dropdown .btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.all-instructors .sort-dropdown .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.instructor-card {
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    background-color: white;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    text-align: center;
+    height: 100%;
+    border: none;
+    position: relative;
+}
+
+.instructor-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(to right, #3b82f6, #2563eb);
+    z-index: 1;
+}
+
+.instructor-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+.instructor-card .card-body {
+    padding: 2rem;
+}
+
+.instructor-card .instructor-image {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin: 0 auto 1.5rem;
+    border: 5px solid white;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s ease;
+}
+
+.instructor-card:hover .instructor-image {
+    transform: scale(1.05);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+.instructor-card .instructor-name {
+    font-weight: 700;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #1e293b;
+}
+
+.instructor-card .instructor-title {
+    color: #3b82f6;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+.instructor-card .instructor-rating {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.instructor-card .rating-stars {
+    color: #f59e0b;
+    margin-right: 0.5rem;
+}
+
+.instructor-card .instructor-stats {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.instructor-card .instructor-bio {
+    color: #64748b;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    height: 80px;
+    overflow: hidden;
+}
+
+.instructor-card .social-links {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.instructor-card .social-link {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #f1f5f9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #64748b;
+    transition: all 0.3s ease;
+}
+
+.instructor-card .social-link:hover {
+    background-color: #3b82f6;
+    color: white;
+    transform: translateY(-3px);
+}
+
+.instructor-card .btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.instructor-card .btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Pagination */
+.instructors-pagination {
+    margin-top: 4rem;
+    display: flex;
+    justify-content: center;
+}
+
+.instructors-pagination .pagination {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.instructors-pagination .page-item .page-link {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: none;
+    background-color: white;
+    color: #64748b;
+    font-weight: 600;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.instructors-pagination .page-item .page-link:hover {
+    background-color: #f1f5f9;
+    color: #3b82f6;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.08);
+}
+
+.instructors-pagination .page-item.active .page-link {
+    background-color: #3b82f6;
+    color: white;
+    box-shadow: 0 4px 6px rgba(59, 130, 246, 0.3);
+}
+
+.instructors-pagination .page-item.disabled .page-link {
+    background-color: #f8fafc;
+    color: #cbd5e1;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* Become Instructor Section */
+.become-instructor {
+    padding: 6rem 0;
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    position: relative;
+    overflow: hidden;
+    color: white;
+}
+
+.become-instructor::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+    border-radius: 50%;
+    z-index: 0;
+}
+
+.become-instructor::after {
+    content: '';
+    position: absolute;
+    bottom: -100px;
+    left: -100px;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+    border-radius: 50%;
+    z-index: 0;
+}
+
+.become-instructor .container {
+    position: relative;
+    z-index: 1;
+}
+
+.become-instructor h2 {
+    font-weight: 800;
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+    animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.become-instructor p {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+    animation: fadeInUp 0.8s ease-out 0.2s forwards;
+    opacity: 0;
+    animation-fill-mode: forwards;
+}
+
+.become-instructor .benefits-list {
+    margin-bottom: 2rem;
+    animation: fadeInUp 0.8s ease-out 0.3s forwards;
+    opacity: 0;
+    animation-fill-mode: forwards;
+}
+
+.become-instructor .benefits-list li {
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+}
+
+.become-instructor .benefits-list li i {
+    margin-right: 1rem;
+    color: #93c5fd;
+    font-size: 1.25rem;
+}
+
+.become-instructor .btn {
+    padding: 1rem 2.5rem;
+    font-weight: 600;
+    border-radius: 0.75rem;
+    font-size: 1.1rem;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    animation: fadeInUp 0.8s ease-out 0.4s forwards;
+    opacity: 0;
+    animation-fill-mode: forwards;
+}
+
+.become-instructor .btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+}
+
+.become-instructor .instructor-image {
+    animation: fadeInRight 1s ease-out 0.2s forwards;
+    opacity: 0;
+    animation-fill-mode: forwards;
+    transform: perspective(1000px) rotateY(-10deg);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    border-radius: 1rem;
+    transition: all 0.5s ease;
+}
+
+.become-instructor .instructor-image:hover {
+    transform: perspective(1000px) rotateY(0deg);
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px) perspective(1000px) rotateY(-10deg);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0) perspective(1000px) rotateY(-10deg);
+    }
+}
+
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Responsive Styles */
+@media (max-width: 991.98px) {
+    .instructors-hero h1 {
+        font-size: 2.75rem;
+    }
+
+    .instructors-hero p {
+        font-size: 1.1rem;
+    }
+
+    .featured-instructor h2,
+    .instructor-categories h2,
+    .all-instructors h2,
+    .become-instructor h2 {
+        font-size: 2.25rem;
+    }
+
+    .featured-instructor-card .instructor-name {
+        font-size: 1.5rem;
+    }
+
+    .instructor-card .instructor-name {
+        font-size: 1.25rem;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .instructors-hero {
+        padding: 4rem 0;
+    }
+
+    .instructors-hero h1 {
+        font-size: 2.25rem;
+    }
+
+    .instructors-hero p {
+        font-size: 1rem;
+        max-width: 100%;
+    }
+
+    .instructors-hero .search-container .form-control {
+        height: 50px;
+        font-size: 1rem;
+    }
+
+    .featured-instructor,
+    .instructor-categories,
+    .all-instructors,
+    .become-instructor {
+        padding: 4rem 0;
+    }
+
+    .featured-instructor h2,
+    .instructor-categories h2,
+    .all-instructors h2,
+    .become-instructor h2 {
+        font-size: 2rem;
+    }
+
+    .featured-instructor-card .instructor-image-container {
+        padding: 1.5rem;
+    }
+
+    .featured-instructor-card .instructor-image {
+        width: 120px;
+        height: 120px;
+    }
+
+    .featured-instructor-card .card-body {
+        padding: 1.5rem;
+    }
+
+    .instructor-card .card-body {
+        padding: 1.5rem;
+    }
+
+    .become-instructor p {
+        font-size: 1.1rem;
+    }
+
+    .become-instructor .btn {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+    }
+}

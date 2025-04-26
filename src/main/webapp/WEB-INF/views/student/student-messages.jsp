@@ -2,12 +2,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="/common/header.jsp" %>
 
-<div class="dashboard-container">
+<div class="messages-container">
     <div class="container">
         <!-- Success Messages -->
         <c:if test="${not empty sessionScope.message}">
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                ${sessionScope.message}
+            <div class="alert alert-success alert-dismissible fade show alert-message" role="alert">
+                <i class="fas fa-check-circle me-2"></i> ${sessionScope.message}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             <c:remove var="message" scope="session" />
@@ -15,22 +15,22 @@
 
         <!-- Error Messages -->
         <c:if test="${not empty sessionScope.error}">
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                ${sessionScope.error}
+            <div class="alert alert-danger alert-dismissible fade show alert-message" role="alert">
+                <i class="fas fa-exclamation-circle me-2"></i> ${sessionScope.error}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             <c:remove var="error" scope="session" />
         </c:if>
-        
-        <div class="row dashboard-header">
-            <div class="col-md-8">
-                <h2>Messages</h2>
-                <p>Communicate with your instructors and get support.</p>
-            </div>
-            <div class="col-md-4">
-                <div class="dashboard-actions">
+
+        <div class="messages-header">
+            <div class="row align-items-center">
+                <div class="col-md-7">
+                    <h1>Messages</h1>
+                    <p>Communicate with your instructors and get support</p>
+                </div>
+                <div class="col-md-5 text-md-end">
                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#composeMessageModal">
-                        <i class="fas fa-pen"></i> Compose New Message
+                        <i class="fas fa-pen me-2"></i><span>Compose New Message</span>
                     </button>
                 </div>
             </div>
@@ -61,7 +61,7 @@
                         </a>
                     </div>
                 </div>
-                
+
                 <div class="content-card mt-4">
                     <div class="card-header">
                         <h5 class="mb-0">Contacts</h5>
@@ -97,7 +97,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Message List -->
             <div class="col-md-9">
                 <div class="content-card">
