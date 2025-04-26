@@ -20,6 +20,8 @@
     <link href="${pageContext.request.contextPath}/assets/css/modern-home.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/assets/css/modern-about.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/assets/css/modern-contact.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/assets/css/modern-instructors.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/assets/css/modern-courses.css" rel="stylesheet">
 </head>
 <body>
     <header class="modern-header">

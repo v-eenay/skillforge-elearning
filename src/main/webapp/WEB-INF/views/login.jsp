@@ -1,42 +1,38 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/common/header.jsp" %>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/auth.css">
+<%-- Link modern CSS --%>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/modern-login.css">
 
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card shadow">
-                <div class="card-body p-5">
-                    <h2 class="text-center mb-4">Login to SkillForge</h2>
+<body class="modern-login-page">
+
+<div class="login-container">
+    <h1>Login to SkillForge</h1>
+    <p class="lead">Access your account to continue learning.</p>
 
                     <%@ include file="/common/alert-messages.jsp" %>
 
                     <form action="${pageContext.request.contextPath}/auth/login" method="post">
-                        <div class="mb-3">
-                            <label for="username" class="form-label">Email or Username</label>
-                            <input type="text" class="form-control" id="username" name="username" required>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="username" name="username" placeholder="Email or Username" required>
+                            <label for="username">Email or Username</label>
                         </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" required>
+                        <div class="form-floating mb-3">
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                            <label for="password">Password</label>
                         </div>
-                        <div class="mb-3 form-check">
+                        <div class="mb-3 form-check text-start">
                             <input type="checkbox" class="form-check-input" id="rememberMe" name="rememberMe">
                             <label class="form-check-label" for="rememberMe">Remember me</label>
                         </div>
-                        <div class="d-grid gap-2">
+                        <div class="d-grid">
                             <button type="submit" class="btn btn-primary btn-lg">Login</button>
                         </div>
                     </form>
 
-                    <div class="text-center mt-4">
-                        <p>Forgot your password? <a href="#" class="text-primary">Reset it here</a></p>
-                        <p>Don't have an account? <a href="${pageContext.request.contextPath}/auth/register" class="text-primary">Sign up here</a></p>
+                    <div class="links">
+                        <a href="#">Forgot password?</a> | <a href="${pageContext.request.contextPath}/auth/register">Don't have an account? Sign up</a>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+</div> <%-- End login-container --%>
 
+</body>
 <%@ include file="/common/footer.jsp" %>

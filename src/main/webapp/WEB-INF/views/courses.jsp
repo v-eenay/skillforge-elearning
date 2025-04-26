@@ -2,34 +2,34 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/common/header.jsp" %>
 
-<!-- Hero Section -->
-<section class="bg-light py-5">
+<!-- Modern Hero Section -->
+<section class="courses-hero">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-6 mb-4 mb-lg-0">
-                <h1 class="display-5 fw-bold mb-3">Explore Our Courses</h1>
-                <p class="lead mb-4">Discover a wide range of courses designed to help you master new skills, advance your career, and achieve your goals.</p>
-                <div class="d-flex gap-2">
-                    <%-- Updated Search Form --%>
+                <h1>Explore Our Courses</h1>
+                <p>Discover a wide range of courses designed to help you master new skills, advance your career, and achieve your goals.</p>
+                <%-- Modern Search Form --%>
+                <div class="search-filter-container">
                     <form action="${pageContext.request.contextPath}/courses" method="get" class="input-group">
                         <input type="hidden" name="category" value="${categoryId}">
                         <input type="hidden" name="sort" value="${sortBy}">
                         <input type="text" name="search" class="form-control" placeholder="Search courses..." aria-label="Search courses" value="${searchTerm}">
-                        <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
+                        <button class="btn" type="submit"><i class="fas fa-search"></i></button>
                     </form>
                 </div>
             </div>
             <div class="col-lg-6 text-center">
-                <img src="${pageContext.request.contextPath}/assets/images/courses_hero.svg" alt="SkillForge Courses" class="img-fluid rounded-4 shadow" style="max-height: 400px; object-fit: contain;">
+                <img src="${pageContext.request.contextPath}/assets/images/courses_hero.svg" alt="SkillForge Courses" class="img-fluid rounded-4 hero-image" style="max-height: 400px; object-fit: contain;">
             </div>
         </div>
     </div>
 </section>
 
-<!-- Category Tabs -->
-<section class="py-3 border-bottom bg-white shadow-sm sticky-top" style="top: 70px; z-index: 1020;"> <%-- Adjusted top value based on header height --%>
-    <div class="container category-tabs-container">
-        <nav class="nav nav-pills justify-content-start"> <%-- Changed justify-content-center to justify-content-start for scroll --%>
+<!-- Modern Category Tabs -->
+<section class="course-categories">
+    <div class="container">
+        <nav class="nav nav-pills">
             <li class="nav-item">
                 <a class="nav-link ${categoryId == 0 ? 'active' : ''}" href="${pageContext.request.contextPath}/courses?search=${searchTerm}&sort=${sortBy}">All Categories</a>
             </li>
@@ -42,11 +42,11 @@
     </div>
 </section>
 
-<!-- Courses List -->
-<section class="py-5 bg-light courses-list">
+<!-- Modern Courses List -->
+<section class="all-courses">
     <div class="container">
-        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4">
-            <h2 class="fw-bold mb-3 mb-md-0">
+        <div class="section-header">
+            <h2>
                 <c:choose>
                     <c:when test="${not empty selectedCategory}">
                         ${selectedCategory.name} Courses (${totalCourses})
@@ -59,8 +59,8 @@
                     </c:otherwise>
                 </c:choose>
             </h2>
-            <div class="dropdown">
-                <button class="btn btn-outline-primary dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <div class="dropdown sort-dropdown">
+                <button class="btn dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                     Sort by:
                     <c:choose>
                         <c:when test="${sortBy == 'newest'}">Newest</c:when>
@@ -87,7 +87,7 @@
                 <div class="row g-4">
                     <c:forEach var="course" items="${courses}">
                         <div class="col-md-6 col-lg-4 d-flex align-items-stretch">
-                            <div class="card border-0 shadow-sm h-100 w-100">
+                            <div class="card course-card">
                                 <div class="position-relative">
                                     <a href="${pageContext.request.contextPath}/courses/view?id=${course.courseId}">
                                         <c:choose>
@@ -101,26 +101,20 @@
                                                 </c:otherwise>
                                             </c:choose>
                                             <img src="${imageUrl}"
-                                                 class="card-img-top" alt="${course.title}" style="height: 200px; object-fit: cover;"
+                                                 class="card-img-top" alt="${course.title}"
                                                  onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/assets/images/course-thumbnail.svg';">
                                     </a>
                                     <%-- Add badges if needed, e.g., Bestseller, New --%>
                                     <%-- <span class="badge bg-primary position-absolute top-0 end-0 m-3">Bestseller</span> --%>
                                 </div>
-                                <div class="card-body p-4 d-flex flex-column">
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <span class="badge bg-light text-dark">${course.category.name}</span>
-                                        <%-- Add rating if available --%>
-                                        <%-- <div class="text-warning">
-                                            <i class="fas fa-star"></i>
-                                            <span class="ms-1">4.9 (2,405)</span>
-                                        </div> --%>
-                                    </div>
-                                    <h5 class="fw-bold mb-2 card-title">
+                                <div class="card-body d-flex flex-column">
+                                    <span class="course-category">${course.category.name}</span>
+                                    <%-- Add rating if available later in course-meta --%>
+                                    <h5 class="card-title">
                                         <a href="${pageContext.request.contextPath}/courses/view?id=${course.courseId}" class="text-decoration-none text-dark stretched-link">${course.title}</a>
                                     </h5>
                                     <p class="text-muted small mb-3 flex-grow-1">${course.description.length() > 100 ? course.description.substring(0, 100).concat('...') : course.description}</p>
-                                    <div class="d-flex align-items-center mb-3 mt-auto pt-3 border-top instructor-info">
+                                    <div class="instructor-info mt-auto pt-3 border-top"> <%-- Removed d-flex, align-items, mb-3 --%>
                                         <c:choose>
                                             <c:when test="${not empty course.creator.profileImage}">
                                                 <c:set var="creatorImageUrl" value="${pageContext.request.contextPath}${course.creator.profileImage.startsWith('/') ? '' : '/'}${course.creator.profileImage}"/>
@@ -130,17 +124,21 @@
                                             </c:otherwise>
                                         </c:choose>
                                         <img src="${creatorImageUrl}"
-                                             class="rounded-circle me-2" style="width: 30px; height: 30px; object-fit: cover;" alt="${course.creator.name}" onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/assets/images/default-profile.svg';">
-                                        <small class="text-muted">${course.creator.name}</small>
+                                             class="rounded-circle" alt="${course.creator.name}" onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/assets/images/default-profile.svg';">
+                                        <span>${course.creator.name}</span>
                                     </div>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div>
-                                            <span class="fw-bold fs-6 text-capitalize">${course.level}</span>
-                                            <%-- Add price if applicable --%>
-                                            <%-- <span class="text-muted text-decoration-line-through ms-2">$129.99</span> --%>
+                                    <div class="course-meta">
+                                        <%-- Placeholder for Rating --%>
+                                        <div class="rating">
+                                            <%-- <i class="fas fa-star"></i> 4.5 <span class="rating-count">(120)</span> --%>
+                                            <span class="text-capitalize">${course.level}</span> <%-- Moved level here --%>
                                         </div>
-                                        <%-- Keep the Learn More button pointing to the details page --%>
-                                        <%-- <a href="${pageContext.request.contextPath}/courses/view?id=${course.courseId}" class="btn btn-sm btn-outline-primary">Learn More</a> --%>
+                                        <%-- Placeholder for Price --%>
+                                        <div class="price">
+                                            <%-- $49.99 <span class="original-price">$99.99</span> --%>
+                                            <%-- Display 'Free' or price based on course data if available --%>
+                                            Free <%-- Default to Free if no price logic --%>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -159,10 +157,10 @@
             </c:otherwise>
         </c:choose>
 
-        <!-- Pagination -->
+        <!-- Modern Pagination -->
         <c:if test="${totalPages > 1}">
-            <nav aria-label="Course pagination" class="mt-5">
-                <ul class="pagination justify-content-center">
+            <nav aria-label="Course pagination" class="courses-pagination">
+                <ul class="pagination">
                     <%-- Previous Page --%>
                     <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
                         <a class="page-link" href="${pageContext.request.contextPath}/courses?category=${categoryId}&search=${searchTerm}&sort=${sortBy}&page=${currentPage - 1}" tabindex="-1" aria-disabled="${currentPage == 1}">Previous</a>
