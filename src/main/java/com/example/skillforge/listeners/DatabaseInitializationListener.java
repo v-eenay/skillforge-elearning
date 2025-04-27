@@ -20,10 +20,7 @@ public class DatabaseInitializationListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
         LOGGER.info("Server starting up - checking database and tables...");
         try {
-            // Initialize static fields in DatabaseSetupUtil
-            Class.forName("com.example.skillforge.utils.DatabaseSetupUtil");
-
-            // Initialize database
+            // Initialize database directly without using Class.forName
             boolean success = DatabaseSetupUtil.initializeDatabase();
             if (success) {
                 LOGGER.info("Database and tables initialized successfully");
