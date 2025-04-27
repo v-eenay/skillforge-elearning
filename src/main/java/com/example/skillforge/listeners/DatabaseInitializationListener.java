@@ -4,15 +4,16 @@ import com.example.skillforge.utils.CategoryInitializer;
 import com.example.skillforge.utils.DatabaseSetupUtil;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
-import jakarta.servlet.annotation.WebListener;
+// Removed WebListener annotation to prevent duplicate initialization
+// import jakarta.servlet.annotation.WebListener;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  * Servlet context listener that initializes the database when the server starts
+ * Note: This listener is no longer used, replaced by SimpleDBInitListener
  */
-@WebListener
 public class DatabaseInitializationListener implements ServletContextListener {
     private static final Logger LOGGER = Logger.getLogger(DatabaseInitializationListener.class.getName());
 
