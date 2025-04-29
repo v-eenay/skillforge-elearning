@@ -243,7 +243,7 @@
                         <div class="thumbnail-preview" id="thumbnailPreview">
                             <c:choose>
                                 <c:when test="${not empty course.thumbnail}">
-                                    <img src="${pageContext.request.contextPath}${course.thumbnail}" alt="Course Thumbnail" onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/assets/images/default-course-thumbnail.svg';">
+                                    <img src="${pageContext.request.contextPath}${course.thumbnail}" alt="Course Thumbnail" onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/assets/images/course-thumbnail.svg';">
                                     <div class="overlay">
                                         <button type="button" class="btn btn-light" id="changeThumbnailBtn">
                                             <i class="fas fa-exchange-alt me-2"></i>Change Thumbnail

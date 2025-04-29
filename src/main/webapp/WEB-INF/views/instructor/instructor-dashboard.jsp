@@ -120,10 +120,10 @@
                                     <div class="course-image-container">
                                         <c:choose>
                                             <c:when test="${not empty course.thumbnail}">
-                                                <img src="${pageContext.request.contextPath}${course.thumbnail}" class="course-thumbnail" alt="${course.title}">
+                                                <img src="${pageContext.request.contextPath}${course.thumbnail}" class="course-thumbnail" alt="${course.title}" onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/assets/images/course-thumbnail.svg';">
                                             </c:when>
                                             <c:otherwise>
-                                                <img src="https://placebeard.it/140/90?image=${course.courseId % 10 + 45}" class="course-thumbnail" alt="${course.title}">
+                                                <img src="${pageContext.request.contextPath}/assets/images/course-thumbnail.svg" class="course-thumbnail" alt="${course.title}">
                                             </c:otherwise>
                                         </c:choose>
                                     </div>

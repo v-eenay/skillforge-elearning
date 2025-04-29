@@ -83,10 +83,10 @@
                     <div class="card border-0 shadow-sm">
                         <c:choose>
                             <c:when test="${not empty course.thumbnail}">
-                                <img src="${pageContext.request.contextPath}${course.thumbnail.startsWith('/') ? '' : '/'}${course.thumbnail}" class="card-img-top" alt="${course.title}" onerror="this.onerror=null; this.src='https://placebeard.it/600/400?image=1';">
+                                <img src="${pageContext.request.contextPath}${course.thumbnail.startsWith('/') ? '' : '/'}${course.thumbnail}" class="card-img-top" alt="${course.title}" onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/assets/images/course-thumbnail.svg';">
                             </c:when>
                             <c:otherwise>
-                                <img src="https://placebeard.it/600/400?image=${course.courseId % 10 + 1}" class="card-img-top" alt="${course.title}" onerror="this.onerror=null; this.src='https://placebeard.it/600/400?image=1';">
+                                <img src="${pageContext.request.contextPath}/assets/images/course-thumbnail.svg" class="card-img-top" alt="${course.title}">
                             </c:otherwise>
                         </c:choose>
                         <div class="card-body p-4">
