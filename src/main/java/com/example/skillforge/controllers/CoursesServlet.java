@@ -2,8 +2,12 @@ package com.example.skillforge.controllers;
 
 import com.example.skillforge.dao.course.CategoryDAO;
 import com.example.skillforge.dao.course.CourseDAO;
+import com.example.skillforge.dao.course.ModuleDAO;
+import com.example.skillforge.dao.content.LessonDAO;
 import com.example.skillforge.models.course.CategoryModel;
 import com.example.skillforge.models.course.CourseModel;
+import com.example.skillforge.models.course.ModuleModel;
+import com.example.skillforge.models.content.LessonModel;
 import com.example.skillforge.models.user.UserModel;
 import com.example.skillforge.services.EnrollmentService;
 import jakarta.servlet.*;
@@ -132,10 +136,20 @@ public class CoursesServlet extends HttpServlet {
                 // Get enrollment count
                 int enrollmentCount = EnrollmentService.getEnrollmentCount(courseId);
 
+                // Get modules and lessons for the course
+                List<ModuleModel> modules = ModuleDAO.getModulesByCourse(courseId);
+
+                // For each module, get its lessons
+                for (ModuleModel module : modules) {
+                    List<LessonModel> lessons = LessonDAO.getLessonsByModule(module.getModuleId());
+                    module.setLessons(lessons);
+                }
+
                 // Set attributes for the view
                 request.setAttribute("course", course);
                 request.setAttribute("isEnrolled", isEnrolled);
                 request.setAttribute("enrollmentCount", enrollmentCount);
+                request.setAttribute("modules", modules);
 
                 // Forward to course details page
                 request.getRequestDispatcher("/WEB-INF/views/course-details.jsp").forward(request, response);
