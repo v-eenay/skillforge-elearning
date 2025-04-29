@@ -240,6 +240,8 @@
 
                     <div class="mb-3">
                         <label for="thumbnailFile" class="form-label">Course Thumbnail</label>
+                        <!-- File input placed before the preview area for better form submission -->
+                        <input type="file" id="thumbnailFile" name="thumbnailFile" accept="image/*" style="display: none;">
                         <div class="thumbnail-preview" id="thumbnailPreview">
                             <div class="upload-placeholder" id="uploadPlaceholder" style="${not empty course.thumbnail ? 'display: none;' : ''}">
                                 <i class="fas fa-cloud-upload-alt fa-3x text-muted mb-2"></i>
@@ -255,7 +257,6 @@
                                 </button>
                             </div>
                         </div>
-                        <input type="file" class="form-control" id="thumbnailFile" name="thumbnailFile" accept="image/*">
                         <small class="text-muted">Recommended size: 1280x720 pixels (16:9 ratio). Max file size: 5MB.</small>
                     </div>
 
@@ -457,10 +458,8 @@
                 return;
             }
 
-            // Hide the file input but keep it accessible
-            thumbnailInput.style.position = 'absolute';
-            thumbnailInput.style.clip = 'rect(0,0,0,0)';
-            thumbnailInput.style.pointerEvents = 'none';
+            // File input is already hidden with style="display: none;" in the HTML
+            // No need to hide it with JavaScript
 
             // Handle file selection
             thumbnailInput.addEventListener('change', function(e) {
