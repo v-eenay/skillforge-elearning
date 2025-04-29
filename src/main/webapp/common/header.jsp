@@ -58,12 +58,28 @@
                                 <li class="nav-item ms-2"><a href="${pageContext.request.contextPath}/auth/register" class="btn btn-primary btn-sm">Sign Up</a></li>
                             <% } else { %>
                                 <%
-                                    com.example.skillforge.models.user.UserModel headerUser = (com.example.skillforge.models.user.UserModel) session.getAttribute("user");
-                                    String profileImage = headerUser.getProfileImage();
-                                    String userName = headerUser.getUserName();
+                                    // Use Object instead of specific class to avoid ClassNotFoundException
+                                    Object userObj = session.getAttribute("user");
+                                    String profileImage = null;
+                                    String userName = "User";
                                     String userRole = (String) session.getAttribute("userRole");
                                     String currentURI = request.getRequestURI();
                                     String contextPath = request.getContextPath();
+
+                                    // Try to get profile image and username using reflection to avoid direct class dependency
+                                    try {
+                                        // Get the getProfileImage method
+                                        java.lang.reflect.Method getProfileImageMethod = userObj.getClass().getMethod("getProfileImage");
+                                        profileImage = (String) getProfileImageMethod.invoke(userObj);
+
+                                        // Get the getUserName method
+                                        java.lang.reflect.Method getUserNameMethod = userObj.getClass().getMethod("getUserName");
+                                        userName = (String) getUserNameMethod.invoke(userObj);
+                                    } catch (Exception e) {
+                                        // If any error occurs, use default values
+                                        profileImage = null;
+                                        userName = "User";
+                                    }
                                 %>
                                 <li class="nav-item">
                                     <div class="header-icons-container">

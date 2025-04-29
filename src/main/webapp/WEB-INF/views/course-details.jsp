@@ -83,10 +83,10 @@
                     <div class="card border-0 shadow-sm">
                         <c:choose>
                             <c:when test="${not empty course.thumbnail}">
-                                <img src="${pageContext.request.contextPath}${course.thumbnail.startsWith('/') ? '' : '/'}${course.thumbnail}" class="card-img-top" alt="${course.title}" onerror="this.onerror=null; this.src='https://placebeard.it/600/400?image=1';">
+                                <img src="${pageContext.request.contextPath}${course.thumbnail.startsWith('/') ? '' : '/'}${course.thumbnail}" class="card-img-top" alt="${course.title}" onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/assets/images/course-thumbnail.svg';">
                             </c:when>
                             <c:otherwise>
-                                <img src="https://placebeard.it/600/400?image=${course.courseId % 10 + 1}" class="card-img-top" alt="${course.title}" onerror="this.onerror=null; this.src='https://placebeard.it/600/400?image=1';">
+                                <img src="${pageContext.request.contextPath}/assets/images/course-thumbnail.svg" class="card-img-top" alt="${course.title}">
                             </c:otherwise>
                         </c:choose>
                         <div class="card-body p-4">
@@ -165,76 +165,59 @@
                         <div class="card-body">
                             <p class="text-muted">Enroll in this course to access the full curriculum.</p>
 
-                            <!-- Sample curriculum preview -->
+                            <!-- Dynamic curriculum preview -->
                             <div class="accordion" id="curriculumAccordion">
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#module1">
-                                            Module 1: Introduction
-                                        </button>
-                                    </h2>
-                                    <div id="module1" class="accordion-collapse collapse" data-bs-parent="#curriculumAccordion">
-                                        <div class="accordion-body">
-                                            <ul class="list-group list-group-flush">
-                                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                    <div>
-                                                        <i class="fas fa-play-circle me-2 text-muted"></i>
-                                                        Introduction to the Course
+                                <c:choose>
+                                    <c:when test="${not empty modules}">
+                                        <c:forEach var="module" items="${modules}" varStatus="moduleStatus">
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header">
+                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#module${module.moduleId}">
+                                                        Module ${moduleStatus.index + 1}: ${module.title}
+                                                    </button>
+                                                </h2>
+                                                <div id="module${module.moduleId}" class="accordion-collapse collapse" data-bs-parent="#curriculumAccordion">
+                                                    <div class="accordion-body">
+                                                        <ul class="list-group list-group-flush">
+                                                            <c:choose>
+                                                                <c:when test="${not empty module.lessons}">
+                                                                    <c:forEach var="lesson" items="${module.lessons}">
+                                                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                                            <div>
+                                                                                <i class="fas fa-play-circle me-2 text-muted"></i>
+                                                                                ${lesson.title}
+                                                                            </div>
+                                                                            <span class="badge bg-light text-dark">
+                                                                                <c:choose>
+                                                                                    <c:when test="${lesson.duration > 0}">
+                                                                                        ${lesson.duration} min
+                                                                                    </c:when>
+                                                                                    <c:otherwise>
+                                                                                        Lesson
+                                                                                    </c:otherwise>
+                                                                                </c:choose>
+                                                                            </span>
+                                                                        </li>
+                                                                    </c:forEach>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <li class="list-group-item text-center text-muted">
+                                                                        No lessons available in this module yet.
+                                                                    </li>
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </ul>
                                                     </div>
-                                                    <span class="badge bg-light text-dark">Preview</span>
-                                                </li>
-                                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                    <div>
-                                                        <i class="fas fa-file-alt me-2 text-muted"></i>
-                                                        Course Overview
-                                                    </div>
-                                                    <span class="badge bg-light text-dark">10 min</span>
-                                                </li>
-                                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                    <div>
-                                                        <i class="fas fa-puzzle-piece me-2 text-muted"></i>
-                                                        Getting Started Quiz
-                                                    </div>
-                                                    <span class="badge bg-light text-dark">5 questions</span>
-                                                </li>
-                                            </ul>
+                                                </div>
+                                            </div>
+                                        </c:forEach>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div class="alert alert-info">
+                                            No curriculum available for this course yet.
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#module2">
-                                            Module 2: Core Concepts
-                                        </button>
-                                    </h2>
-                                    <div id="module2" class="accordion-collapse collapse" data-bs-parent="#curriculumAccordion">
-                                        <div class="accordion-body">
-                                            <ul class="list-group list-group-flush">
-                                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                    <div>
-                                                        <i class="fas fa-play-circle me-2 text-muted"></i>
-                                                        Understanding the Basics
-                                                    </div>
-                                                    <span class="badge bg-light text-dark">15 min</span>
-                                                </li>
-                                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                    <div>
-                                                        <i class="fas fa-file-alt me-2 text-muted"></i>
-                                                        Key Principles
-                                                    </div>
-                                                    <span class="badge bg-light text-dark">20 min</span>
-                                                </li>
-                                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                    <div>
-                                                        <i class="fas fa-puzzle-piece me-2 text-muted"></i>
-                                                        Practice Exercise
-                                                    </div>
-                                                    <span class="badge bg-light text-dark">Assignment</span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
+                                    </c:otherwise>
+                                </c:choose>
                             </div>
                         </div>
                     </div>

@@ -5,7 +5,7 @@
          version="6.0">
     <!-- Listeners -->
     <listener>
-        <listener-class>com.example.skillforge.listeners.DatabaseInitializationListener</listener-class>
+        <listener-class>com.example.skillforge.listeners.SimpleDBInitListener</listener-class>
     </listener>
 
     <!-- Error page mappings -->
