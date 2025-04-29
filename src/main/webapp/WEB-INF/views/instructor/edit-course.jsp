@@ -241,22 +241,19 @@
                     <div class="mb-3">
                         <label for="thumbnailFile" class="form-label">Course Thumbnail</label>
                         <div class="thumbnail-preview" id="thumbnailPreview">
-                            <c:choose>
-                                <c:when test="${not empty course.thumbnail}">
-                                    <img src="${pageContext.request.contextPath}${course.thumbnail}" alt="Course Thumbnail" onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/assets/images/course-thumbnail.svg';">
-                                    <div class="overlay">
-                                        <button type="button" class="btn btn-light" id="changeThumbnailBtn">
-                                            <i class="fas fa-exchange-alt me-2"></i>Change Thumbnail
-                                        </button>
-                                    </div>
-                                </c:when>
-                                <c:otherwise>
-                                    <div class="text-center">
-                                        <i class="fas fa-cloud-upload-alt fa-3x text-muted mb-2"></i>
-                                        <p class="mb-0">Drag & drop your thumbnail here or click to browse</p>
-                                    </div>
-                                </c:otherwise>
-                            </c:choose>
+                            <div class="upload-placeholder" id="uploadPlaceholder" style="${not empty course.thumbnail ? 'display: none;' : ''}">
+                                <i class="fas fa-cloud-upload-alt fa-3x text-muted mb-2"></i>
+                                <p class="mb-0">Drag & drop your thumbnail here or click to browse</p>
+                            </div>
+                            <img id="thumbnailImage" src="${not empty course.thumbnail ? pageContext.request.contextPath.concat(course.thumbnail) : ''}" 
+                                 alt="Course Thumbnail" 
+                                 style="${not empty course.thumbnail ? 'display: block;' : 'display: none;'} width: 100%; height: 100%; object-fit: cover;"
+                                 onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/assets/images/course-thumbnail.svg';">
+                            <div class="overlay" style="${not empty course.thumbnail ? '' : 'display: none;'}">
+                                <button type="button" class="btn btn-light" id="changeThumbnailBtn">
+                                    <i class="fas fa-exchange-alt me-2"></i>Change Thumbnail
+                                </button>
+                            </div>
                         </div>
                         <input type="file" class="form-control" id="thumbnailFile" name="thumbnailFile" accept="image/*">
                         <small class="text-muted">Recommended size: 1280x720 pixels (16:9 ratio). Max file size: 5MB.</small>
@@ -450,9 +447,12 @@
         function initThumbnailPreview() {
             const thumbnailInput = document.getElementById('thumbnailFile');
             const thumbnailPreview = document.getElementById('thumbnailPreview');
+            const thumbnailImage = document.getElementById('thumbnailImage');
+            const uploadPlaceholder = document.getElementById('uploadPlaceholder');
+            const overlay = document.querySelector('.overlay');
             const changeThumbnailBtn = document.getElementById('changeThumbnailBtn');
 
-            if (!thumbnailInput || !thumbnailPreview) {
+            if (!thumbnailInput || !thumbnailPreview || !thumbnailImage || !uploadPlaceholder || !overlay) {
                 console.error('Thumbnail elements not found');
                 return;
             }
@@ -476,19 +476,12 @@
                     const reader = new FileReader();
                     reader.onload = function(event) {
                         console.log('File read complete');
-                        thumbnailPreview.innerHTML = `
-                            <img src="${event.target.result}" alt="Course Thumbnail">
-                            <div class="overlay">
-                                <button type="button" class="btn btn-light" id="changeThumbnailBtn">
-                                    <i class="fas fa-exchange-alt me-2"></i>Change Thumbnail
-                                </button>
-                            </div>
-                        `;
-
-                        // Add event listener to the new button
-                        document.getElementById('changeThumbnailBtn').addEventListener('click', function() {
-                            thumbnailInput.click();
-                        });
+                        // Update the image source
+                        thumbnailImage.src = event.target.result;
+                        // Show the image and overlay, hide the placeholder
+                        thumbnailImage.style.display = 'block';
+                        overlay.style.display = 'block';
+                        uploadPlaceholder.style.display = 'none';
                     };
                     reader.onerror = function(error) {
                         console.error('Error reading file:', error);

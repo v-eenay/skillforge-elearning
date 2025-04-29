@@ -364,8 +364,18 @@ public class InstructorController extends HttpServlet {
 
                 // Handle thumbnail upload if a new file was provided
                 String thumbnailPath = course.getThumbnail(); // Default to existing thumbnail
+                System.out.println("Current thumbnail path: " + thumbnailPath);
+
                 Part thumbnailPart = request.getPart("thumbnailFile");
-                if (thumbnailPart != null && thumbnailPart.getSize() > 0) {
+                System.out.println("Thumbnail part: " + (thumbnailPart != null ? "found" : "null"));
+
+                if (thumbnailPart != null) {
+                    System.out.println("Thumbnail size: " + thumbnailPart.getSize());
+                    System.out.println("Thumbnail filename: " + thumbnailPart.getSubmittedFileName());
+                }
+
+                if (thumbnailPart != null && thumbnailPart.getSize() > 0 && 
+                    thumbnailPart.getSubmittedFileName() != null && !thumbnailPart.getSubmittedFileName().isEmpty()) {
                     System.out.println("New thumbnail file detected, size: " + thumbnailPart.getSize());
                     String newThumbnailPath = FileUploadUtil.uploadCourseThumbnail(request, "thumbnailFile");
                     if (newThumbnailPath != null) {
